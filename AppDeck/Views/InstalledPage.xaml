@@ -11,6 +11,8 @@
             <RowDefinition Height="16" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -50,8 +52,15 @@
             IsOpen="False"
             Severity="Error"
             Title="Unable to load installed applications" />
-        <ListView
+        <AutoSuggestBox
             Grid.Row="6"
+            Width="400"
+            HorizontalAlignment="Left"
+            PlaceholderText="Search installed applications"
+            QueryIcon="Find"
+            Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <ListView
+            Grid.Row="8"
             ItemsSource="{x:Bind ViewModel.Packages, Mode=OneWay}"
             SelectionMode="None">
             <ListView.ItemTemplate>
