@@ -11,16 +11,18 @@ namespace AppDeck.Services;
 
 public sealed class WinGetService : IWinGetService
 {
-    public async Task<IReadOnlyList<PackageInfo>> GetAvailableUpdatesAsync()
+    public async Task<IReadOnlyList<PackageInfo>> GetInstalledPackagesAsync()
     {
         var factory = CreateFactory();
         var packageManager = factory.CreatePackageManager();
 
-        var compositeCatalog = CreateCompositeCatalog(
-            factory,
-            packageManager);
+        var compositeCatalog =
+            CreateCompositeCatalog(
+                factory,
+                packageManager);
 
-        var connectResult = compositeCatalog.Connect();
+        var connectResult =
+            compositeCatalog.Connect();
 
         if (connectResult.Status != ConnectResultStatus.Ok)
         {
@@ -36,17 +38,98 @@ public sealed class WinGetService : IWinGetService
             await connectResult.PackageCatalog.FindPackagesAsync(
                 findOptions);
 
-        var result = new List<PackageInfo>();
+        var result =
+            new List<PackageInfo>();
 
         foreach (var match in searchResult.Matches.ToArray())
         {
-            var package = match.CatalogPackage;
+            var package =
+                match.CatalogPackage;
+
+            var installedVersion =
+                package.InstalledVersion;
+
+            if (installedVersion is null)
+                continue;
+
+            result.Add(
+                new PackageInfo
+                {
+                    Id =
+                        package.Id ??
+                        string.Empty,
+
+                    Name =
+                        installedVersion.DisplayName ??
+                        package.Name ??
+                        package.Id ??
+                        "Unknown",
+
+                    InstalledVersion =
+                        installedVersion.Version ??
+                        string.Empty,
+
+                    AvailableVersion =
+                        string.Empty,
+
+                    Source =
+                        installedVersion.PackageCatalog?.Info?.Name ??
+                        string.Empty
+                });
+        }
+
+        return result
+            .GroupBy(
+                package => package.Id,
+                StringComparer.OrdinalIgnoreCase)
+            .Select(group => group.First())
+            .OrderBy(package => package.Name)
+            .ToList();
+    }
+
+    public async Task<IReadOnlyList<PackageInfo>> GetAvailableUpdatesAsync()
+    {
+        var factory = CreateFactory();
+        var packageManager = factory.CreatePackageManager();
+
+        var compositeCatalog =
+            CreateCompositeCatalog(
+                factory,
+                packageManager);
+
+        var connectResult =
+            compositeCatalog.Connect();
+
+        if (connectResult.Status != ConnectResultStatus.Ok)
+        {
+            throw new InvalidOperationException(
+                $"Unable to connect to WinGet composite catalog. " +
+                $"Status: {connectResult.Status}");
+        }
+
+        var findOptions =
+            factory.CreateFindPackagesOptions();
+
+        var searchResult =
+            await connectResult.PackageCatalog.FindPackagesAsync(
+                findOptions);
+
+        var result =
+            new List<PackageInfo>();
+
+        foreach (var match in searchResult.Matches.ToArray())
+        {
+            var package =
+                match.CatalogPackage;
 
             if (!package.IsUpdateAvailable)
                 continue;
 
-            var installedVersion = package.InstalledVersion;
-            var availableVersion = package.DefaultInstallVersion;
+            var installedVersion =
+                package.InstalledVersion;
+
+            var availableVersion =
+                package.DefaultInstallVersion;
 
             if (installedVersion is null ||
                 availableVersion is null)
@@ -54,28 +137,31 @@ public sealed class WinGetService : IWinGetService
                 continue;
             }
 
-            result.Add(new PackageInfo
-            {
-                Id = package.Id ?? string.Empty,
+            result.Add(
+                new PackageInfo
+                {
+                    Id =
+                        package.Id ??
+                        string.Empty,
 
-                Name =
-                    installedVersion.DisplayName ??
-                    package.Name ??
-                    package.Id ??
-                    "Unknown",
+                    Name =
+                        installedVersion.DisplayName ??
+                        package.Name ??
+                        package.Id ??
+                        "Unknown",
 
-                InstalledVersion =
-                    installedVersion.Version ??
-                    string.Empty,
+                    InstalledVersion =
+                        installedVersion.Version ??
+                        string.Empty,
 
-                AvailableVersion =
-                    availableVersion.Version ??
-                    string.Empty,
+                    AvailableVersion =
+                        availableVersion.Version ??
+                        string.Empty,
 
-                Source =
-                    availableVersion.PackageCatalog?.Info?.Name ??
-                    string.Empty
-            });
+                    Source =
+                        availableVersion.PackageCatalog?.Info?.Name ??
+                        string.Empty
+                });
         }
 
         return result
@@ -99,11 +185,13 @@ public sealed class WinGetService : IWinGetService
         var factory = CreateFactory();
         var packageManager = factory.CreatePackageManager();
 
-        var compositeCatalog = CreateCompositeCatalog(
-            factory,
-            packageManager);
+        var compositeCatalog =
+            CreateCompositeCatalog(
+                factory,
+                packageManager);
 
-        var connectResult = compositeCatalog.Connect();
+        var connectResult =
+            compositeCatalog.Connect();
 
         if (connectResult.Status != ConnectResultStatus.Ok)
         {
@@ -133,15 +221,17 @@ public sealed class WinGetService : IWinGetService
             await connectResult.PackageCatalog.FindPackagesAsync(
                 findOptions);
 
-        var package = searchResult
-            .Matches
-            .ToArray()
-            .Select(match => match.CatalogPackage)
-            .FirstOrDefault(candidate =>
-                string.Equals(
-                    candidate.Id,
-                    packageId,
-                    StringComparison.OrdinalIgnoreCase));
+        var package =
+            searchResult
+                .Matches
+                .ToArray()
+                .Select(match => match.CatalogPackage)
+                .FirstOrDefault(
+                    candidate =>
+                        string.Equals(
+                            candidate.Id,
+                            packageId,
+                            StringComparison.OrdinalIgnoreCase));
 
         if (package is null)
         {
@@ -169,50 +259,55 @@ public sealed class WinGetService : IWinGetService
         operation.Progress =
             (_, installProgress) =>
             {
-                var status = installProgress.State switch
-                {
-                    PackageInstallProgressState.Queued =>
-                        "Queued",
+                var status =
+                    installProgress.State switch
+                    {
+                        PackageInstallProgressState.Queued =>
+                            "Queued",
 
-                    PackageInstallProgressState.Downloading =>
-                        $"Downloading {installProgress.DownloadProgress * 100:0}%",
+                        PackageInstallProgressState.Downloading =>
+                            $"Downloading {installProgress.DownloadProgress * 100:0}%",
 
-                    PackageInstallProgressState.Installing =>
-                        $"Installing {installProgress.InstallationProgress * 100:0}%",
+                        PackageInstallProgressState.Installing =>
+                            $"Installing {installProgress.InstallationProgress * 100:0}%",
 
-                    PackageInstallProgressState.PostInstall =>
-                        "Finishing...",
+                        PackageInstallProgressState.PostInstall =>
+                            "Finishing...",
 
-                    PackageInstallProgressState.Finished =>
-                        "Finishing...",
+                        PackageInstallProgressState.Finished =>
+                            "Finishing...",
 
-                    _ =>
-                        "Updating..."
-                };
+                        _ =>
+                            "Updating..."
+                    };
 
-                var percent = installProgress.State switch
-                {
-                    PackageInstallProgressState.Downloading =>
-                        installProgress.DownloadProgress * 50,
+                var percent =
+                    installProgress.State switch
+                    {
+                        PackageInstallProgressState.Downloading =>
+                            installProgress.DownloadProgress * 50,
 
-                    PackageInstallProgressState.Installing =>
-                        50 +
-                        (installProgress.InstallationProgress * 45),
+                        PackageInstallProgressState.Installing =>
+                            50 +
+                            (installProgress.InstallationProgress * 45),
 
-                    PackageInstallProgressState.PostInstall =>
-                        98,
+                        PackageInstallProgressState.PostInstall =>
+                            98,
 
-                    PackageInstallProgressState.Finished =>
-                        100,
+                        PackageInstallProgressState.Finished =>
+                            100,
 
-                    _ =>
-                        0
-                };
+                        _ =>
+                            0
+                    };
 
                 progress?.Report(
                     new PackageUpdateProgress(
                         status,
-                        Math.Clamp(percent, 0, 100)));
+                        Math.Clamp(
+                            percent,
+                            0,
+                            100)));
             };
 
         var result =
@@ -230,7 +325,8 @@ public sealed class WinGetService : IWinGetService
                     $" Error: {result.ExtendedErrorCode.Message}";
             }
 
-            throw new InvalidOperationException(message);
+            throw new InvalidOperationException(
+                message);
         }
 
         progress?.Report(
@@ -255,7 +351,7 @@ public sealed class WinGetService : IWinGetService
 
     private static PackageCatalogReference CreateCompositeCatalog(
         WindowsPackageManagerFactory factory,
-        PackageManager packageManager)
+        Microsoft.Management.Deployment.PackageManager packageManager)
     {
         var compositeOptions =
             factory.CreateCreateCompositePackageCatalogOptions();
@@ -263,7 +359,8 @@ public sealed class WinGetService : IWinGetService
         foreach (var catalog in
                  packageManager.GetPackageCatalogs().ToArray())
         {
-            compositeOptions.Catalogs.Add(catalog);
+            compositeOptions.Catalogs.Add(
+                catalog);
         }
 
         compositeOptions.CompositeSearchBehavior =

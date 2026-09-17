@@ -7,6 +7,8 @@ namespace AppDeck.Services;
 
 public interface IWinGetService
 {
+    Task<IReadOnlyList<PackageInfo>> GetInstalledPackagesAsync();
+
     Task<IReadOnlyList<PackageInfo>> GetAvailableUpdatesAsync();
 
     Task UpdatePackageAsync(
