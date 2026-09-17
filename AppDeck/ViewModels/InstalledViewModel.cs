@@ -21,10 +21,22 @@ public partial class InstalledViewModel : ObservableObject
     public partial bool IsLoading { get; set; }
 
     [ObservableProperty]
+    public partial bool IsUninstalling { get; set; }
+
+    [ObservableProperty]
     public partial string? ErrorMessage { get; set; }
 
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string? UninstallingPackageId { get; set; }
+
+    [ObservableProperty]
+    public partial string UninstallStatus { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial double UninstallProgress { get; set; }
 
     public string StatusText
     {
@@ -32,6 +44,9 @@ public partial class InstalledViewModel : ObservableObject
         {
             if (IsLoading)
                 return "Loading installed applications...";
+
+            if (IsUninstalling)
+                return UninstallStatus;
 
             if (!string.IsNullOrWhiteSpace(SearchText))
             {
@@ -61,8 +76,11 @@ public partial class InstalledViewModel : ObservableObject
     [RelayCommand]
     private async Task RefreshAsync()
     {
-        if (IsLoading)
+        if (IsLoading ||
+            IsUninstalling)
+        {
             return;
+        }
 
         try
         {
@@ -89,6 +107,76 @@ public partial class InstalledViewModel : ObservableObject
             IsLoading = false;
             OnPropertyChanged(nameof(StatusText));
         }
+    }
+
+    public async Task UninstallAsync(
+        PackageInfo package)
+    {
+        if (IsUninstalling)
+            return;
+
+        try
+        {
+            IsUninstalling = true;
+            ErrorMessage = null;
+            UninstallingPackageId = package.Id;
+            UninstallStatus =
+                $"Preparing to uninstall {package.Name}...";
+            UninstallProgress = 0;
+            OnPropertyChanged(nameof(StatusText));
+
+            var progress =
+                new Progress<PackageUninstallProgress>(
+                    value =>
+                    {
+                        UninstallStatus =
+                            $"{package.Name}: {value.Status}";
+
+                        UninstallProgress =
+                            value.Percent;
+
+                        OnPropertyChanged(
+                            nameof(StatusText));
+                    });
+
+            await Task.Run(
+                async () =>
+                    await _winGetService.UninstallPackageAsync(
+                        package.Id,
+                        progress));
+
+            _allPackages.RemoveAll(
+                item =>
+                    string.Equals(
+                        item.Id,
+                        package.Id,
+                        StringComparison.OrdinalIgnoreCase));
+
+            ApplyFilter();
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage =
+                $"{package.Name}: {ex.Message}";
+        }
+        finally
+        {
+            IsUninstalling = false;
+            UninstallingPackageId = null;
+            UninstallStatus = string.Empty;
+            UninstallProgress = 0;
+            OnPropertyChanged(nameof(StatusText));
+        }
+    }
+
+    public bool IsPackageUninstalling(
+        PackageInfo package)
+    {
+        return IsUninstalling &&
+               string.Equals(
+                   UninstallingPackageId,
+                   package.Id,
+                   StringComparison.OrdinalIgnoreCase);
     }
 
     partial void OnSearchTextChanged(

@@ -27,8 +27,7 @@ public sealed class WinGetService : IWinGetService
         if (connectResult.Status != ConnectResultStatus.Ok)
         {
             throw new InvalidOperationException(
-                $"Unable to connect to WinGet composite catalog. " +
-                $"Status: {connectResult.Status}");
+                $"Unable to connect to WinGet composite catalog. Status: {connectResult.Status}");
         }
 
         var findOptions =
@@ -103,8 +102,7 @@ public sealed class WinGetService : IWinGetService
         if (connectResult.Status != ConnectResultStatus.Ok)
         {
             throw new InvalidOperationException(
-                $"Unable to connect to WinGet composite catalog. " +
-                $"Status: {connectResult.Status}");
+                $"Unable to connect to WinGet composite catalog. Status: {connectResult.Status}");
         }
 
         var findOptions =
@@ -173,6 +171,216 @@ public sealed class WinGetService : IWinGetService
             .ToList();
     }
 
+    public async Task<IReadOnlyList<DiscoverPackageInfo>> SearchPackagesAsync(
+        string query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+            return [];
+
+        var factory = CreateFactory();
+        var packageManager = factory.CreatePackageManager();
+
+        var result =
+            new List<DiscoverPackageInfo>();
+
+        foreach (var catalogReference in
+                 packageManager.GetPackageCatalogs().ToArray())
+        {
+            var connectResult =
+                catalogReference.Connect();
+
+            if (connectResult.Status != ConnectResultStatus.Ok)
+                continue;
+
+            var findOptions =
+                factory.CreateFindPackagesOptions();
+
+            var searchFilter =
+                factory.CreatePackageMatchFilter();
+
+            searchFilter.Field =
+                PackageMatchField.CatalogDefault;
+
+            searchFilter.Value =
+                query.Trim();
+
+            findOptions.Selectors.Add(
+                searchFilter);
+
+            var searchResult =
+                await connectResult.PackageCatalog.FindPackagesAsync(
+                    findOptions);
+
+            if (searchResult.Status != FindPackagesResultStatus.Ok)
+                continue;
+
+            foreach (var match in searchResult.Matches.ToArray())
+            {
+                var package =
+                    match.CatalogPackage;
+
+                var availableVersion =
+                    package.DefaultInstallVersion;
+
+                if (availableVersion is null)
+                    continue;
+
+                result.Add(
+                    new DiscoverPackageInfo
+                    {
+                        Id =
+                            package.Id ??
+                            string.Empty,
+
+                        Name =
+                            package.Name ??
+                            package.Id ??
+                            "Unknown",
+
+                        Version =
+                            availableVersion.Version ??
+                            string.Empty,
+
+                        Source =
+                            availableVersion.PackageCatalog?.Info?.Name ??
+                            string.Empty,
+
+                        IsInstalled =
+                            package.InstalledVersion is not null
+                    });
+            }
+        }
+
+        return result
+            .Where(package =>
+                !string.IsNullOrWhiteSpace(package.Id))
+            .GroupBy(
+                package => package.Id,
+                StringComparer.OrdinalIgnoreCase)
+            .Select(group => group.First())
+            .OrderBy(package => package.Name)
+            .ToList();
+    }
+
+    public async Task InstallPackageAsync(
+        string packageId,
+        IProgress<PackageInstallProgress>? progress = null)
+    {
+        progress?.Report(
+            new PackageInstallProgress(
+                "Preparing...",
+                0));
+
+        var factory = CreateFactory();
+        var packageManager = factory.CreatePackageManager();
+
+        var package =
+            await FindRemotePackageAsync(
+                factory,
+                packageManager,
+                packageId);
+
+        if (package is null)
+        {
+            throw new InvalidOperationException(
+                $"Package '{packageId}' could not be found.");
+        }
+
+        if (package.InstalledVersion is not null)
+        {
+            throw new InvalidOperationException(
+                $"Package '{packageId}' is already installed.");
+        }
+
+        var installOptions =
+            factory.CreateInstallOptions();
+
+        installOptions.PackageInstallMode =
+            PackageInstallMode.Silent;
+
+        var operation =
+            packageManager.InstallPackageAsync(
+                package,
+                installOptions);
+
+        operation.Progress =
+            (_, installProgress) =>
+            {
+                var status =
+                    installProgress.State switch
+                    {
+                        PackageInstallProgressState.Queued =>
+                            "Queued",
+
+                        PackageInstallProgressState.Downloading =>
+                            $"Downloading {installProgress.DownloadProgress * 100:0}%",
+
+                        PackageInstallProgressState.Installing =>
+                            $"Installing {installProgress.InstallationProgress * 100:0}%",
+
+                        PackageInstallProgressState.PostInstall =>
+                            "Finishing...",
+
+                        PackageInstallProgressState.Finished =>
+                            "Finishing...",
+
+                        _ =>
+                            "Installing..."
+                    };
+
+                var percent =
+                    installProgress.State switch
+                    {
+                        PackageInstallProgressState.Downloading =>
+                            installProgress.DownloadProgress * 50,
+
+                        PackageInstallProgressState.Installing =>
+                            50 +
+                            (installProgress.InstallationProgress * 45),
+
+                        PackageInstallProgressState.PostInstall =>
+                            98,
+
+                        PackageInstallProgressState.Finished =>
+                            100,
+
+                        _ =>
+                            0
+                    };
+
+                progress?.Report(
+                    new PackageInstallProgress(
+                        status,
+                        Math.Clamp(
+                            percent,
+                            0,
+                            100)));
+            };
+
+        var result =
+            await operation;
+
+        if (result.Status != InstallResultStatus.Ok)
+        {
+            var message =
+                $"WinGet failed to install '{packageId}'. Status: {result.Status}.";
+
+            if (result.ExtendedErrorCode is not null)
+            {
+                message +=
+                    $" Error: {result.ExtendedErrorCode.Message}";
+            }
+
+            throw new InvalidOperationException(
+                message);
+        }
+
+        progress?.Report(
+            new PackageInstallProgress(
+                "Completed",
+                100));
+    }
+
     public async Task UpdatePackageAsync(
         string packageId,
         IProgress<PackageUpdateProgress>? progress = null)
@@ -196,42 +404,14 @@ public sealed class WinGetService : IWinGetService
         if (connectResult.Status != ConnectResultStatus.Ok)
         {
             throw new InvalidOperationException(
-                $"Unable to connect to WinGet composite catalog. " +
-                $"Status: {connectResult.Status}");
+                $"Unable to connect to WinGet composite catalog. Status: {connectResult.Status}");
         }
 
-        var findOptions =
-            factory.CreateFindPackagesOptions();
-
-        var idFilter =
-            factory.CreatePackageMatchFilter();
-
-        idFilter.Field =
-            PackageMatchField.Id;
-
-        idFilter.Option =
-            PackageFieldMatchOption.Equals;
-
-        idFilter.Value =
-            packageId;
-
-        findOptions.Filters.Add(idFilter);
-
-        var searchResult =
-            await connectResult.PackageCatalog.FindPackagesAsync(
-                findOptions);
-
         var package =
-            searchResult
-                .Matches
-                .ToArray()
-                .Select(match => match.CatalogPackage)
-                .FirstOrDefault(
-                    candidate =>
-                        string.Equals(
-                            candidate.Id,
-                            packageId,
-                            StringComparison.OrdinalIgnoreCase));
+            await FindPackageAsync(
+                factory,
+                connectResult,
+                packageId);
 
         if (package is null)
         {
@@ -316,8 +496,7 @@ public sealed class WinGetService : IWinGetService
         if (result.Status != InstallResultStatus.Ok)
         {
             var message =
-                $"WinGet failed to update '{packageId}'. " +
-                $"Status: {result.Status}.";
+                $"WinGet failed to update '{packageId}'. Status: {result.Status}.";
 
             if (result.ExtendedErrorCode is not null)
             {
@@ -333,6 +512,227 @@ public sealed class WinGetService : IWinGetService
             new PackageUpdateProgress(
                 "Completed",
                 100));
+    }
+
+    public async Task UninstallPackageAsync(
+        string packageId,
+        IProgress<PackageUninstallProgress>? progress = null)
+    {
+        progress?.Report(
+            new PackageUninstallProgress(
+                "Preparing...",
+                0));
+
+        var factory = CreateFactory();
+        var packageManager = factory.CreatePackageManager();
+
+        var compositeCatalog =
+            CreateCompositeCatalog(
+                factory,
+                packageManager);
+
+        var connectResult =
+            compositeCatalog.Connect();
+
+        if (connectResult.Status != ConnectResultStatus.Ok)
+        {
+            throw new InvalidOperationException(
+                $"Unable to connect to WinGet composite catalog. Status: {connectResult.Status}");
+        }
+
+        var package =
+            await FindPackageAsync(
+                factory,
+                connectResult,
+                packageId);
+
+        if (package is null ||
+            package.InstalledVersion is null)
+        {
+            throw new InvalidOperationException(
+                $"Installed package '{packageId}' could not be found.");
+        }
+
+        var uninstallOptions =
+            factory.CreateUninstallOptions();
+
+        uninstallOptions.PackageUninstallMode =
+            PackageUninstallMode.Silent;
+
+        var operation =
+            packageManager.UninstallPackageAsync(
+                package,
+                uninstallOptions);
+
+        operation.Progress =
+            (_, uninstallProgress) =>
+            {
+                var percent =
+                    uninstallProgress.State switch
+                    {
+                        PackageUninstallProgressState.Queued =>
+                            0,
+
+                        PackageUninstallProgressState.Uninstalling =>
+                            uninstallProgress.UninstallationProgress * 100,
+
+                        PackageUninstallProgressState.PostUninstall =>
+                            98,
+
+                        PackageUninstallProgressState.Finished =>
+                            100,
+
+                        _ =>
+                            0
+                    };
+
+                var status =
+                    uninstallProgress.State switch
+                    {
+                        PackageUninstallProgressState.Queued =>
+                            "Queued",
+
+                        PackageUninstallProgressState.Uninstalling =>
+                            $"Uninstalling {percent:0}%",
+
+                        PackageUninstallProgressState.PostUninstall =>
+                            "Finishing...",
+
+                        PackageUninstallProgressState.Finished =>
+                            "Finishing...",
+
+                        _ =>
+                            "Uninstalling..."
+                    };
+
+                progress?.Report(
+                    new PackageUninstallProgress(
+                        status,
+                        Math.Clamp(
+                            percent,
+                            0,
+                            100)));
+            };
+
+        var result =
+            await operation;
+
+        if (result.Status != UninstallResultStatus.Ok)
+        {
+            var message =
+                $"WinGet failed to uninstall '{packageId}'. Status: {result.Status}.";
+
+            if (result.ExtendedErrorCode is not null)
+            {
+                message +=
+                    $" Error: {result.ExtendedErrorCode.Message}";
+            }
+
+            throw new InvalidOperationException(
+                message);
+        }
+
+        progress?.Report(
+            new PackageUninstallProgress(
+                "Completed",
+                100));
+    }
+
+    private static async Task<CatalogPackage?> FindRemotePackageAsync(
+        WindowsPackageManagerFactory factory,
+        Microsoft.Management.Deployment.PackageManager packageManager,
+        string packageId)
+    {
+        foreach (var catalogReference in
+                 packageManager.GetPackageCatalogs().ToArray())
+        {
+            var connectResult =
+                catalogReference.Connect();
+
+            if (connectResult.Status != ConnectResultStatus.Ok)
+                continue;
+
+            var findOptions =
+                factory.CreateFindPackagesOptions();
+
+            var idFilter =
+                factory.CreatePackageMatchFilter();
+
+            idFilter.Field =
+                PackageMatchField.Id;
+
+            idFilter.Option =
+                PackageFieldMatchOption.Equals;
+
+            idFilter.Value =
+                packageId;
+
+            findOptions.Filters.Add(
+                idFilter);
+
+            var searchResult =
+                await connectResult.PackageCatalog.FindPackagesAsync(
+                    findOptions);
+
+            if (searchResult.Status != FindPackagesResultStatus.Ok)
+                continue;
+
+            var package =
+                searchResult
+                    .Matches
+                    .ToArray()
+                    .Select(match => match.CatalogPackage)
+                    .FirstOrDefault(
+                        candidate =>
+                            string.Equals(
+                                candidate.Id,
+                                packageId,
+                                StringComparison.OrdinalIgnoreCase));
+
+            if (package is not null)
+                return package;
+        }
+
+        return null;
+    }
+
+    private static async Task<CatalogPackage?> FindPackageAsync(
+        WindowsPackageManagerFactory factory,
+        ConnectResult connectResult,
+        string packageId)
+    {
+        var findOptions =
+            factory.CreateFindPackagesOptions();
+
+        var idFilter =
+            factory.CreatePackageMatchFilter();
+
+        idFilter.Field =
+            PackageMatchField.Id;
+
+        idFilter.Option =
+            PackageFieldMatchOption.Equals;
+
+        idFilter.Value =
+            packageId;
+
+        findOptions.Filters.Add(
+            idFilter);
+
+        var searchResult =
+            await connectResult.PackageCatalog.FindPackagesAsync(
+                findOptions);
+
+        return searchResult
+            .Matches
+            .ToArray()
+            .Select(match => match.CatalogPackage)
+            .FirstOrDefault(
+                candidate =>
+                    string.Equals(
+                        candidate.Id,
+                        packageId,
+                        StringComparison.OrdinalIgnoreCase));
     }
 
     private static WindowsPackageManagerFactory CreateFactory()

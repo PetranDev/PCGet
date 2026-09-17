@@ -1,6 +1,7 @@
 ﻿using AppDeck.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AppDeck.Services;
@@ -19,6 +20,15 @@ public sealed class SimulatedWinGetService : IWinGetService
         CreatePackage("Fake.VeryLongApplicationName", "An Application With An Extremely Long Name To Test AppDeck Layout", "12.4.1837", "13.0.2041")
     ];
 
+    private readonly List<DiscoverPackageInfo> _discoverPackages =
+    [
+        CreateDiscoverPackage("Microsoft.Sysinternals.ProcessExplorer", "Process Explorer", "17.07"),
+        CreateDiscoverPackage("Microsoft.Sysinternals.Autoruns", "Autoruns", "14.11"),
+        CreateDiscoverPackage("voidtools.Everything", "Everything", "1.4.1"),
+        CreateDiscoverPackage("ShareX.ShareX", "ShareX", "18.0.0"),
+        CreateDiscoverPackage("BurntSushi.ripgrep.MSVC", "ripgrep", "14.1.1")
+    ];
+
     public Task<IReadOnlyList<PackageInfo>> GetInstalledPackagesAsync()
     {
         IReadOnlyList<PackageInfo> result =
@@ -33,6 +43,72 @@ public sealed class SimulatedWinGetService : IWinGetService
             _packages.ToArray();
 
         return Task.FromResult(result);
+    }
+
+    public Task<IReadOnlyList<DiscoverPackageInfo>> SearchPackagesAsync(
+        string query)
+    {
+        IReadOnlyList<DiscoverPackageInfo> result =
+            _discoverPackages
+                .Where(
+                    package =>
+                        package.Name.Contains(
+                            query,
+                            StringComparison.OrdinalIgnoreCase) ||
+                        package.Id.Contains(
+                            query,
+                            StringComparison.OrdinalIgnoreCase))
+                .ToArray();
+
+        return Task.FromResult(result);
+    }
+
+    public async Task InstallPackageAsync(
+        string packageId,
+        IProgress<PackageInstallProgress>? progress = null)
+    {
+        progress?.Report(
+            new PackageInstallProgress(
+                "Queued",
+                0));
+
+        await Task.Delay(300);
+
+        for (var value = 0; value <= 100; value += 5)
+        {
+            progress?.Report(
+                new PackageInstallProgress(
+                    $"Downloading {value}%",
+                    value * 0.5));
+
+            await Task.Delay(60);
+        }
+
+        for (var value = 0; value <= 100; value += 5)
+        {
+            progress?.Report(
+                new PackageInstallProgress(
+                    $"Installing {value}%",
+                    50 + value * 0.5));
+
+            await Task.Delay(75);
+        }
+
+        var discoverPackage =
+            _discoverPackages.FirstOrDefault(
+                package =>
+                    string.Equals(
+                        package.Id,
+                        packageId,
+                        StringComparison.OrdinalIgnoreCase));
+
+        if (discoverPackage is not null)
+            discoverPackage.IsInstalled = true;
+
+        progress?.Report(
+            new PackageInstallProgress(
+                "Completed",
+                100));
     }
 
     public async Task UpdatePackageAsync(
@@ -90,6 +166,40 @@ public sealed class SimulatedWinGetService : IWinGetService
                     StringComparison.OrdinalIgnoreCase));
     }
 
+    public async Task UninstallPackageAsync(
+        string packageId,
+        IProgress<PackageUninstallProgress>? progress = null)
+    {
+        progress?.Report(
+            new PackageUninstallProgress(
+                "Queued",
+                0));
+
+        await Task.Delay(300);
+
+        for (var value = 0; value <= 100; value += 5)
+        {
+            progress?.Report(
+                new PackageUninstallProgress(
+                    $"Uninstalling {value}%",
+                    value));
+
+            await Task.Delay(75);
+        }
+
+        _packages.RemoveAll(
+            package =>
+                string.Equals(
+                    package.Id,
+                    packageId,
+                    StringComparison.OrdinalIgnoreCase));
+
+        progress?.Report(
+            new PackageUninstallProgress(
+                "Completed",
+                100));
+    }
+
     private static PackageInfo CreatePackage(
         string id,
         string name,
@@ -103,6 +213,21 @@ public sealed class SimulatedWinGetService : IWinGetService
             InstalledVersion = installedVersion,
             AvailableVersion = availableVersion,
             Source = "winget"
+        };
+    }
+
+    private static DiscoverPackageInfo CreateDiscoverPackage(
+        string id,
+        string name,
+        string version)
+    {
+        return new DiscoverPackageInfo
+        {
+            Id = id,
+            Name = name,
+            Version = version,
+            Source = "winget",
+            IsInstalled = false
         };
     }
 }

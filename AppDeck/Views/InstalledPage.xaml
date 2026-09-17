@@ -51,7 +51,7 @@
             Grid.Row="4"
             IsOpen="False"
             Severity="Error"
-            Title="Unable to load installed applications" />
+            Title="AppDeck error" />
         <AutoSuggestBox
             Grid.Row="6"
             Width="400"
@@ -68,8 +68,9 @@
                     <Grid Padding="12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="220" />
-                            <ColumnDefinition Width="160" />
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition Width="110" />
                         </Grid.ColumnDefinitions>
                         <StackPanel
                             Grid.Column="0"
@@ -93,6 +94,13 @@
                             Text="{x:Bind Source}"
                             VerticalAlignment="Center"
                             Opacity="0.6" />
+                        <Button
+                            Grid.Column="3"
+                            Content="Uninstall"
+                            Tag="{x:Bind}"
+                            Click="UninstallButton_Click"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
