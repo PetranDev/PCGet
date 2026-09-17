@@ -1,0 +1,16 @@
+<Page
+    x:Class="AppDeck.Views.DiscoverPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Padding="32">
+        <StackPanel Spacing="8">
+            <TextBlock
+                Text="Discover"
+                Style="{StaticResource TitleTextBlockStyle}" />
+            <TextBlock
+                Text="Search for applications and install them with WinGet."
+                Style="{StaticResource BodyTextBlockStyle}"
+                Opacity="0.7" />
+        </StackPanel>
+    </Grid>
+</Page>

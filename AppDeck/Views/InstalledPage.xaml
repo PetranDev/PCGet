@@ -1,0 +1,16 @@
+<Page
+    x:Class="AppDeck.Views.InstalledPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Padding="32">
+        <StackPanel Spacing="8">
+            <TextBlock
+                Text="Installed"
+                Style="{StaticResource TitleTextBlockStyle}" />
+            <TextBlock
+                Text="View and manage applications installed on this PC."
+                Style="{StaticResource BodyTextBlockStyle}"
+                Opacity="0.7" />
+        </StackPanel>
+    </Grid>
+</Page>

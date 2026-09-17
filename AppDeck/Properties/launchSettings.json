@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AppDeck (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "AppDeck (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
