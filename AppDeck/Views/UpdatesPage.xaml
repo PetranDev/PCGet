@@ -100,7 +100,7 @@
                             VerticalAlignment="Center"
                             Spacing="6">
                             <Button
-                                Content="Update"
+                                Content="{x:Bind UpdateButtonText, Mode=OneWay}"
                                 Tag="{x:Bind}"
                                 Click="UpdateButton_Click"
                                 HorizontalAlignment="Stretch"

@@ -13,9 +13,7 @@ namespace AppDeck.ViewModels;
 public partial class UpdatesViewModel : ObservableObject
 {
     private readonly IWinGetService _winGetService;
-
     private readonly Queue<PackageInfo> _updateQueue = new();
-
     private bool _isProcessingQueue;
 
     public ObservableCollection<PackageInfo> Updates { get; } = [];
@@ -34,7 +32,9 @@ public partial class UpdatesViewModel : ObservableObject
 
     public bool CanUpdateAll =>
         !IsLoading &&
-        Updates.Any(package => !package.IsUpdating);
+        Updates.Any(package =>
+            package.UpdateState == PackageUpdateState.Ready ||
+            package.UpdateState == PackageUpdateState.Failed);
 
     public string StatusText
     {
@@ -82,7 +82,6 @@ public partial class UpdatesViewModel : ObservableObject
         PackageInfo package)
     {
         QueuePackage(package);
-
         StartQueueIfNecessary();
 
         return Task.CompletedTask;
@@ -104,12 +103,20 @@ public partial class UpdatesViewModel : ObservableObject
     private void QueuePackage(
         PackageInfo package)
     {
-        if (package.IsUpdating)
+        if (package.UpdateState == PackageUpdateState.Queued ||
+            package.UpdateState == PackageUpdateState.Updating)
+        {
             return;
+        }
 
-        package.IsUpdating = true;
-        package.UpdateStatus = "Queued";
-        package.UpdateProgress = 0;
+        package.UpdateState =
+            PackageUpdateState.Queued;
+
+        package.UpdateStatus =
+            "Queued";
+
+        package.UpdateProgress =
+            0;
 
         _updateQueue.Enqueue(package);
 
@@ -140,6 +147,9 @@ public partial class UpdatesViewModel : ObservableObject
             {
                 var package =
                     _updateQueue.Dequeue();
+
+                package.UpdateState =
+                    PackageUpdateState.Updating;
 
                 NotifyQueueStateChanged();
 
@@ -194,14 +204,14 @@ public partial class UpdatesViewModel : ObservableObject
         }
         catch (Exception ex)
         {
+            package.UpdateState =
+                PackageUpdateState.Failed;
+
             package.UpdateStatus =
                 "Failed";
 
             package.UpdateProgress =
                 0;
-
-            package.IsUpdating =
-                false;
 
             ErrorMessage =
                 $"{package.Name}: {ex.Message}";
@@ -244,16 +254,9 @@ public partial class UpdatesViewModel : ObservableObject
 
     private void NotifyQueueStateChanged()
     {
-        OnPropertyChanged(
-            nameof(IsUpdating));
-
-        OnPropertyChanged(
-            nameof(QueuedUpdateCount));
-
-        OnPropertyChanged(
-            nameof(CanUpdateAll));
-
-        OnPropertyChanged(
-            nameof(StatusText));
+        OnPropertyChanged(nameof(IsUpdating));
+        OnPropertyChanged(nameof(QueuedUpdateCount));
+        OnPropertyChanged(nameof(CanUpdateAll));
+        OnPropertyChanged(nameof(StatusText));
     }
 }

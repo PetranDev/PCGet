@@ -26,22 +26,17 @@ public sealed partial class UpdatesPage : Page
 
         InitializeComponent();
 
-        Loaded +=
-            UpdatesPage_Loaded;
-
-        ViewModel.PropertyChanged +=
-            ViewModel_PropertyChanged;
+        Loaded += UpdatesPage_Loaded;
+        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
     }
 
     private async void UpdatesPage_Loaded(
         object sender,
         RoutedEventArgs e)
     {
-        Loaded -=
-            UpdatesPage_Loaded;
+        Loaded -= UpdatesPage_Loaded;
 
-        await ViewModel.RefreshCommand.ExecuteAsync(
-            null);
+        await ViewModel.RefreshCommand.ExecuteAsync(null);
     }
 
     private async void UpdateButton_Click(
@@ -54,28 +49,15 @@ public sealed partial class UpdatesPage : Page
         if (button.Tag is not PackageInfo package)
             return;
 
-        button.IsEnabled = false;
-
-        try
-        {
-            await ViewModel.UpdatePackageCommand.ExecuteAsync(
-                package);
-        }
-        finally
-        {
-            button.IsEnabled = true;
-        }
+        await ViewModel.UpdatePackageCommand.ExecuteAsync(package);
     }
 
     private void ViewModel_PropertyChanged(
         object? sender,
         System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName !=
-            nameof(ViewModel.ErrorMessage))
-        {
+        if (e.PropertyName != nameof(ViewModel.ErrorMessage))
             return;
-        }
 
         ErrorInfoBar.Message =
             ViewModel.ErrorMessage ??
