@@ -23,6 +23,12 @@ public partial class DiscoverViewModel : ObservableObject
     [ObservableProperty]
     public partial string? ErrorMessage { get; set; }
 
+    [ObservableProperty]
+    public partial DiscoverPackageInfo? SelectedPackage { get; set; }
+
+    public bool HasSelectedPackage =>
+        SelectedPackage is not null;
+
     public string StatusText
     {
         get
@@ -57,6 +63,7 @@ public partial class DiscoverViewModel : ObservableObject
         if (string.IsNullOrWhiteSpace(SearchText))
         {
             Packages.Clear();
+            SelectedPackage = null;
             OnPropertyChanged(nameof(StatusText));
             return;
         }
@@ -65,6 +72,8 @@ public partial class DiscoverViewModel : ObservableObject
         {
             IsSearching = true;
             ErrorMessage = null;
+            SelectedPackage = null;
+
             OnPropertyChanged(nameof(StatusText));
 
             var query =
@@ -80,6 +89,9 @@ public partial class DiscoverViewModel : ObservableObject
 
             foreach (var package in packages)
                 Packages.Add(package);
+
+            if (Packages.Count > 0)
+                SelectedPackage = Packages[0];
         }
         catch (Exception ex)
         {
@@ -126,30 +138,27 @@ public partial class DiscoverViewModel : ObservableObject
                         package.Id,
                         progress));
 
-            package.InstallStatus =
-                "Installed";
-
-            package.InstallProgress =
-                100;
-
-            package.IsInstalled =
-                true;
+            package.InstallStatus = "Installed";
+            package.InstallProgress = 100;
+            package.IsInstalled = true;
         }
         catch (Exception ex)
         {
-            package.InstallStatus =
-                "Failed";
-
-            package.InstallProgress =
-                0;
+            package.InstallStatus = "Failed";
+            package.InstallProgress = 0;
 
             ErrorMessage =
                 $"{package.Name}: {ex.Message}";
         }
         finally
         {
-            package.IsInstalling =
-                false;
+            package.IsInstalling = false;
         }
+    }
+
+    partial void OnSelectedPackageChanged(
+        DiscoverPackageInfo? value)
+    {
+        OnPropertyChanged(nameof(HasSelectedPackage));
     }
 }

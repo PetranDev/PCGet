@@ -1,14 +1,21 @@
 using AppDeck.Models;
 using AppDeck.Services;
 using AppDeck.ViewModels;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 using System;
+using Windows.System;
 
 namespace AppDeck.Views;
 
 public sealed partial class DiscoverPage : Page
 {
+    private const double MinimumResultsWidth = 350;
+    private const double MinimumDetailsWidth = 300;
+
     public DiscoverViewModel ViewModel { get; }
 
     public DiscoverPage()
@@ -43,6 +50,95 @@ public sealed partial class DiscoverPage : Page
 
         await ViewModel.InstallAsync(
             package);
+    }
+
+    private void Splitter_DragDelta(
+        object sender,
+        DragDeltaEventArgs e)
+    {
+        var totalWidth =
+            ResultsColumn.ActualWidth +
+            DetailsColumn.ActualWidth;
+
+        var newResultsWidth =
+            ResultsColumn.ActualWidth +
+            e.HorizontalChange;
+
+        var newDetailsWidth =
+            totalWidth -
+            newResultsWidth;
+
+        if (newResultsWidth < MinimumResultsWidth)
+        {
+            newResultsWidth =
+                MinimumResultsWidth;
+
+            newDetailsWidth =
+                totalWidth -
+                newResultsWidth;
+        }
+
+        if (newDetailsWidth < MinimumDetailsWidth)
+        {
+            newDetailsWidth =
+                MinimumDetailsWidth;
+
+            newResultsWidth =
+                totalWidth -
+                newDetailsWidth;
+        }
+
+        ResultsColumn.Width =
+            new GridLength(
+                newResultsWidth,
+                GridUnitType.Pixel);
+
+        DetailsColumn.Width =
+            new GridLength(
+                newDetailsWidth,
+                GridUnitType.Pixel);
+    }
+
+    private void Splitter_PointerEntered(
+        object sender,
+        PointerRoutedEventArgs e)
+    {
+        ProtectedCursor =
+            InputSystemCursor.Create(
+                InputSystemCursorShape.SizeWestEast);
+    }
+
+    private void Splitter_PointerExited(
+        object sender,
+        PointerRoutedEventArgs e)
+    {
+        ProtectedCursor =
+            null;
+    }
+
+    private async void LinkButton_Click(
+        object sender,
+        RoutedEventArgs e)
+    {
+        if (sender is not Button button)
+            return;
+
+        if (button.Tag is not string url ||
+            string.IsNullOrWhiteSpace(url))
+        {
+            return;
+        }
+
+        if (!Uri.TryCreate(
+                url,
+                UriKind.Absolute,
+                out var uri))
+        {
+            return;
+        }
+
+        await Launcher.LaunchUriAsync(
+            uri);
     }
 
     private void ViewModel_PropertyChanged(

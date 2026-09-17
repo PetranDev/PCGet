@@ -60,64 +60,209 @@
             IsOpen="False"
             Severity="Error"
             Title="AppDeck error" />
-        <ListView
-            Grid.Row="8"
-            ItemsSource="{x:Bind ViewModel.Packages, Mode=OneWay}"
-            SelectionMode="None">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:DiscoverPackageInfo">
-                    <Grid Padding="12">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="160" />
-                            <ColumnDefinition Width="130" />
-                            <ColumnDefinition Width="150" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel
-                            Grid.Column="0"
-                            Spacing="4">
-                            <TextBlock
-                                Text="{x:Bind Name}"
-                                FontSize="16"
-                                FontWeight="SemiBold"
-                                TextTrimming="CharacterEllipsis" />
-                            <TextBlock
-                                Text="{x:Bind Id}"
-                                Opacity="0.6"
-                                TextTrimming="CharacterEllipsis" />
-                            <StackPanel
-                                Spacing="4"
-                                Visibility="{x:Bind IsInstalling, Mode=OneWay}">
+        <Grid
+            x:Name="ResultsGrid"
+            Grid.Row="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    x:Name="ResultsColumn"
+                    Width="3*"
+                    MinWidth="350" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition
+                    x:Name="DetailsColumn"
+                    Width="2*"
+                    MinWidth="300" />
+            </Grid.ColumnDefinitions>
+            <ListView
+                Grid.Column="0"
+                ItemsSource="{x:Bind ViewModel.Packages, Mode=OneWay}"
+                SelectedItem="{x:Bind ViewModel.SelectedPackage, Mode=TwoWay}"
+                SelectionMode="Single">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:DiscoverPackageInfo">
+                        <Grid Padding="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Spacing="4">
                                 <TextBlock
-                                    Text="{x:Bind InstallStatus, Mode=OneWay}"
-                                    FontSize="12"
-                                    Opacity="0.7" />
-                                <ProgressBar
-                                    Minimum="0"
-                                    Maximum="100"
-                                    Value="{x:Bind InstallProgress, Mode=OneWay}" />
+                                    Text="{x:Bind Name}"
+                                    FontSize="16"
+                                    FontWeight="SemiBold"
+                                    TextTrimming="CharacterEllipsis" />
+                                <TextBlock
+                                    Text="{x:Bind Id}"
+                                    Opacity="0.6"
+                                    TextTrimming="CharacterEllipsis" />
+                                <StackPanel
+                                    Spacing="4"
+                                    Visibility="{x:Bind IsInstalling, Mode=OneWay}">
+                                    <TextBlock
+                                        Text="{x:Bind InstallStatus, Mode=OneWay}"
+                                        FontSize="12"
+                                        Opacity="0.7" />
+                                    <ProgressBar
+                                        Minimum="0"
+                                        Maximum="100"
+                                        Value="{x:Bind InstallProgress, Mode=OneWay}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <TextBlock
+                                Grid.Column="1"
+                                Text="{x:Bind Version}"
+                                VerticalAlignment="Center" />
+                            <TextBlock
+                                Grid.Column="2"
+                                Text="{x:Bind Source}"
+                                VerticalAlignment="Center"
+                                Opacity="0.6" />
+                            <Button
+                                Grid.Column="3"
+                                Content="{x:Bind InstallButtonText, Mode=OneWay}"
+                                IsEnabled="{x:Bind IsInstallEnabled, Mode=OneWay}"
+                                Tag="{x:Bind}"
+                                Click="InstallButton_Click"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Thumb
+                Grid.Column="1"
+                Width="8"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                DragDelta="Splitter_DragDelta"
+                PointerEntered="Splitter_PointerEntered"
+                PointerExited="Splitter_PointerExited"
+                Visibility="{x:Bind ViewModel.HasSelectedPackage, Mode=OneWay}">
+                <Thumb.Template>
+                    <ControlTemplate TargetType="Thumb">
+                        <Grid Background="Transparent">
+                            <Border
+                                Width="1"
+                                HorizontalAlignment="Center"
+                                Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Thumb.Template>
+            </Thumb>
+            <Border
+                Grid.Column="2"
+                Padding="24"
+                BorderThickness="1"
+                CornerRadius="8"
+                Visibility="{x:Bind ViewModel.HasSelectedPackage, Mode=OneWay}">
+                <ScrollViewer>
+                    <StackPanel
+                        Spacing="20"
+                        DataContext="{x:Bind ViewModel.SelectedPackage, Mode=OneWay}">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="16">
+                            <Border
+                                Width="72"
+                                Height="72"
+                                CornerRadius="8">
+                                <Image
+                                    Width="64"
+                                    Height="64"
+                                    Source="{Binding IconUrl}"
+                                    Stretch="Uniform" />
+                            </Border>
+                            <StackPanel
+                                VerticalAlignment="Center"
+                                Spacing="4">
+                                <TextBlock
+                                    Text="{Binding Name}"
+                                    FontSize="24"
+                                    FontWeight="SemiBold"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Text="{Binding Publisher}"
+                                    Opacity="0.7"
+                                    TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
-                        <TextBlock
-                            Grid.Column="1"
-                            Text="{x:Bind Version}"
-                            VerticalAlignment="Center" />
-                        <TextBlock
-                            Grid.Column="2"
-                            Text="{x:Bind Source}"
-                            VerticalAlignment="Center"
-                            Opacity="0.6" />
                         <Button
-                            Grid.Column="3"
-                            Content="{x:Bind InstallButtonText, Mode=OneWay}"
-                            IsEnabled="{x:Bind IsInstallEnabled, Mode=OneWay}"
-                            Tag="{x:Bind}"
+                            Content="{Binding InstallButtonText}"
+                            IsEnabled="{Binding IsInstallEnabled}"
+                            Tag="{Binding}"
                             Click="InstallButton_Click"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center" />
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                            HorizontalAlignment="Stretch" />
+                        <StackPanel
+                            Spacing="6"
+                            Visibility="{Binding IsInstalling}">
+                            <TextBlock
+                                Text="{Binding InstallStatus}"
+                                Opacity="0.7" />
+                            <ProgressBar
+                                Minimum="0"
+                                Maximum="100"
+                                Value="{Binding InstallProgress}" />
+                        </StackPanel>
+                        <TextBlock
+                            Text="{Binding DisplayDescription}"
+                            TextWrapping="Wrap"
+                            IsTextSelectionEnabled="True" />
+                        <StackPanel Spacing="12">
+                            <TextBlock
+                                Text="Package information"
+                                FontSize="18"
+                                FontWeight="SemiBold" />
+                            <Grid ColumnSpacing="16" RowSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Version" Opacity="0.6" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Version}" TextWrapping="Wrap" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Source" Opacity="0.6" />
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Source}" TextWrapping="Wrap" />
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Package ID" Opacity="0.6" />
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Id}" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="License" Opacity="0.6" />
+                                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding License}" TextWrapping="Wrap" />
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Tags" Opacity="0.6" />
+                                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Tags}" TextWrapping="Wrap" />
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Spacing="8">
+                            <TextBlock
+                                Text="Links"
+                                FontSize="18"
+                                FontWeight="SemiBold" />
+                            <Button
+                                Content="Package website"
+                                Tag="{Binding PackageUrl}"
+                                Click="LinkButton_Click"
+                                HorizontalAlignment="Left" />
+                            <Button
+                                Content="Publisher website"
+                                Tag="{Binding PublisherUrl}"
+                                Click="LinkButton_Click"
+                                HorizontalAlignment="Left" />
+                            <Button
+                                Content="License"
+                                Tag="{Binding LicenseUrl}"
+                                Click="LinkButton_Click"
+                                HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

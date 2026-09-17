@@ -225,6 +225,35 @@ public sealed class WinGetService : IWinGetService
                 if (availableVersion is null)
                     continue;
 
+                CatalogPackageMetadata? metadata = null;
+
+                try
+                {
+                    metadata =
+                        availableVersion.GetCatalogPackageMetadata();
+                }
+                catch
+                {
+                    // Some catalogs/packages may not expose metadata.
+                    // The package should still appear in Discover.
+                }
+
+                var iconUrl =
+                    metadata?
+                        .Icons?
+                        .ToArray()
+                        .Select(icon => icon.Url)
+                        .FirstOrDefault(url =>
+                            !string.IsNullOrWhiteSpace(url)) ??
+                    string.Empty;
+
+                var tags =
+                    metadata?.Tags is not null
+                        ? string.Join(
+                            ", ",
+                            metadata.Tags.ToArray())
+                        : string.Empty;
+
                 result.Add(
                     new DiscoverPackageInfo
                     {
@@ -244,6 +273,41 @@ public sealed class WinGetService : IWinGetService
                         Source =
                             availableVersion.PackageCatalog?.Info?.Name ??
                             string.Empty,
+
+                        Publisher =
+                            metadata?.Publisher ??
+                            availableVersion.Publisher ??
+                            string.Empty,
+
+                        Description =
+                            metadata?.Description ??
+                            string.Empty,
+
+                        ShortDescription =
+                            metadata?.ShortDescription ??
+                            string.Empty,
+
+                        License =
+                            metadata?.License ??
+                            string.Empty,
+
+                        PackageUrl =
+                            metadata?.PackageUrl ??
+                            string.Empty,
+
+                        PublisherUrl =
+                            metadata?.PublisherUrl ??
+                            string.Empty,
+
+                        LicenseUrl =
+                            metadata?.LicenseUrl ??
+                            string.Empty,
+
+                        Tags =
+                            tags,
+
+                        IconUrl =
+                            iconUrl,
 
                         IsInstalled =
                             package.InstalledVersion is not null

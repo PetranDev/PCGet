@@ -9,6 +9,16 @@ public partial class DiscoverPackageInfo : ObservableObject
     public required string Version { get; init; }
     public required string Source { get; init; }
 
+    public string Publisher { get; init; } = string.Empty;
+    public string Description { get; init; } = string.Empty;
+    public string ShortDescription { get; init; } = string.Empty;
+    public string License { get; init; } = string.Empty;
+    public string PackageUrl { get; init; } = string.Empty;
+    public string PublisherUrl { get; init; } = string.Empty;
+    public string LicenseUrl { get; init; } = string.Empty;
+    public string Tags { get; init; } = string.Empty;
+    public string IconUrl { get; init; } = string.Empty;
+
     [ObservableProperty]
     public partial bool IsInstalled { get; set; }
 
@@ -38,6 +48,26 @@ public partial class DiscoverPackageInfo : ObservableObject
             return "Install";
         }
     }
+
+    public string DisplayDescription =>
+        !string.IsNullOrWhiteSpace(Description)
+            ? Description
+            : ShortDescription;
+
+    public bool HasPublisher =>
+        !string.IsNullOrWhiteSpace(Publisher);
+
+    public bool HasDescription =>
+        !string.IsNullOrWhiteSpace(DisplayDescription);
+
+    public bool HasLicense =>
+        !string.IsNullOrWhiteSpace(License);
+
+    public bool HasTags =>
+        !string.IsNullOrWhiteSpace(Tags);
+
+    public bool HasIcon =>
+        !string.IsNullOrWhiteSpace(IconUrl);
 
     partial void OnIsInstalledChanged(
         bool value)
