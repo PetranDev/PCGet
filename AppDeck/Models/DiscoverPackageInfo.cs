@@ -69,6 +69,23 @@ public partial class DiscoverPackageInfo : ObservableObject
     public bool HasIcon =>
         !string.IsNullOrWhiteSpace(IconUrl);
 
+    public bool HasNoIcon =>
+        !HasIcon;
+
+    public bool HasPackageUrl =>
+        !string.IsNullOrWhiteSpace(PackageUrl);
+
+    public bool HasPublisherUrl =>
+        !string.IsNullOrWhiteSpace(PublisherUrl);
+
+    public bool HasLicenseUrl =>
+        !string.IsNullOrWhiteSpace(LicenseUrl);
+
+    public bool HasLinks =>
+        HasPackageUrl ||
+        HasPublisherUrl ||
+        HasLicenseUrl;
+
     partial void OnIsInstalledChanged(
         bool value)
     {
