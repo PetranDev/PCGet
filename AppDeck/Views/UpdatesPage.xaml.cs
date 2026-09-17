@@ -9,20 +9,20 @@ namespace AppDeck.Views;
 
 public sealed partial class UpdatesPage : Page
 {
-    private const bool UseSimulatedWinGet = true;
+    private static bool _startupCheckHandled;
+
+    private readonly AppSettingsService _settingsService;
 
     public UpdatesViewModel ViewModel { get; }
 
     public UpdatesPage()
     {
-        IWinGetService winGetService =
-            UseSimulatedWinGet
-                ? new SimulatedWinGetService()
-                : new WinGetService();
+        _settingsService =
+            new AppSettingsService();
 
         ViewModel =
             new UpdatesViewModel(
-                winGetService);
+                new WinGetService());
 
         InitializeComponent();
 
@@ -35,6 +35,14 @@ public sealed partial class UpdatesPage : Page
         RoutedEventArgs e)
     {
         Loaded -= UpdatesPage_Loaded;
+
+        if (_startupCheckHandled)
+            return;
+
+        _startupCheckHandled = true;
+
+        if (!_settingsService.CheckUpdatesOnStartup)
+            return;
 
         await ViewModel.RefreshCommand.ExecuteAsync(null);
     }

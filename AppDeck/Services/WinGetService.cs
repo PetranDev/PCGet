@@ -11,6 +11,13 @@ namespace AppDeck.Services;
 
 public sealed class WinGetService : IWinGetService
 {
+    private readonly AppSettingsService _settingsService;
+
+    public WinGetService()
+    {
+        _settingsService = new AppSettingsService();
+    }
+
     public async Task<IReadOnlyList<PackageInfo>> GetInstalledPackagesAsync()
     {
         var factory = CreateFactory();
@@ -234,8 +241,6 @@ public sealed class WinGetService : IWinGetService
                 }
                 catch
                 {
-                    // Some catalogs/packages may not expose metadata.
-                    // The package should still appear in Discover.
                 }
 
                 var iconUrl =
@@ -360,7 +365,7 @@ public sealed class WinGetService : IWinGetService
             factory.CreateInstallOptions();
 
         installOptions.PackageInstallMode =
-            PackageInstallMode.Silent;
+            GetPackageInstallMode();
 
         var operation =
             packageManager.InstallPackageAsync(
@@ -493,7 +498,7 @@ public sealed class WinGetService : IWinGetService
             factory.CreateInstallOptions();
 
         installOptions.PackageInstallMode =
-            PackageInstallMode.Silent;
+            GetPackageInstallMode();
 
         var operation =
             packageManager.UpgradePackageAsync(
@@ -580,7 +585,8 @@ public sealed class WinGetService : IWinGetService
 
     public async Task UninstallPackageAsync(
         string packageId,
-        IProgress<PackageUninstallProgress>? progress = null)
+        IProgress<PackageUninstallProgress>? progress = null,
+        bool interactive = false)
     {
         progress?.Report(
             new PackageUninstallProgress(
@@ -621,7 +627,9 @@ public sealed class WinGetService : IWinGetService
             factory.CreateUninstallOptions();
 
         uninstallOptions.PackageUninstallMode =
-            PackageUninstallMode.Silent;
+            interactive
+                ? PackageUninstallMode.Interactive
+                : GetPackageUninstallMode();
 
         var operation =
             packageManager.UninstallPackageAsync(
@@ -700,6 +708,20 @@ public sealed class WinGetService : IWinGetService
             new PackageUninstallProgress(
                 "Completed",
                 100));
+    }
+
+    private PackageInstallMode GetPackageInstallMode()
+    {
+        return _settingsService.SilentPackageOperations
+            ? PackageInstallMode.Silent
+            : PackageInstallMode.Interactive;
+    }
+
+    private PackageUninstallMode GetPackageUninstallMode()
+    {
+        return _settingsService.SilentPackageOperations
+            ? PackageUninstallMode.Silent
+            : PackageUninstallMode.Interactive;
     }
 
     private static async Task<CatalogPackage?> FindRemotePackageAsync(

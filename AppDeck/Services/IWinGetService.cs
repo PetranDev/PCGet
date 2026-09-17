@@ -24,7 +24,8 @@ public interface IWinGetService
 
     Task UninstallPackageAsync(
         string packageId,
-        IProgress<PackageUninstallProgress>? progress = null);
+        IProgress<PackageUninstallProgress>? progress = null,
+        bool interactive = false);
 }
 
 public sealed record PackageInstallProgress(

@@ -27,6 +27,9 @@ public partial class InstalledViewModel : ObservableObject
     public partial string? ErrorMessage { get; set; }
 
     [ObservableProperty]
+    public partial string? LastUninstallError { get; set; }
+
+    [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
     [ObservableProperty]
@@ -109,20 +112,26 @@ public partial class InstalledViewModel : ObservableObject
         }
     }
 
-    public async Task UninstallAsync(
-        PackageInfo package)
+    public async Task<bool> UninstallAsync(
+        PackageInfo package,
+        bool interactive = false,
+        bool showError = true)
     {
         if (IsUninstalling)
-            return;
+            return false;
+
+        var succeeded = false;
 
         try
         {
             IsUninstalling = true;
             ErrorMessage = null;
+            LastUninstallError = null;
             UninstallingPackageId = package.Id;
             UninstallStatus =
                 $"Preparing to uninstall {package.Name}...";
             UninstallProgress = 0;
+
             OnPropertyChanged(nameof(StatusText));
 
             var progress =
@@ -143,7 +152,8 @@ public partial class InstalledViewModel : ObservableObject
                 async () =>
                     await _winGetService.UninstallPackageAsync(
                         package.Id,
-                        progress));
+                        progress,
+                        interactive));
 
             _allPackages.RemoveAll(
                 item =>
@@ -153,11 +163,16 @@ public partial class InstalledViewModel : ObservableObject
                         StringComparison.OrdinalIgnoreCase));
 
             ApplyFilter();
+
+            succeeded = true;
         }
         catch (Exception ex)
         {
-            ErrorMessage =
+            LastUninstallError =
                 $"{package.Name}: {ex.Message}";
+
+            if (showError)
+                ErrorMessage = LastUninstallError;
         }
         finally
         {
@@ -165,8 +180,11 @@ public partial class InstalledViewModel : ObservableObject
             UninstallingPackageId = null;
             UninstallStatus = string.Empty;
             UninstallProgress = 0;
+
             OnPropertyChanged(nameof(StatusText));
         }
+
+        return succeeded;
     }
 
     public bool IsPackageUninstalling(

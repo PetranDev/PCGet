@@ -9,10 +9,15 @@ namespace AppDeck.Views;
 
 public sealed partial class InstalledPage : Page
 {
+    private readonly AppSettingsService _settingsService;
+
     public InstalledViewModel ViewModel { get; }
 
     public InstalledPage()
     {
+        _settingsService =
+            new AppSettingsService();
+
         ViewModel =
             new InstalledViewModel(
                 new WinGetService());
@@ -45,7 +50,7 @@ public sealed partial class InstalledPage : Page
         if (ViewModel.IsUninstalling)
             return;
 
-        var dialog =
+        var confirmationDialog =
             new ContentDialog
             {
                 XamlRoot = XamlRoot,
@@ -58,14 +63,57 @@ public sealed partial class InstalledPage : Page
                     ContentDialogButton.Close
             };
 
-        var result =
-            await dialog.ShowAsync();
+        var confirmationResult =
+            await confirmationDialog.ShowAsync();
 
-        if (result != ContentDialogResult.Primary)
+        if (confirmationResult != ContentDialogResult.Primary)
             return;
 
+        var silentMode =
+            _settingsService.SilentPackageOperations;
+
+        var succeeded =
+            await ViewModel.UninstallAsync(
+                package,
+                showError: !silentMode);
+
+        if (succeeded)
+            return;
+
+        if (!silentMode)
+            return;
+
+        var silentError =
+            ViewModel.LastUninstallError;
+
+        var retryDialog =
+            new ContentDialog
+            {
+                XamlRoot = XamlRoot,
+                Title = "Silent uninstall failed",
+                Content =
+                    $"{package.Name} could not be uninstalled silently. Would you like to retry using the application's interactive uninstaller?",
+                PrimaryButtonText = "Retry interactively",
+                CloseButtonText = "Cancel",
+                DefaultButton =
+                    ContentDialogButton.Primary
+            };
+
+        var retryResult =
+            await retryDialog.ShowAsync();
+
+        if (retryResult != ContentDialogResult.Primary)
+        {
+            ViewModel.ErrorMessage =
+                silentError;
+
+            return;
+        }
+
         await ViewModel.UninstallAsync(
-            package);
+            package,
+            interactive: true,
+            showError: true);
     }
 
     private void ViewModel_PropertyChanged(

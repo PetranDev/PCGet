@@ -168,11 +168,14 @@ public sealed class SimulatedWinGetService : IWinGetService
 
     public async Task UninstallPackageAsync(
         string packageId,
-        IProgress<PackageUninstallProgress>? progress = null)
+        IProgress<PackageUninstallProgress>? progress = null,
+        bool interactive = false)
     {
         progress?.Report(
             new PackageUninstallProgress(
-                "Queued",
+                interactive
+                    ? "Queued (interactive)"
+                    : "Queued",
                 0));
 
         await Task.Delay(300);
@@ -181,7 +184,9 @@ public sealed class SimulatedWinGetService : IWinGetService
         {
             progress?.Report(
                 new PackageUninstallProgress(
-                    $"Uninstalling {value}%",
+                    interactive
+                        ? $"Uninstalling interactively {value}%"
+                        : $"Uninstalling {value}%",
                     value));
 
             await Task.Delay(75);
