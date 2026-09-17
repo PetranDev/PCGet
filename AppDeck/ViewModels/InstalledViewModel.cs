@@ -71,7 +71,9 @@ public partial class InstalledViewModel : ObservableObject
             OnPropertyChanged(nameof(StatusText));
 
             var packages =
-                await _winGetService.GetInstalledPackagesAsync();
+                await Task.Run(
+                    async () =>
+                        await _winGetService.GetInstalledPackagesAsync());
 
             _allPackages.Clear();
             _allPackages.AddRange(packages);
