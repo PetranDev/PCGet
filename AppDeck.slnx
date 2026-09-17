@@ -4,11 +4,14 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="../WinGet-API-from-CSharp/WindowsPackageManager Interop/WindowsPackageManager Interop.csproj">
-    <Platform Solution="*|ARM64" Project="x86" />
-    <Platform Solution="*|x64" Project="x64" />
-    <Platform Solution="*|x86" Project="x86" />
-  </Project>
+  <Folder Name="/dependencies/" />
+  <Folder Name="/dependencies/WinGet-API-from-CSharp/">
+    <Project Path="dependencies/WinGet-API-from-CSharp/WindowsPackageManager Interop/WindowsPackageManager Interop.csproj">
+      <Platform Solution="*|ARM64" Project="x86" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+  </Folder>
   <Project Path="AppDeck/AppDeck.csproj">
     <Platform Solution="*|ARM64" Project="ARM64" />
     <Platform Solution="*|x64" Project="x64" />

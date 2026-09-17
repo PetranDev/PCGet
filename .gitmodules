@@ -1,0 +1,3 @@
+[submodule "dependencies/WinGet-API-from-CSharp"]
+	path = dependencies/WinGet-API-from-CSharp
+	url = https://github.com/PetranDev/WinGet-API-from-CSharp.git

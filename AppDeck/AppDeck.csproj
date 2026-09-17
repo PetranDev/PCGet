@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WinGet-API-from-CSharp\WindowsPackageManager Interop\WindowsPackageManager Interop.csproj" />
+    <ProjectReference Include="..\dependencies\WinGet-API-from-CSharp\WindowsPackageManager Interop\WindowsPackageManager Interop.csproj" />
   </ItemGroup>
 
   <ItemGroup>
