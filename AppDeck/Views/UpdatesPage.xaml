@@ -83,8 +83,7 @@
                             <StackPanel
                                 Orientation="Horizontal"
                                 Spacing="8">
-                                <TextBlock
-                                    Text="{x:Bind InstalledVersion}" />
+                                <TextBlock Text="{x:Bind InstalledVersion}" />
                                 <TextBlock Text="→" />
                                 <TextBlock
                                     Text="{x:Bind AvailableVersion}"
@@ -108,7 +107,8 @@
                             <ProgressBar
                                 Minimum="0"
                                 Maximum="100"
-                                Value="{x:Bind UpdateProgress, Mode=OneWay}" />
+                                Value="{x:Bind UpdateProgress, Mode=OneWay}"
+                                IsIndeterminate="{x:Bind IsUpdateIndeterminate, Mode=OneWay}" />
                             <TextBlock
                                 Text="{x:Bind UpdateStatus, Mode=OneWay}"
                                 HorizontalAlignment="Center"

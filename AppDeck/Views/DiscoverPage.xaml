@@ -15,6 +15,7 @@
             <RowDefinition Height="16" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
         <StackPanel Grid.Row="0" Spacing="8">
             <TextBlock
                 Text="Discover"
@@ -24,6 +25,7 @@
                 Style="{StaticResource BodyTextBlockStyle}"
                 Opacity="0.7" />
         </StackPanel>
+
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -42,6 +44,7 @@
                 Content="Search"
                 Command="{x:Bind ViewModel.SearchCommand}" />
         </Grid>
+
         <StackPanel
             Grid.Row="4"
             Orientation="Horizontal"
@@ -54,12 +57,14 @@
                 VerticalAlignment="Center"
                 Text="{x:Bind ViewModel.StatusText, Mode=OneWay}" />
         </StackPanel>
+
         <InfoBar
             x:Name="ErrorInfoBar"
             Grid.Row="6"
             IsOpen="False"
             Severity="Error"
             Title="AppDeck error" />
+
         <Grid
             x:Name="ResultsGrid"
             Grid.Row="8">
@@ -74,6 +79,7 @@
                     Width="2*"
                     MinWidth="300" />
             </Grid.ColumnDefinitions>
+
             <ListView
                 Grid.Column="0"
                 ItemsSource="{x:Bind ViewModel.Packages, Mode=OneWay}"
@@ -89,6 +95,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="110" />
                             </Grid.ColumnDefinitions>
+
                             <Grid
                                 Grid.Column="0"
                                 Width="44"
@@ -111,6 +118,7 @@
                                     Stretch="Uniform"
                                     Visibility="{x:Bind HasIcon}" />
                             </Grid>
+
                             <StackPanel
                                 Grid.Column="1"
                                 Spacing="3">
@@ -160,9 +168,11 @@
                                     <ProgressBar
                                         Minimum="0"
                                         Maximum="100"
-                                        Value="{x:Bind InstallProgress, Mode=OneWay}" />
+                                        Value="{x:Bind InstallProgress, Mode=OneWay}"
+                                        IsIndeterminate="{x:Bind IsInstallIndeterminate, Mode=OneWay}" />
                                 </StackPanel>
                             </StackPanel>
+
                             <Button
                                 Grid.Column="2"
                                 Content="{x:Bind InstallButtonText, Mode=OneWay}"
@@ -175,6 +185,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
             <Thumb
                 Grid.Column="1"
                 Width="8"
@@ -195,6 +206,7 @@
                     </ControlTemplate>
                 </Thumb.Template>
             </Thumb>
+
             <Border
                 Grid.Column="2"
                 Padding="24"
@@ -243,12 +255,14 @@
                                     Visibility="{Binding HasPublisher}" />
                             </StackPanel>
                         </StackPanel>
+
                         <Button
                             Content="{Binding InstallButtonText}"
                             IsEnabled="{Binding IsInstallEnabled}"
                             Tag="{Binding}"
                             Click="InstallButton_Click"
                             HorizontalAlignment="Stretch" />
+
                         <StackPanel
                             Spacing="6"
                             Visibility="{Binding IsInstalling}">
@@ -258,13 +272,16 @@
                             <ProgressBar
                                 Minimum="0"
                                 Maximum="100"
-                                Value="{Binding InstallProgress}" />
+                                Value="{Binding InstallProgress}"
+                                IsIndeterminate="{Binding IsInstallIndeterminate}" />
                         </StackPanel>
+
                         <TextBlock
                             Text="{Binding DisplayDescription}"
                             TextWrapping="Wrap"
                             IsTextSelectionEnabled="True"
                             Visibility="{Binding HasDescription}" />
+
                         <StackPanel Spacing="12">
                             <TextBlock
                                 Text="Package information"
@@ -339,6 +356,7 @@
                                     Visibility="{Binding HasTags}" />
                             </Grid>
                         </StackPanel>
+
                         <StackPanel
                             Spacing="8"
                             Visibility="{Binding HasLinks}">

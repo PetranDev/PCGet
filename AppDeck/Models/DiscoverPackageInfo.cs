@@ -31,9 +31,10 @@ public partial class DiscoverPackageInfo : ObservableObject
     [ObservableProperty]
     public partial double InstallProgress { get; set; }
 
-    public bool IsInstallEnabled =>
-        !IsInstalled &&
-        !IsInstalling;
+    [ObservableProperty]
+    public partial bool IsInstallIndeterminate { get; set; }
+
+    public bool IsInstallEnabled => !IsInstalled && !IsInstalling;
 
     public string InstallButtonText
     {
@@ -50,51 +51,26 @@ public partial class DiscoverPackageInfo : ObservableObject
     }
 
     public string DisplayDescription =>
-        !string.IsNullOrWhiteSpace(Description)
-            ? Description
-            : ShortDescription;
+        !string.IsNullOrWhiteSpace(Description) ? Description : ShortDescription;
 
-    public bool HasPublisher =>
-        !string.IsNullOrWhiteSpace(Publisher);
+    public bool HasPublisher => !string.IsNullOrWhiteSpace(Publisher);
+    public bool HasDescription => !string.IsNullOrWhiteSpace(DisplayDescription);
+    public bool HasLicense => !string.IsNullOrWhiteSpace(License);
+    public bool HasTags => !string.IsNullOrWhiteSpace(Tags);
+    public bool HasIcon => !string.IsNullOrWhiteSpace(IconUrl);
+    public bool HasNoIcon => !HasIcon;
+    public bool HasPackageUrl => !string.IsNullOrWhiteSpace(PackageUrl);
+    public bool HasPublisherUrl => !string.IsNullOrWhiteSpace(PublisherUrl);
+    public bool HasLicenseUrl => !string.IsNullOrWhiteSpace(LicenseUrl);
+    public bool HasLinks => HasPackageUrl || HasPublisherUrl || HasLicenseUrl;
 
-    public bool HasDescription =>
-        !string.IsNullOrWhiteSpace(DisplayDescription);
-
-    public bool HasLicense =>
-        !string.IsNullOrWhiteSpace(License);
-
-    public bool HasTags =>
-        !string.IsNullOrWhiteSpace(Tags);
-
-    public bool HasIcon =>
-        !string.IsNullOrWhiteSpace(IconUrl);
-
-    public bool HasNoIcon =>
-        !HasIcon;
-
-    public bool HasPackageUrl =>
-        !string.IsNullOrWhiteSpace(PackageUrl);
-
-    public bool HasPublisherUrl =>
-        !string.IsNullOrWhiteSpace(PublisherUrl);
-
-    public bool HasLicenseUrl =>
-        !string.IsNullOrWhiteSpace(LicenseUrl);
-
-    public bool HasLinks =>
-        HasPackageUrl ||
-        HasPublisherUrl ||
-        HasLicenseUrl;
-
-    partial void OnIsInstalledChanged(
-        bool value)
+    partial void OnIsInstalledChanged(bool value)
     {
         OnPropertyChanged(nameof(IsInstallEnabled));
         OnPropertyChanged(nameof(InstallButtonText));
     }
 
-    partial void OnIsInstallingChanged(
-        bool value)
+    partial void OnIsInstallingChanged(bool value)
     {
         OnPropertyChanged(nameof(IsInstallEnabled));
         OnPropertyChanged(nameof(InstallButtonText));

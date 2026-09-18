@@ -19,6 +19,21 @@ public partial class PackageInfo : ObservableObject
     [ObservableProperty]
     public partial double UpdateProgress { get; set; }
 
+    [ObservableProperty]
+    public partial bool IsUpdateIndeterminate { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsUninstalling { get; set; }
+
+    [ObservableProperty]
+    public partial string UninstallStatus { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial double UninstallProgress { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsUninstallIndeterminate { get; set; }
+
     public bool IsUpdating =>
         UpdateState == PackageUpdateState.Queued ||
         UpdateState == PackageUpdateState.Updating;
@@ -27,21 +42,28 @@ public partial class PackageInfo : ObservableObject
         UpdateState == PackageUpdateState.Ready ||
         UpdateState == PackageUpdateState.Failed;
 
-    public string UpdateButtonText =>
-        UpdateState switch
-        {
-            PackageUpdateState.Queued => "Queued",
-            PackageUpdateState.Updating => "Updating...",
-            PackageUpdateState.Failed => "Retry",
-            _ => "Update"
-        };
+    public string UpdateButtonText => UpdateState switch
+    {
+        PackageUpdateState.Queued => "Queued",
+        PackageUpdateState.Updating => "Updating...",
+        PackageUpdateState.Failed => "Retry",
+        _ => "Update"
+    };
 
-    partial void OnUpdateStateChanged(
-        PackageUpdateState value)
+    public bool IsUninstallEnabled => !IsUninstalling;
+    public string UninstallButtonText => IsUninstalling ? "Uninstalling..." : "Uninstall";
+
+    partial void OnUpdateStateChanged(PackageUpdateState value)
     {
         OnPropertyChanged(nameof(IsUpdating));
         OnPropertyChanged(nameof(IsUpdateEnabled));
         OnPropertyChanged(nameof(UpdateButtonText));
+    }
+
+    partial void OnIsUninstallingChanged(bool value)
+    {
+        OnPropertyChanged(nameof(IsUninstallEnabled));
+        OnPropertyChanged(nameof(UninstallButtonText));
     }
 }
 
