@@ -46,6 +46,11 @@ public partial class App : Application
         _window.Activate();
     }
 
+    public void ApplyBackgroundUpdateSettings()
+    {
+        _backgroundUpdateService.ApplySettings();
+    }
+
     private void TrayIconService_OpenRequested(object? sender, EventArgs e)
     {
         DispatcherQueue.TryEnqueue(ShowMainWindow);
