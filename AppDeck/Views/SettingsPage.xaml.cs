@@ -10,7 +10,7 @@ public sealed partial class SettingsPage : Page
 
     public SettingsPage()
     {
-        ViewModel = new SettingsViewModel(new AppSettingsService());
+        ViewModel = new SettingsViewModel(new AppSettingsService(), new StartupService());
         InitializeComponent();
     }
 }

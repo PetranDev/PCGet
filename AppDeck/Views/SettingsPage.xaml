@@ -95,6 +95,49 @@
 
             <StackPanel Spacing="12">
                 <TextBlock
+                    Text="Windows startup"
+                    Style="{StaticResource SubtitleTextBlockStyle}" />
+
+                <Border
+                    Padding="20"
+                    CornerRadius="8"
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                    <Grid ColumnSpacing="32">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                            Grid.Column="0"
+                            Spacing="4">
+                            <TextBlock
+                                Text="Start AppDeck with Windows"
+                                FontWeight="SemiBold" />
+                            <TextBlock
+                                Text="Automatically launch AppDeck when you sign in to Windows."
+                                TextWrapping="Wrap"
+                                Opacity="0.7" />
+                            <TextBlock
+                                Text="{x:Bind ViewModel.StartupStatus, Mode=OneWay}"
+                                TextWrapping="Wrap"
+                                FontSize="12"
+                                Opacity="0.6" />
+                        </StackPanel>
+
+                        <ToggleSwitch
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            IsEnabled="{x:Bind ViewModel.CanChangeStartWithWindows, Mode=OneWay}"
+                            IsOn="{x:Bind ViewModel.StartWithWindows, Mode=TwoWay}" />
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Spacing="12">
+                <TextBlock
                     Text="Package sources"
                     Style="{StaticResource SubtitleTextBlockStyle}" />
 
