@@ -26,24 +26,29 @@ public static class Program
 
             await WaitForAppDeckToExitAsync(appDeckProcessId);
 
-            if (!dryRun)
-            {
-                var exitCode = await UpdateAppDeckAsync();
-
-                if (exitCode != 0)
-                    return exitCode;
-            }
-
             if (!File.Exists(appDeckExecutable))
                 return 2;
 
-            Process.Start(new ProcessStartInfo
+            if (dryRun)
             {
-                FileName = appDeckExecutable,
-                UseShellExecute = true
-            });
+                RestartAppDeck(appDeckExecutable, "--update-result=success");
+                return 0;
+            }
 
-            return 0;
+            var exitCode = await UpdateAppDeckAsync();
+
+            if (exitCode == 0)
+            {
+                RestartAppDeck(appDeckExecutable, "--update-result=success");
+                return 0;
+            }
+
+            RestartAppDeck(
+                appDeckExecutable,
+                "--update-result=failed",
+                $"--update-exit-code={exitCode}");
+
+            return exitCode;
         }
         catch
         {
@@ -83,5 +88,19 @@ public static class Program
 
         await process.WaitForExitAsync();
         return process.ExitCode;
+    }
+
+    private static void RestartAppDeck(string appDeckExecutable, params string[] arguments)
+    {
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = appDeckExecutable,
+            UseShellExecute = true
+        };
+
+        foreach (var argument in arguments)
+            startInfo.ArgumentList.Add(argument);
+
+        Process.Start(startInfo);
     }
 }
