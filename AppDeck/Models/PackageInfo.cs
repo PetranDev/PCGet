@@ -20,10 +20,12 @@ public partial class PackageInfo : ObservableObject
     public partial double UpdateProgress { get; set; }
 
     public bool IsUpdating =>
-        UpdateState != PackageUpdateState.Ready;
+        UpdateState == PackageUpdateState.Queued ||
+        UpdateState == PackageUpdateState.Updating;
 
     public bool IsUpdateEnabled =>
-        UpdateState == PackageUpdateState.Ready;
+        UpdateState == PackageUpdateState.Ready ||
+        UpdateState == PackageUpdateState.Failed;
 
     public string UpdateButtonText =>
         UpdateState switch
