@@ -3,17 +3,24 @@ using AppDeck.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AppDeck.ViewModels;
 
 public partial class DiscoverViewModel : ObservableObject
 {
+    private const string AllSources = "All sources";
+
     private readonly IWinGetService _winGetService;
     private readonly ElevatedOperationService _elevatedOperationService;
+    private readonly List<DiscoverPackageInfo> _searchResults = [];
 
     public ObservableCollection<DiscoverPackageInfo> Packages { get; } = [];
+    public ObservableCollection<string> Sources { get; } = [AllSources];
+    public string[] SortOptions { get; } = ["Relevance", "Name A–Z", "Name Z–A", "Publisher A–Z"];
 
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
@@ -33,7 +40,14 @@ public partial class DiscoverViewModel : ObservableObject
     [ObservableProperty]
     public partial DiscoverPackageInfo? SelectedPackage { get; set; }
 
+    [ObservableProperty]
+    public partial string SelectedSource { get; set; } = AllSources;
+
+    [ObservableProperty]
+    public partial string SelectedSort { get; set; } = "Relevance";
+
     public bool HasSelectedPackage => SelectedPackage is not null;
+    public bool HasSearchResults => _searchResults.Count > 0;
 
     public string StatusText
     {
@@ -44,6 +58,14 @@ public partial class DiscoverViewModel : ObservableObject
 
             if (string.IsNullOrWhiteSpace(SearchText))
                 return "Search WinGet for applications.";
+
+            if (_searchResults.Count == 0)
+                return "No applications found.";
+
+            if (Packages.Count != _searchResults.Count)
+                return Packages.Count == 1
+                    ? $"1 of {_searchResults.Count} applications shown"
+                    : $"{Packages.Count} of {_searchResults.Count} applications shown";
 
             return Packages.Count switch
             {
@@ -68,8 +90,14 @@ public partial class DiscoverViewModel : ObservableObject
 
         if (string.IsNullOrWhiteSpace(SearchText))
         {
+            _searchResults.Clear();
             Packages.Clear();
+            Sources.Clear();
+            Sources.Add(AllSources);
+            SelectedSource = AllSources;
             SelectedPackage = null;
+
+            OnPropertyChanged(nameof(HasSearchResults));
             OnPropertyChanged(nameof(StatusText));
             return;
         }
@@ -83,17 +111,18 @@ public partial class DiscoverViewModel : ObservableObject
             OnPropertyChanged(nameof(StatusText));
 
             var query = SearchText.Trim();
+            var packages = await Task.Run(async () => await _winGetService.SearchPackagesAsync(query));
 
-            var packages = await Task.Run(async () =>
-                await _winGetService.SearchPackagesAsync(query));
+            _searchResults.Clear();
+            _searchResults.AddRange(packages);
 
-            Packages.Clear();
-
-            foreach (var package in packages)
-                Packages.Add(package);
+            RebuildSources();
+            ApplyView();
 
             if (Packages.Count > 0)
                 SelectedPackage = Packages[0];
+
+            OnPropertyChanged(nameof(HasSearchResults));
         }
         catch (Exception ex)
         {
@@ -130,8 +159,7 @@ public partial class DiscoverViewModel : ObservableObject
                 package.InstallProgress = value.Percent;
             });
 
-            await Task.Run(async () =>
-                await _winGetService.InstallPackageAsync(package.Id, progress));
+            await Task.Run(async () => await _winGetService.InstallPackageAsync(package.Id, progress));
 
             package.InstallStatus = "Installed";
             package.InstallProgress = 100;
@@ -200,6 +228,73 @@ public partial class DiscoverViewModel : ObservableObject
             package.IsInstallIndeterminate = false;
             package.IsInstalling = false;
         }
+    }
+
+    private void RebuildSources()
+    {
+        var previousSource = SelectedSource;
+
+        Sources.Clear();
+        Sources.Add(AllSources);
+
+        foreach (var source in _searchResults
+            .Select(package => package.Source)
+            .Where(source => !string.IsNullOrWhiteSpace(source))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(source => source, StringComparer.OrdinalIgnoreCase))
+        {
+            Sources.Add(source);
+        }
+
+        SelectedSource = Sources.Any(source => string.Equals(source, previousSource, StringComparison.OrdinalIgnoreCase))
+            ? previousSource
+            : AllSources;
+    }
+
+    private void ApplyView()
+    {
+        var selectedPackageId = SelectedPackage?.Id;
+
+        IEnumerable<DiscoverPackageInfo> packages = _searchResults;
+
+        if (!string.Equals(SelectedSource, AllSources, StringComparison.OrdinalIgnoreCase))
+        {
+            packages = packages.Where(package =>
+                string.Equals(package.Source, SelectedSource, StringComparison.OrdinalIgnoreCase));
+        }
+
+        packages = SelectedSort switch
+        {
+            "Name A–Z" => packages.OrderBy(package => package.Name, StringComparer.OrdinalIgnoreCase),
+            "Name Z–A" => packages.OrderByDescending(package => package.Name, StringComparer.OrdinalIgnoreCase),
+            "Publisher A–Z" => packages
+                .OrderBy(package => package.Publisher, StringComparer.OrdinalIgnoreCase)
+                .ThenBy(package => package.Name, StringComparer.OrdinalIgnoreCase),
+            _ => packages
+        };
+
+        Packages.Clear();
+
+        foreach (var package in packages)
+            Packages.Add(package);
+
+        SelectedPackage = Packages.FirstOrDefault(package =>
+            string.Equals(package.Id, selectedPackageId, StringComparison.OrdinalIgnoreCase));
+
+        if (SelectedPackage is null && Packages.Count > 0)
+            SelectedPackage = Packages[0];
+
+        OnPropertyChanged(nameof(StatusText));
+    }
+
+    partial void OnSelectedSourceChanged(string value)
+    {
+        ApplyView();
+    }
+
+    partial void OnSelectedSortChanged(string value)
+    {
+        ApplyView();
     }
 
     partial void OnSelectedPackageChanged(DiscoverPackageInfo? value)

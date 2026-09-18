@@ -30,8 +30,13 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="160" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="170" />
+                <ColumnDefinition Width="12" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+
             <AutoSuggestBox
                 x:Name="SearchBox"
                 Grid.Column="0"
@@ -39,8 +44,23 @@
                 QueryIcon="Find"
                 Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 QuerySubmitted="SearchBox_QuerySubmitted" />
-            <Button
+
+            <ComboBox
                 Grid.Column="2"
+                ItemsSource="{x:Bind ViewModel.Sources, Mode=OneWay}"
+                SelectedItem="{x:Bind ViewModel.SelectedSource, Mode=TwoWay}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+
+            <ComboBox
+                Grid.Column="4"
+                ItemsSource="{x:Bind ViewModel.SortOptions, Mode=OneWay}"
+                SelectedItem="{x:Bind ViewModel.SelectedSort, Mode=TwoWay}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+
+            <Button
+                Grid.Column="6"
                 Content="Search"
                 Command="{x:Bind ViewModel.SearchCommand}" />
         </Grid>
