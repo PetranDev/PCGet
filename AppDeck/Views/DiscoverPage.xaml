@@ -35,6 +35,8 @@
                 <ColumnDefinition Width="170" />
                 <ColumnDefinition Width="12" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <AutoSuggestBox
@@ -63,6 +65,14 @@
                 Grid.Column="6"
                 Content="Search"
                 Command="{x:Bind ViewModel.SearchCommand}" />
+
+            <Button
+                Grid.Column="8"
+                Command="{x:Bind ViewModel.RefreshCommand}"
+                IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"
+                ToolTipService.ToolTip="Refresh current search">
+                <FontIcon Glyph="&#xE72C;" />
+            </Button>
         </Grid>
 
         <StackPanel

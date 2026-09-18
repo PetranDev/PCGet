@@ -48,6 +48,7 @@ public partial class DiscoverViewModel : ObservableObject
 
     public bool HasSelectedPackage => SelectedPackage is not null;
     public bool HasSearchResults => _searchResults.Count > 0;
+    public bool CanRefresh => !IsSearching && !string.IsNullOrWhiteSpace(SearchText) && _searchResults.Count > 0;
 
     public string StatusText
     {
@@ -85,6 +86,20 @@ public partial class DiscoverViewModel : ObservableObject
     [RelayCommand]
     private async Task SearchAsync()
     {
+        await ExecuteSearchAsync(false);
+    }
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        if (!CanRefresh)
+            return;
+
+        await ExecuteSearchAsync(true);
+    }
+
+    private async Task ExecuteSearchAsync(bool preserveSelection)
+    {
         if (IsSearching)
             return;
 
@@ -98,17 +113,24 @@ public partial class DiscoverViewModel : ObservableObject
             SelectedPackage = null;
 
             OnPropertyChanged(nameof(HasSearchResults));
+            OnPropertyChanged(nameof(CanRefresh));
             OnPropertyChanged(nameof(StatusText));
             return;
         }
+
+        var selectedPackageId = preserveSelection ? SelectedPackage?.Id : null;
+        var selectedSource = preserveSelection ? SelectedSource : AllSources;
 
         try
         {
             IsSearching = true;
             ErrorMessage = null;
-            SelectedPackage = null;
+
+            if (!preserveSelection)
+                SelectedPackage = null;
 
             OnPropertyChanged(nameof(StatusText));
+            OnPropertyChanged(nameof(CanRefresh));
 
             var query = SearchText.Trim();
             var packages = await Task.Run(async () => await _winGetService.SearchPackagesAsync(query));
@@ -116,11 +138,8 @@ public partial class DiscoverViewModel : ObservableObject
             _searchResults.Clear();
             _searchResults.AddRange(packages);
 
-            RebuildSources();
-            ApplyView();
-
-            if (Packages.Count > 0)
-                SelectedPackage = Packages[0];
+            RebuildSources(selectedSource);
+            ApplyView(selectedPackageId);
 
             OnPropertyChanged(nameof(HasSearchResults));
         }
@@ -131,6 +150,7 @@ public partial class DiscoverViewModel : ObservableObject
         finally
         {
             IsSearching = false;
+            OnPropertyChanged(nameof(CanRefresh));
             OnPropertyChanged(nameof(StatusText));
         }
     }
@@ -230,9 +250,9 @@ public partial class DiscoverViewModel : ObservableObject
         }
     }
 
-    private void RebuildSources()
+    private void RebuildSources(string? preferredSource = null)
     {
-        var previousSource = SelectedSource;
+        var previousSource = preferredSource ?? SelectedSource;
 
         Sources.Clear();
         Sources.Add(AllSources);
@@ -251,9 +271,9 @@ public partial class DiscoverViewModel : ObservableObject
             : AllSources;
     }
 
-    private void ApplyView()
+    private void ApplyView(string? preferredPackageId = null)
     {
-        var selectedPackageId = SelectedPackage?.Id;
+        var selectedPackageId = preferredPackageId ?? SelectedPackage?.Id;
 
         IEnumerable<DiscoverPackageInfo> packages = _searchResults;
 
@@ -300,5 +320,15 @@ public partial class DiscoverViewModel : ObservableObject
     partial void OnSelectedPackageChanged(DiscoverPackageInfo? value)
     {
         OnPropertyChanged(nameof(HasSelectedPackage));
+    }
+
+    partial void OnIsSearchingChanged(bool value)
+    {
+        OnPropertyChanged(nameof(CanRefresh));
+    }
+
+    partial void OnSearchTextChanged(string value)
+    {
+        OnPropertyChanged(nameof(CanRefresh));
     }
 }
