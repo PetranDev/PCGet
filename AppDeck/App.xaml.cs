@@ -9,6 +9,7 @@ public partial class App : Application
 {
     private readonly AppSettingsService _settingsService;
     private readonly BackgroundUpdateService _backgroundUpdateService;
+    private readonly NotificationService _notificationService;
 
     private MainWindow? _window;
     private TrayIconService? _trayIconService;
@@ -23,10 +24,14 @@ public partial class App : Application
 
         _settingsService = new AppSettingsService();
         _backgroundUpdateService = new BackgroundUpdateService(new WinGetService(), _settingsService);
+        _notificationService = new NotificationService();
 
         _trayIconService = new TrayIconService();
         _trayIconService.OpenRequested += TrayIconService_OpenRequested;
 
+        _notificationService.Register();
+
+        _backgroundUpdateService.CheckCompleted += BackgroundUpdateService_CheckCompleted;
         _backgroundUpdateService.ApplySettings();
     }
 
@@ -51,6 +56,14 @@ public partial class App : Application
         _backgroundUpdateService.ApplySettings();
     }
 
+    private void BackgroundUpdateService_CheckCompleted(object? sender, BackgroundUpdateCheckCompletedEventArgs e)
+    {
+        if (e.Updates.Count == 0)
+            return;
+
+        _notificationService.ShowUpdatesAvailable(e.Updates.Count);
+    }
+
     private void TrayIconService_OpenRequested(object? sender, EventArgs e)
     {
         DispatcherQueue.TryEnqueue(ShowMainWindow);
@@ -63,7 +76,9 @@ public partial class App : Application
 
         _window = null;
 
+        _backgroundUpdateService.CheckCompleted -= BackgroundUpdateService_CheckCompleted;
         _backgroundUpdateService.Dispose();
+        _notificationService.Dispose();
 
         if (_trayIconService is not null)
         {
