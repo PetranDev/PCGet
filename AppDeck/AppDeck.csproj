@@ -54,11 +54,24 @@
   </PropertyGroup>
 
   <Target Name="PublishElevatedHelper"
-          AfterTargets="Build">
+          BeforeTargets="Build">
     <PropertyGroup>
-      <ElevatedHelperOutput>$(TargetDir)Elevated\</ElevatedHelperOutput>
+      <ElevatedHelperPublishDirectory>$(IntermediateOutputPath)AppDeck.Elevated\</ElevatedHelperPublishDirectory>
     </PropertyGroup>
 
-    <Exec Command="dotnet publish &quot;$(MSBuildProjectDirectory)\..\AppDeck.Elevated\AppDeck.Elevated.csproj&quot; -c $(Configuration) -r win-x64 --self-contained true -o &quot;$(ElevatedHelperOutput)&quot;" />
+    <Exec Command="dotnet publish &quot;$(MSBuildProjectDirectory)\..\AppDeck.Elevated\AppDeck.Elevated.csproj&quot; -c $(Configuration) -r $(RuntimeIdentifier) --self-contained true -o &quot;$(ElevatedHelperPublishDirectory)&quot;" />
+  </Target>
+
+  <Target Name="CopyElevatedHelperToAppX"
+          AfterTargets="Build"
+          DependsOnTargets="PublishElevatedHelper"
+          Condition="'$(LayoutDir)' != ''">
+    <ItemGroup>
+      <ElevatedHelperFiles Include="$(ElevatedHelperPublishDirectory)**\*" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(ElevatedHelperFiles)"
+          DestinationFiles="@(ElevatedHelperFiles->'$(LayoutDir)\Elevated\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
   </Target>
 </Project>

@@ -122,13 +122,14 @@ public partial class UpdatesViewModel : ObservableObject
 
         try
         {
-            ErrorMessage = null;
+            ErrorMessage =
+                null;
 
             package.UpdateState =
                 PackageUpdateState.Updating;
 
             package.UpdateStatus =
-                "Waiting for administrator update...";
+                "Updating as administrator...";
 
             package.UpdateProgress =
                 0;
@@ -145,9 +146,10 @@ public partial class UpdatesViewModel : ObservableObject
             package.UpdateProgress =
                 100;
 
-            await Task.Delay(300);
+            await Task.Delay(500);
 
-            Updates.Remove(package);
+            Updates.Remove(
+                package);
         }
         catch (Exception ex)
         {
@@ -245,7 +247,8 @@ public partial class UpdatesViewModel : ObservableObject
     {
         try
         {
-            ErrorMessage = null;
+            ErrorMessage =
+                null;
 
             package.UpdateStatus =
                 "Preparing...";
@@ -277,7 +280,8 @@ public partial class UpdatesViewModel : ObservableObject
 
             await Task.Delay(300);
 
-            Updates.Remove(package);
+            Updates.Remove(
+                package);
         }
         catch (Exception ex)
         {
