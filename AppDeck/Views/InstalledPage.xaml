@@ -20,7 +20,10 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+
             <StackPanel Spacing="8">
                 <TextBlock
                     Text="Installed"
@@ -30,8 +33,16 @@
                     Style="{StaticResource BodyTextBlockStyle}"
                     Opacity="0.7" />
             </StackPanel>
+
             <Button
+                x:Name="UninstallSelectedButton"
                 Grid.Column="1"
+                Content="Uninstall selected"
+                IsEnabled="False"
+                Click="UninstallSelectedButton_Click" />
+
+            <Button
+                Grid.Column="3"
                 Content="Refresh"
                 Command="{x:Bind ViewModel.RefreshCommand}" />
         </Grid>
@@ -47,6 +58,10 @@
             <TextBlock
                 VerticalAlignment="Center"
                 Text="{x:Bind ViewModel.StatusText, Mode=OneWay}" />
+            <TextBlock
+                x:Name="SelectionStatusText"
+                VerticalAlignment="Center"
+                Opacity="0.7" />
         </StackPanel>
 
         <InfoBar
@@ -65,9 +80,11 @@
             Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <ListView
+            x:Name="PackagesListView"
             Grid.Row="8"
             ItemsSource="{x:Bind ViewModel.Packages, Mode=OneWay}"
-            SelectionMode="None">
+            SelectionMode="Multiple"
+            SelectionChanged="PackagesListView_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:PackageInfo">
                     <Grid Padding="12">
