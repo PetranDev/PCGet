@@ -52,4 +52,13 @@
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
   </PropertyGroup>
+
+  <Target Name="PublishElevatedHelper"
+          AfterTargets="Build">
+    <PropertyGroup>
+      <ElevatedHelperOutput>$(TargetDir)Elevated\</ElevatedHelperOutput>
+    </PropertyGroup>
+
+    <Exec Command="dotnet publish &quot;$(MSBuildProjectDirectory)\..\AppDeck.Elevated\AppDeck.Elevated.csproj&quot; -c $(Configuration) -r win-x64 --self-contained true -o &quot;$(ElevatedHelperOutput)&quot;" />
+  </Target>
 </Project>

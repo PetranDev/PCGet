@@ -13,7 +13,9 @@ namespace AppDeck.ViewModels;
 public partial class UpdatesViewModel : ObservableObject
 {
     private readonly IWinGetService _winGetService;
+    private readonly ElevatedOperationService _elevatedOperationService;
     private readonly Queue<PackageInfo> _updateQueue = new();
+
     private bool _isProcessingQueue;
 
     public ObservableCollection<PackageInfo> Updates { get; } = [];
@@ -32,9 +34,10 @@ public partial class UpdatesViewModel : ObservableObject
 
     public bool CanUpdateAll =>
         !IsLoading &&
-        Updates.Any(package =>
-            package.UpdateState == PackageUpdateState.Ready ||
-            package.UpdateState == PackageUpdateState.Failed);
+        Updates.Any(
+            package =>
+                package.UpdateState == PackageUpdateState.Ready ||
+                package.UpdateState == PackageUpdateState.Failed);
 
     public string StatusText
     {
@@ -63,16 +66,24 @@ public partial class UpdatesViewModel : ObservableObject
     }
 
     public UpdatesViewModel(
-        IWinGetService winGetService)
+        IWinGetService winGetService,
+        ElevatedOperationService elevatedOperationService)
     {
-        _winGetService = winGetService;
+        _winGetService =
+            winGetService;
+
+        _elevatedOperationService =
+            elevatedOperationService;
     }
 
     [RelayCommand]
     private async Task RefreshAsync()
     {
-        if (IsLoading || IsUpdating)
+        if (IsLoading ||
+            IsUpdating)
+        {
             return;
+        }
 
         await LoadUpdatesAsync();
     }
@@ -100,11 +111,71 @@ public partial class UpdatesViewModel : ObservableObject
         return Task.CompletedTask;
     }
 
+    public async Task UpdatePackageAsAdministratorAsync(
+        PackageInfo package)
+    {
+        if (package.UpdateState ==
+            PackageUpdateState.Updating)
+        {
+            return;
+        }
+
+        try
+        {
+            ErrorMessage = null;
+
+            package.UpdateState =
+                PackageUpdateState.Updating;
+
+            package.UpdateStatus =
+                "Waiting for administrator update...";
+
+            package.UpdateProgress =
+                0;
+
+            NotifyQueueStateChanged();
+
+            await _elevatedOperationService
+                .UpdatePackageAsync(
+                    package.Id);
+
+            package.UpdateStatus =
+                "Completed";
+
+            package.UpdateProgress =
+                100;
+
+            await Task.Delay(300);
+
+            Updates.Remove(package);
+        }
+        catch (Exception ex)
+        {
+            package.UpdateState =
+                PackageUpdateState.Failed;
+
+            package.UpdateStatus =
+                "Failed";
+
+            package.UpdateProgress =
+                0;
+
+            ErrorMessage =
+                $"{package.Name}: {ex.Message}";
+        }
+        finally
+        {
+            NotifyQueueStateChanged();
+        }
+    }
+
     private void QueuePackage(
         PackageInfo package)
     {
-        if (package.UpdateState == PackageUpdateState.Queued ||
-            package.UpdateState == PackageUpdateState.Updating)
+        if (package.UpdateState ==
+                PackageUpdateState.Queued ||
+            package.UpdateState ==
+                PackageUpdateState.Updating)
         {
             return;
         }
@@ -118,7 +189,8 @@ public partial class UpdatesViewModel : ObservableObject
         package.UpdateProgress =
             0;
 
-        _updateQueue.Enqueue(package);
+        _updateQueue.Enqueue(
+            package);
 
         NotifyQueueStateChanged();
     }
@@ -128,7 +200,8 @@ public partial class UpdatesViewModel : ObservableObject
         if (!_isProcessingQueue &&
             _updateQueue.Count > 0)
         {
-            _ = ProcessUpdateQueueAsync();
+            _ =
+                ProcessUpdateQueueAsync();
         }
     }
 
@@ -137,7 +210,8 @@ public partial class UpdatesViewModel : ObservableObject
         if (_isProcessingQueue)
             return;
 
-        _isProcessingQueue = true;
+        _isProcessingQueue =
+            true;
 
         NotifyQueueStateChanged();
 
@@ -153,12 +227,14 @@ public partial class UpdatesViewModel : ObservableObject
 
                 NotifyQueueStateChanged();
 
-                await ProcessPackageAsync(package);
+                await ProcessPackageAsync(
+                    package);
             }
         }
         finally
         {
-            _isProcessingQueue = false;
+            _isProcessingQueue =
+                false;
 
             NotifyQueueStateChanged();
         }
@@ -188,9 +264,10 @@ public partial class UpdatesViewModel : ObservableObject
                             value.Percent;
                     });
 
-            await _winGetService.UpdatePackageAsync(
-                package.Id,
-                progress);
+            await _winGetService
+                .UpdatePackageAsync(
+                    package.Id,
+                    progress);
 
             package.UpdateStatus =
                 "Completed";
@@ -226,18 +303,25 @@ public partial class UpdatesViewModel : ObservableObject
     {
         try
         {
-            IsLoading = true;
-            ErrorMessage = null;
+            IsLoading =
+                true;
+
+            ErrorMessage =
+                null;
 
             NotifyQueueStateChanged();
 
             var packages =
-                await _winGetService.GetAvailableUpdatesAsync();
+                await _winGetService
+                    .GetAvailableUpdatesAsync();
 
             Updates.Clear();
 
             foreach (var package in packages)
-                Updates.Add(package);
+            {
+                Updates.Add(
+                    package);
+            }
         }
         catch (Exception ex)
         {
@@ -246,7 +330,8 @@ public partial class UpdatesViewModel : ObservableObject
         }
         finally
         {
-            IsLoading = false;
+            IsLoading =
+                false;
 
             NotifyQueueStateChanged();
         }
@@ -254,9 +339,16 @@ public partial class UpdatesViewModel : ObservableObject
 
     private void NotifyQueueStateChanged()
     {
-        OnPropertyChanged(nameof(IsUpdating));
-        OnPropertyChanged(nameof(QueuedUpdateCount));
-        OnPropertyChanged(nameof(CanUpdateAll));
-        OnPropertyChanged(nameof(StatusText));
+        OnPropertyChanged(
+            nameof(IsUpdating));
+
+        OnPropertyChanged(
+            nameof(QueuedUpdateCount));
+
+        OnPropertyChanged(
+            nameof(CanUpdateAll));
+
+        OnPropertyChanged(
+            nameof(StatusText));
     }
 }

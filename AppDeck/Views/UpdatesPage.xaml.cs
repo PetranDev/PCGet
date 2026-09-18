@@ -4,6 +4,7 @@ using AppDeck.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Threading.Tasks;
 
 namespace AppDeck.Views;
 
@@ -20,31 +21,43 @@ public sealed partial class UpdatesPage : Page
         _settingsService =
             new AppSettingsService();
 
+        var elevatedOperationService =
+            new ElevatedOperationService(
+                _settingsService);
+
         ViewModel =
             new UpdatesViewModel(
-                new WinGetService());
+                new WinGetService(),
+                elevatedOperationService);
 
         InitializeComponent();
 
-        Loaded += UpdatesPage_Loaded;
-        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        Loaded +=
+            UpdatesPage_Loaded;
+
+        ViewModel.PropertyChanged +=
+            ViewModel_PropertyChanged;
     }
 
     private async void UpdatesPage_Loaded(
         object sender,
         RoutedEventArgs e)
     {
-        Loaded -= UpdatesPage_Loaded;
+        Loaded -=
+            UpdatesPage_Loaded;
 
         if (_startupCheckHandled)
             return;
 
-        _startupCheckHandled = true;
+        _startupCheckHandled =
+            true;
 
         if (!_settingsService.CheckUpdatesOnStartup)
             return;
 
-        await ViewModel.RefreshCommand.ExecuteAsync(null);
+        await ViewModel
+            .RefreshCommand
+            .ExecuteAsync(null);
     }
 
     private async void UpdateButton_Click(
@@ -57,15 +70,61 @@ public sealed partial class UpdatesPage : Page
         if (button.Tag is not PackageInfo package)
             return;
 
-        await ViewModel.UpdatePackageCommand.ExecuteAsync(package);
+        if (package.UpdateState ==
+            PackageUpdateState.Failed)
+        {
+            await RetryAsAdministratorAsync(
+                package);
+
+            return;
+        }
+
+        await ViewModel
+            .UpdatePackageCommand
+            .ExecuteAsync(package);
+    }
+
+    private async Task RetryAsAdministratorAsync(
+        PackageInfo package)
+    {
+        var dialog =
+            new ContentDialog
+            {
+                XamlRoot = XamlRoot,
+                Title = "Retry as administrator?",
+                Content =
+                    $"{package.Name} could not be updated normally. AppDeck can retry the update with administrator privileges.",
+                PrimaryButtonText =
+                    "Retry as administrator",
+                CloseButtonText =
+                    "Cancel",
+                DefaultButton =
+                    ContentDialogButton.Primary
+            };
+
+        var result =
+            await dialog.ShowAsync();
+
+        if (result !=
+            ContentDialogResult.Primary)
+        {
+            return;
+        }
+
+        await ViewModel
+            .UpdatePackageAsAdministratorAsync(
+                package);
     }
 
     private void ViewModel_PropertyChanged(
         object? sender,
         System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName != nameof(ViewModel.ErrorMessage))
+        if (e.PropertyName !=
+            nameof(ViewModel.ErrorMessage))
+        {
             return;
+        }
 
         ErrorInfoBar.Message =
             ViewModel.ErrorMessage ??
