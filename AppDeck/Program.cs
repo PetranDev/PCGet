@@ -29,11 +29,13 @@ public static class Program
 
         mainInstance.Activated += MainInstance_Activated;
 
+        var startedByWindows = activatedArgs.Kind == ExtendedActivationKind.StartupTask;
+
         Application.Start(_ =>
         {
             var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             SynchronizationContext.SetSynchronizationContext(new DispatcherQueueSynchronizationContext(dispatcherQueue));
-            new App();
+            new App(startedByWindows);
         });
     }
 

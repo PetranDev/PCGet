@@ -11,6 +11,7 @@ public partial class App : Application
     private readonly AppSettingsService _settingsService;
     private readonly BackgroundUpdateService _backgroundUpdateService;
     private readonly NotificationService _notificationService;
+    private readonly bool _startedByWindows;
 
     private MainWindow? _window;
     private TrayIconService? _trayIconService;
@@ -19,11 +20,12 @@ public partial class App : Application
     public static App? CurrentApp => Current as App;
     public DispatcherQueue DispatcherQueue { get; private set; } = null!;
 
-    public App()
+    public App(bool startedByWindows)
     {
         InitializeComponent();
         DispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
+        _startedByWindows = startedByWindows;
         _settingsService = new AppSettingsService();
         _backgroundUpdateService = new BackgroundUpdateService(new WinGetService(), _settingsService);
         _notificationService = new NotificationService();
@@ -41,6 +43,9 @@ public partial class App : Application
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        if (_startedByWindows && _settingsService.BackgroundUpdateChecks)
+            return;
+
         ShowMainWindow();
     }
 
