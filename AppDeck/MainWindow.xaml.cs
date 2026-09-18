@@ -38,6 +38,21 @@ public sealed partial class MainWindow : Window
             _appWindow.SetIcon(iconPath);
     }
 
+    public void NavigateToUpdates()
+    {
+        foreach (var menuItem in NavigationView.MenuItems)
+        {
+            if (menuItem is not NavigationViewItem item || item.Tag?.ToString() != "Updates")
+                continue;
+
+            NavigationView.SelectedItem = item;
+            break;
+        }
+
+        if (ContentFrame.CurrentSourcePageType != typeof(UpdatesPage))
+            ContentFrame.Navigate(typeof(UpdatesPage));
+    }
+
     private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
         Type? pageType;

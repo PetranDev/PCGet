@@ -35,6 +35,7 @@ public partial class App : Application
         _trayIconService.CheckUpdatesRequested += TrayIconService_CheckUpdatesRequested;
         _trayIconService.ExitRequested += TrayIconService_ExitRequested;
 
+        _notificationService.NotificationInvoked += NotificationService_NotificationInvoked;
         _notificationService.Register();
 
         _backgroundUpdateService.CheckCompleted += BackgroundUpdateService_CheckCompleted;
@@ -73,6 +74,15 @@ public partial class App : Application
             return;
 
         _notificationService.ShowUpdatesAvailable(e.Updates.Count);
+    }
+
+    private void NotificationService_NotificationInvoked(object? sender, EventArgs e)
+    {
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            ShowMainWindow();
+            _window?.NavigateToUpdates();
+        });
     }
 
     private void TrayIconService_OpenRequested(object? sender, EventArgs e)
@@ -148,6 +158,8 @@ public partial class App : Application
     {
         _backgroundUpdateService.CheckCompleted -= BackgroundUpdateService_CheckCompleted;
         _backgroundUpdateService.Dispose();
+
+        _notificationService.NotificationInvoked -= NotificationService_NotificationInvoked;
         _notificationService.Dispose();
 
         if (_trayIconService is null)
