@@ -1,5 +1,6 @@
 ﻿using AppDeck.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 
@@ -11,11 +12,29 @@ public partial class SettingsViewModel : ObservableObject
     private readonly StartupService _startupService;
     private bool _loadingStartupState;
 
+    public UpdateIntervalOption[] BackgroundUpdateIntervals { get; } =
+    [
+        new(15, "Every 15 minutes"),
+        new(30, "Every 30 minutes"),
+        new(60, "Every hour"),
+        new(120, "Every 2 hours"),
+        new(240, "Every 4 hours"),
+        new(480, "Every 8 hours"),
+        new(720, "Every 12 hours"),
+        new(1440, "Every day")
+    ];
+
     [ObservableProperty]
     public partial bool SilentPackageOperations { get; set; }
 
     [ObservableProperty]
     public partial bool CheckUpdatesOnStartup { get; set; }
+
+    [ObservableProperty]
+    public partial bool BackgroundUpdateChecks { get; set; }
+
+    [ObservableProperty]
+    public partial UpdateIntervalOption SelectedBackgroundUpdateInterval { get; set; } = null!;
 
     [ObservableProperty]
     public partial bool StartWithWindows { get; set; }
@@ -42,6 +61,11 @@ public partial class SettingsViewModel : ObservableObject
 
         SilentPackageOperations = _settingsService.SilentPackageOperations;
         CheckUpdatesOnStartup = _settingsService.CheckUpdatesOnStartup;
+        BackgroundUpdateChecks = _settingsService.BackgroundUpdateChecks;
+
+        SelectedBackgroundUpdateInterval =
+            BackgroundUpdateIntervals.FirstOrDefault(option => option.Minutes == _settingsService.BackgroundUpdateIntervalMinutes) ??
+            BackgroundUpdateIntervals.First(option => option.Minutes == 60);
 
         _ = LoadStartupStateAsync();
     }
@@ -67,6 +91,21 @@ public partial class SettingsViewModel : ObservableObject
     partial void OnCheckUpdatesOnStartupChanged(bool value)
     {
         _settingsService.CheckUpdatesOnStartup = value;
+    }
+
+    partial void OnBackgroundUpdateChecksChanged(bool value)
+    {
+        _settingsService.BackgroundUpdateChecks = value;
+        App.CurrentApp?.ApplyBackgroundUpdateSettings();
+    }
+
+    partial void OnSelectedBackgroundUpdateIntervalChanged(UpdateIntervalOption value)
+    {
+        if (value is null)
+            return;
+
+        _settingsService.BackgroundUpdateIntervalMinutes = value.Minutes;
+        App.CurrentApp?.ApplyBackgroundUpdateSettings();
     }
 
     async partial void OnStartWithWindowsChanged(bool value)
@@ -96,4 +135,9 @@ public partial class SettingsViewModel : ObservableObject
             _ => "Windows startup status is unavailable."
         };
     }
+}
+
+public sealed record UpdateIntervalOption(int Minutes, string DisplayName)
+{
+    public override string ToString() => DisplayName;
 }
