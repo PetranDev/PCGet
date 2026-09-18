@@ -12,11 +12,15 @@ namespace AppDeck.ViewModels;
 
 public partial class InstalledViewModel : ObservableObject
 {
+    private const string AllSources = "All sources";
+
     private readonly IWinGetService _winGetService;
     private readonly ElevatedOperationService _elevatedOperationService;
     private readonly List<PackageInfo> _allPackages = [];
 
     public ObservableCollection<PackageInfo> Packages { get; } = [];
+    public ObservableCollection<string> Sources { get; } = [AllSources];
+    public string[] SortOptions { get; } = ["Name A–Z", "Name Z–A", "Version A–Z", "Version Z–A", "Source A–Z"];
 
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
@@ -36,6 +40,12 @@ public partial class InstalledViewModel : ObservableObject
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    [ObservableProperty]
+    public partial string SelectedSource { get; set; } = AllSources;
+
+    [ObservableProperty]
+    public partial string SelectedSort { get; set; } = "Name A–Z";
+
     public string StatusText
     {
         get
@@ -49,13 +59,16 @@ public partial class InstalledViewModel : ObservableObject
                 return package?.UninstallStatus ?? "Uninstalling application...";
             }
 
-            if (!string.IsNullOrWhiteSpace(SearchText))
+            var isFiltered = !string.IsNullOrWhiteSpace(SearchText) ||
+                             !string.Equals(SelectedSource, AllSources, StringComparison.OrdinalIgnoreCase);
+
+            if (isFiltered)
             {
                 return Packages.Count switch
                 {
                     0 => "No matching applications.",
-                    1 => "1 matching application",
-                    _ => $"{Packages.Count} matching applications"
+                    1 => $"1 of {_allPackages.Count} applications shown",
+                    _ => $"{Packages.Count} of {_allPackages.Count} applications shown"
                 };
             }
 
@@ -84,16 +97,15 @@ public partial class InstalledViewModel : ObservableObject
         {
             IsLoading = true;
             ErrorMessage = null;
-
             OnPropertyChanged(nameof(StatusText));
 
-            var packages = await Task.Run(async () =>
-                await _winGetService.GetInstalledPackagesAsync());
+            var packages = await Task.Run(async () => await _winGetService.GetInstalledPackagesAsync());
 
             _allPackages.Clear();
             _allPackages.AddRange(packages);
 
-            ApplyFilter();
+            RebuildSources();
+            ApplyView();
         }
         catch (Exception ex)
         {
@@ -134,8 +146,7 @@ public partial class InstalledViewModel : ObservableObject
                 OnPropertyChanged(nameof(StatusText));
             });
 
-            await Task.Run(async () =>
-                await _winGetService.UninstallPackageAsync(package.Id, progress, interactive));
+            await Task.Run(async () => await _winGetService.UninstallPackageAsync(package.Id, progress, interactive));
 
             package.UninstallStatus = "Uninstalled";
             package.UninstallProgress = 100;
@@ -223,18 +234,49 @@ public partial class InstalledViewModel : ObservableObject
 
     partial void OnSearchTextChanged(string value)
     {
-        ApplyFilter();
+        ApplyView();
+    }
+
+    partial void OnSelectedSourceChanged(string value)
+    {
+        ApplyView();
+    }
+
+    partial void OnSelectedSortChanged(string value)
+    {
+        ApplyView();
     }
 
     private void RemovePackage(PackageInfo package)
     {
-        _allPackages.RemoveAll(item =>
-            string.Equals(item.Id, package.Id, StringComparison.OrdinalIgnoreCase));
+        _allPackages.RemoveAll(item => string.Equals(item.Id, package.Id, StringComparison.OrdinalIgnoreCase));
 
-        ApplyFilter();
+        RebuildSources();
+        ApplyView();
     }
 
-    private void ApplyFilter()
+    private void RebuildSources()
+    {
+        var previousSource = SelectedSource;
+
+        Sources.Clear();
+        Sources.Add(AllSources);
+
+        foreach (var source in _allPackages
+            .Select(package => package.Source)
+            .Where(source => !string.IsNullOrWhiteSpace(source))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(source => source, StringComparer.OrdinalIgnoreCase))
+        {
+            Sources.Add(source);
+        }
+
+        SelectedSource = Sources.Any(source => string.Equals(source, previousSource, StringComparison.OrdinalIgnoreCase))
+            ? previousSource
+            : AllSources;
+    }
+
+    private void ApplyView()
     {
         Packages.Clear();
 
@@ -250,14 +292,67 @@ public partial class InstalledViewModel : ObservableObject
                 Contains(package.Source, searchText));
         }
 
+        if (!string.Equals(SelectedSource, AllSources, StringComparison.OrdinalIgnoreCase))
+        {
+            packages = packages.Where(package =>
+                string.Equals(package.Source, SelectedSource, StringComparison.OrdinalIgnoreCase));
+        }
+
+        packages = SelectedSort switch
+        {
+            "Name Z–A" => packages.OrderByDescending(package => package.Name, StringComparer.OrdinalIgnoreCase),
+            "Version A–Z" => packages.OrderBy(package => GetVersionSortKey(package.InstalledVersion)),
+            "Version Z–A" => packages.OrderByDescending(package => GetVersionSortKey(package.InstalledVersion)),
+            "Source A–Z" => packages
+                .OrderBy(package => package.Source, StringComparer.OrdinalIgnoreCase)
+                .ThenBy(package => package.Name, StringComparer.OrdinalIgnoreCase),
+            _ => packages.OrderBy(package => package.Name, StringComparer.OrdinalIgnoreCase)
+        };
+
         foreach (var package in packages)
             Packages.Add(package);
 
         OnPropertyChanged(nameof(StatusText));
     }
 
+    private static VersionSortKey GetVersionSortKey(string? value)
+    {
+        if (Version.TryParse(value, out var version))
+            return new VersionSortKey(true, version, value ?? string.Empty);
+
+        return new VersionSortKey(false, new Version(0, 0), value ?? string.Empty);
+    }
+
     private static bool Contains(string? value, string searchText)
     {
         return value?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true;
+    }
+
+    private sealed class VersionSortKey : IComparable<VersionSortKey>
+    {
+        public bool IsVersion { get; }
+        public Version Version { get; }
+        public string Text { get; }
+
+        public VersionSortKey(bool isVersion, Version version, string text)
+        {
+            IsVersion = isVersion;
+            Version = version;
+            Text = text;
+        }
+
+        public int CompareTo(VersionSortKey? other)
+        {
+            if (other is null)
+                return 1;
+
+            if (IsVersion && other.IsVersion)
+                return Version.CompareTo(other.Version);
+
+            if (IsVersion != other.IsVersion)
+                return IsVersion ? -1 : 1;
+
+            return StringComparer.OrdinalIgnoreCase.Compare(Text, other.Text);
+        }
     }
 }

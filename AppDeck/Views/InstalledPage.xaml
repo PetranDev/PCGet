@@ -71,13 +71,33 @@
             Severity="Error"
             Title="AppDeck error" />
 
-        <AutoSuggestBox
-            Grid.Row="6"
-            Width="400"
-            HorizontalAlignment="Left"
-            PlaceholderText="Search installed applications"
-            QueryIcon="Find"
-            Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="180" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="180" />
+            </Grid.ColumnDefinitions>
+
+            <AutoSuggestBox
+                Grid.Column="0"
+                PlaceholderText="Search installed applications"
+                QueryIcon="Find"
+                Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <ComboBox
+                Grid.Column="2"
+                ItemsSource="{x:Bind ViewModel.Sources}"
+                SelectedItem="{x:Bind ViewModel.SelectedSource, Mode=TwoWay}"
+                HorizontalAlignment="Stretch" />
+
+            <ComboBox
+                Grid.Column="4"
+                ItemsSource="{x:Bind ViewModel.SortOptions}"
+                SelectedItem="{x:Bind ViewModel.SelectedSort, Mode=TwoWay}"
+                HorizontalAlignment="Stretch" />
+        </Grid>
 
         <ListView
             x:Name="PackagesListView"
