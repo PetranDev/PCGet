@@ -11,12 +11,17 @@ namespace AppDeck;
 
 public sealed partial class MainWindow : Window
 {
+    private readonly AppWindow _appWindow;
+
     public MainWindow()
     {
         InitializeComponent();
 
-        ConfigureWindow();
+        var windowHandle = WindowNative.GetWindowHandle(this);
+        var windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
+        _appWindow = AppWindow.GetFromWindowId(windowId);
 
+        ConfigureWindow();
         ContentFrame.Navigate(typeof(UpdatesPage));
     }
 
@@ -25,36 +30,36 @@ public sealed partial class MainWindow : Window
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
 
-        var windowHandle = WindowNative.GetWindowHandle(this);
-        var windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
-        var appWindow = AppWindow.GetFromWindowId(windowId);
+        _appWindow.Resize(new Windows.Graphics.SizeInt32(1200, 800));
 
         var iconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "AppDeck.ico");
 
         if (File.Exists(iconPath))
-            appWindow.SetIcon(iconPath);
+            _appWindow.SetIcon(iconPath);
     }
 
-    private void NavigationView_SelectionChanged(
-        NavigationView sender,
-        NavigationViewSelectionChangedEventArgs args)
+    private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
+        Type? pageType;
+
         if (args.IsSettingsSelected)
         {
-            ContentFrame.Navigate(typeof(SettingsPage));
-            return;
+            pageType = typeof(SettingsPage);
         }
-
-        if (args.SelectedItem is not NavigationViewItem item)
-            return;
-
-        var pageType = item.Tag?.ToString() switch
+        else if (args.SelectedItem is NavigationViewItem item)
         {
-            "Updates" => typeof(UpdatesPage),
-            "Installed" => typeof(InstalledPage),
-            "Discover" => typeof(DiscoverPage),
-            _ => null
-        };
+            pageType = item.Tag?.ToString() switch
+            {
+                "Updates" => typeof(UpdatesPage),
+                "Installed" => typeof(InstalledPage),
+                "Discover" => typeof(DiscoverPage),
+                _ => null
+            };
+        }
+        else
+        {
+            pageType = null;
+        }
 
         if (pageType is not null && ContentFrame.CurrentSourcePageType != pageType)
             ContentFrame.Navigate(pageType);
