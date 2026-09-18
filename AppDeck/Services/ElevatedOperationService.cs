@@ -16,13 +16,48 @@ public sealed class ElevatedOperationService
             settingsService;
     }
 
-    public async Task UpdatePackageAsync(
+    public Task InstallPackageAsync(
         string packageId)
+    {
+        return RunPackageOperationAsync(
+            "--install",
+            packageId,
+            _settingsService.SilentPackageOperations);
+    }
+
+    public Task UpdatePackageAsync(
+        string packageId)
+    {
+        return RunPackageOperationAsync(
+            "--update",
+            packageId,
+            _settingsService.SilentPackageOperations);
+    }
+
+    public Task UninstallPackageAsync(
+        string packageId,
+        bool interactive = false)
+    {
+        var silent =
+            !interactive &&
+            _settingsService.SilentPackageOperations;
+
+        return RunPackageOperationAsync(
+            "--uninstall",
+            packageId,
+            silent);
+    }
+
+    private static async Task RunPackageOperationAsync(
+        string operation,
+        string packageId,
+        bool silent)
     {
         var helperPath =
             GetHelperPath();
 
-        if (!File.Exists(helperPath))
+        if (!File.Exists(
+                helperPath))
         {
             throw new FileNotFoundException(
                 "The AppDeck elevated helper could not be found.",
@@ -32,25 +67,31 @@ public sealed class ElevatedOperationService
         var startInfo =
             new ProcessStartInfo
             {
-                FileName = helperPath,
-                UseShellExecute = true,
-                Verb = "runas"
+                FileName =
+                    helperPath,
+
+                UseShellExecute =
+                    true,
+
+                Verb =
+                    "runas"
             };
 
         startInfo.ArgumentList.Add(
-            "--update");
+            operation);
 
         startInfo.ArgumentList.Add(
             packageId);
 
-        if (_settingsService.SilentPackageOperations)
+        if (silent)
         {
             startInfo.ArgumentList.Add(
                 "--silent");
         }
 
         using var process =
-            Process.Start(startInfo);
+            Process.Start(
+                startInfo);
 
         if (process is null)
         {
@@ -84,17 +125,20 @@ public sealed class ElevatedOperationService
                 Path.GetTempPath(),
                 "AppDeck.Elevated.log");
 
-        if (File.Exists(logPath))
+        if (File.Exists(
+                logPath))
         {
             try
             {
                 var log =
-                    File.ReadAllText(logPath);
+                    File.ReadAllText(
+                        logPath);
 
-                if (!string.IsNullOrWhiteSpace(log))
+                if (!string.IsNullOrWhiteSpace(
+                        log))
                 {
                     return
-                        $"The elevated update failed with exit code {exitCode}.{Environment.NewLine}{Environment.NewLine}{log}";
+                        $"The elevated package operation failed with exit code {exitCode}.{Environment.NewLine}{Environment.NewLine}{log}";
                 }
             }
             catch
@@ -103,6 +147,6 @@ public sealed class ElevatedOperationService
         }
 
         return
-            $"The elevated update failed with exit code {exitCode}.";
+            $"The elevated package operation failed with exit code {exitCode}.";
     }
 }

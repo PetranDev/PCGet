@@ -11,6 +11,7 @@ namespace AppDeck.ViewModels;
 public partial class DiscoverViewModel : ObservableObject
 {
     private readonly IWinGetService _winGetService;
+    private readonly ElevatedOperationService _elevatedOperationService;
 
     public ObservableCollection<DiscoverPackageInfo> Packages { get; } = [];
 
@@ -22,6 +23,12 @@ public partial class DiscoverViewModel : ObservableObject
 
     [ObservableProperty]
     public partial string? ErrorMessage { get; set; }
+
+    [ObservableProperty]
+    public partial string? LastInstallError { get; set; }
+
+    [ObservableProperty]
+    public partial bool LastInstallRequiresElevation { get; set; }
 
     [ObservableProperty]
     public partial DiscoverPackageInfo? SelectedPackage { get; set; }
@@ -36,22 +43,36 @@ public partial class DiscoverViewModel : ObservableObject
             if (IsSearching)
                 return "Searching...";
 
-            if (string.IsNullOrWhiteSpace(SearchText))
-                return "Search WinGet for applications.";
+            if (string.IsNullOrWhiteSpace(
+                    SearchText))
+            {
+                return
+                    "Search WinGet for applications.";
+            }
 
             return Packages.Count switch
             {
-                0 => "No applications found.",
-                1 => "1 application found",
-                _ => $"{Packages.Count} applications found"
+                0 =>
+                    "No applications found.",
+
+                1 =>
+                    "1 application found",
+
+                _ =>
+                    $"{Packages.Count} applications found"
             };
         }
     }
 
     public DiscoverViewModel(
-        IWinGetService winGetService)
+        IWinGetService winGetService,
+        ElevatedOperationService elevatedOperationService)
     {
-        _winGetService = winGetService;
+        _winGetService =
+            winGetService;
+
+        _elevatedOperationService =
+            elevatedOperationService;
     }
 
     [RelayCommand]
@@ -60,21 +81,33 @@ public partial class DiscoverViewModel : ObservableObject
         if (IsSearching)
             return;
 
-        if (string.IsNullOrWhiteSpace(SearchText))
+        if (string.IsNullOrWhiteSpace(
+                SearchText))
         {
             Packages.Clear();
-            SelectedPackage = null;
-            OnPropertyChanged(nameof(StatusText));
+
+            SelectedPackage =
+                null;
+
+            OnPropertyChanged(
+                nameof(StatusText));
+
             return;
         }
 
         try
         {
-            IsSearching = true;
-            ErrorMessage = null;
-            SelectedPackage = null;
+            IsSearching =
+                true;
 
-            OnPropertyChanged(nameof(StatusText));
+            ErrorMessage =
+                null;
+
+            SelectedPackage =
+                null;
+
+            OnPropertyChanged(
+                nameof(StatusText));
 
             var query =
                 SearchText.Trim();
@@ -82,44 +115,71 @@ public partial class DiscoverViewModel : ObservableObject
             var packages =
                 await Task.Run(
                     async () =>
-                        await _winGetService.SearchPackagesAsync(
-                            query));
+                        await _winGetService
+                            .SearchPackagesAsync(
+                                query));
 
             Packages.Clear();
 
             foreach (var package in packages)
-                Packages.Add(package);
+            {
+                Packages.Add(
+                    package);
+            }
 
             if (Packages.Count > 0)
-                SelectedPackage = Packages[0];
+            {
+                SelectedPackage =
+                    Packages[0];
+            }
         }
         catch (Exception ex)
         {
-            ErrorMessage = ex.Message;
+            ErrorMessage =
+                ex.Message;
         }
         finally
         {
-            IsSearching = false;
-            OnPropertyChanged(nameof(StatusText));
+            IsSearching =
+                false;
+
+            OnPropertyChanged(
+                nameof(StatusText));
         }
     }
 
-    public async Task InstallAsync(
-        DiscoverPackageInfo package)
+    public async Task<bool> InstallAsync(
+        DiscoverPackageInfo package,
+        bool showError = true)
     {
         if (package.IsInstalled ||
             package.IsInstalling)
         {
-            return;
+            return false;
         }
+
+        var succeeded =
+            false;
 
         try
         {
-            ErrorMessage = null;
+            ErrorMessage =
+                null;
 
-            package.IsInstalling = true;
-            package.InstallStatus = "Preparing...";
-            package.InstallProgress = 0;
+            LastInstallError =
+                null;
+
+            LastInstallRequiresElevation =
+                false;
+
+            package.IsInstalling =
+                true;
+
+            package.InstallStatus =
+                "Preparing...";
+
+            package.InstallProgress =
+                0;
 
             var progress =
                 new Progress<PackageInstallProgress>(
@@ -134,31 +194,125 @@ public partial class DiscoverViewModel : ObservableObject
 
             await Task.Run(
                 async () =>
-                    await _winGetService.InstallPackageAsync(
-                        package.Id,
-                        progress));
+                    await _winGetService
+                        .InstallPackageAsync(
+                            package.Id,
+                            progress));
 
-            package.InstallStatus = "Installed";
-            package.InstallProgress = 100;
-            package.IsInstalled = true;
+            package.InstallStatus =
+                "Installed";
+
+            package.InstallProgress =
+                100;
+
+            package.IsInstalled =
+                true;
+
+            succeeded =
+                true;
         }
         catch (Exception ex)
         {
-            package.InstallStatus = "Failed";
-            package.InstallProgress = 0;
+            package.InstallStatus =
+                "Failed";
 
-            ErrorMessage =
+            package.InstallProgress =
+                0;
+
+            LastInstallError =
                 $"{package.Name}: {ex.Message}";
+
+            LastInstallRequiresElevation =
+                PackageOperationErrorClassifier
+                    .RequiresElevation(
+                        ex.Message);
+
+            if (showError)
+            {
+                ErrorMessage =
+                    LastInstallError;
+            }
         }
         finally
         {
-            package.IsInstalling = false;
+            package.IsInstalling =
+                false;
+        }
+
+        return succeeded;
+    }
+
+    public async Task<bool> InstallAsAdministratorAsync(
+        DiscoverPackageInfo package)
+    {
+        if (package.IsInstalled ||
+            package.IsInstalling)
+        {
+            return false;
+        }
+
+        try
+        {
+            ErrorMessage =
+                null;
+
+            LastInstallError =
+                null;
+
+            LastInstallRequiresElevation =
+                false;
+
+            package.IsInstalling =
+                true;
+
+            package.InstallStatus =
+                "Installing as administrator...";
+
+            package.InstallProgress =
+                0;
+
+            await _elevatedOperationService
+                .InstallPackageAsync(
+                    package.Id);
+
+            package.InstallStatus =
+                "Installed";
+
+            package.InstallProgress =
+                100;
+
+            package.IsInstalled =
+                true;
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            package.InstallStatus =
+                "Failed";
+
+            package.InstallProgress =
+                0;
+
+            LastInstallError =
+                $"{package.Name}: {ex.Message}";
+
+            ErrorMessage =
+                LastInstallError;
+
+            return false;
+        }
+        finally
+        {
+            package.IsInstalling =
+                false;
         }
     }
 
     partial void OnSelectedPackageChanged(
         DiscoverPackageInfo? value)
     {
-        OnPropertyChanged(nameof(HasSelectedPackage));
+        OnPropertyChanged(
+            nameof(HasSelectedPackage));
     }
 }

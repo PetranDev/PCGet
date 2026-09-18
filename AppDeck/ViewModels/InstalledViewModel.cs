@@ -13,6 +13,7 @@ namespace AppDeck.ViewModels;
 public partial class InstalledViewModel : ObservableObject
 {
     private readonly IWinGetService _winGetService;
+    private readonly ElevatedOperationService _elevatedOperationService;
     private readonly List<PackageInfo> _allPackages = [];
 
     public ObservableCollection<PackageInfo> Packages { get; } = [];
@@ -28,6 +29,9 @@ public partial class InstalledViewModel : ObservableObject
 
     [ObservableProperty]
     public partial string? LastUninstallError { get; set; }
+
+    [ObservableProperty]
+    public partial bool LastUninstallRequiresElevation { get; set; }
 
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
@@ -51,29 +55,45 @@ public partial class InstalledViewModel : ObservableObject
             if (IsUninstalling)
                 return UninstallStatus;
 
-            if (!string.IsNullOrWhiteSpace(SearchText))
+            if (!string.IsNullOrWhiteSpace(
+                    SearchText))
             {
                 return Packages.Count switch
                 {
-                    0 => "No matching applications.",
-                    1 => "1 matching application",
-                    _ => $"{Packages.Count} matching applications"
+                    0 =>
+                        "No matching applications.",
+
+                    1 =>
+                        "1 matching application",
+
+                    _ =>
+                        $"{Packages.Count} matching applications"
                 };
             }
 
             return Packages.Count switch
             {
-                0 => "No installed applications found.",
-                1 => "1 installed application",
-                _ => $"{Packages.Count} installed applications"
+                0 =>
+                    "No installed applications found.",
+
+                1 =>
+                    "1 installed application",
+
+                _ =>
+                    $"{Packages.Count} installed applications"
             };
         }
     }
 
     public InstalledViewModel(
-        IWinGetService winGetService)
+        IWinGetService winGetService,
+        ElevatedOperationService elevatedOperationService)
     {
-        _winGetService = winGetService;
+        _winGetService =
+            winGetService;
+
+        _elevatedOperationService =
+            elevatedOperationService;
     }
 
     [RelayCommand]
@@ -87,28 +107,40 @@ public partial class InstalledViewModel : ObservableObject
 
         try
         {
-            IsLoading = true;
-            ErrorMessage = null;
-            OnPropertyChanged(nameof(StatusText));
+            IsLoading =
+                true;
+
+            ErrorMessage =
+                null;
+
+            OnPropertyChanged(
+                nameof(StatusText));
 
             var packages =
                 await Task.Run(
                     async () =>
-                        await _winGetService.GetInstalledPackagesAsync());
+                        await _winGetService
+                            .GetInstalledPackagesAsync());
 
             _allPackages.Clear();
-            _allPackages.AddRange(packages);
+
+            _allPackages.AddRange(
+                packages);
 
             ApplyFilter();
         }
         catch (Exception ex)
         {
-            ErrorMessage = ex.Message;
+            ErrorMessage =
+                ex.Message;
         }
         finally
         {
-            IsLoading = false;
-            OnPropertyChanged(nameof(StatusText));
+            IsLoading =
+                false;
+
+            OnPropertyChanged(
+                nameof(StatusText));
         }
     }
 
@@ -120,19 +152,34 @@ public partial class InstalledViewModel : ObservableObject
         if (IsUninstalling)
             return false;
 
-        var succeeded = false;
+        var succeeded =
+            false;
 
         try
         {
-            IsUninstalling = true;
-            ErrorMessage = null;
-            LastUninstallError = null;
-            UninstallingPackageId = package.Id;
+            IsUninstalling =
+                true;
+
+            ErrorMessage =
+                null;
+
+            LastUninstallError =
+                null;
+
+            LastUninstallRequiresElevation =
+                false;
+
+            UninstallingPackageId =
+                package.Id;
+
             UninstallStatus =
                 $"Preparing to uninstall {package.Name}...";
-            UninstallProgress = 0;
 
-            OnPropertyChanged(nameof(StatusText));
+            UninstallProgress =
+                0;
+
+            OnPropertyChanged(
+                nameof(StatusText));
 
             var progress =
                 new Progress<PackageUninstallProgress>(
@@ -150,56 +197,154 @@ public partial class InstalledViewModel : ObservableObject
 
             await Task.Run(
                 async () =>
-                    await _winGetService.UninstallPackageAsync(
-                        package.Id,
-                        progress,
-                        interactive));
+                    await _winGetService
+                        .UninstallPackageAsync(
+                            package.Id,
+                            progress,
+                            interactive));
 
-            _allPackages.RemoveAll(
-                item =>
-                    string.Equals(
-                        item.Id,
-                        package.Id,
-                        StringComparison.OrdinalIgnoreCase));
+            RemovePackage(
+                package);
 
-            ApplyFilter();
-
-            succeeded = true;
+            succeeded =
+                true;
         }
         catch (Exception ex)
         {
             LastUninstallError =
                 $"{package.Name}: {ex.Message}";
 
+            LastUninstallRequiresElevation =
+                PackageOperationErrorClassifier
+                    .RequiresElevation(
+                        ex.Message);
+
             if (showError)
-                ErrorMessage = LastUninstallError;
+            {
+                ErrorMessage =
+                    LastUninstallError;
+            }
         }
         finally
         {
-            IsUninstalling = false;
-            UninstallingPackageId = null;
-            UninstallStatus = string.Empty;
-            UninstallProgress = 0;
+            IsUninstalling =
+                false;
 
-            OnPropertyChanged(nameof(StatusText));
+            UninstallingPackageId =
+                null;
+
+            UninstallStatus =
+                string.Empty;
+
+            UninstallProgress =
+                0;
+
+            OnPropertyChanged(
+                nameof(StatusText));
         }
 
         return succeeded;
     }
 
+    public async Task<bool> UninstallAsAdministratorAsync(
+        PackageInfo package,
+        bool interactive)
+    {
+        if (IsUninstalling)
+            return false;
+
+        try
+        {
+            IsUninstalling =
+                true;
+
+            ErrorMessage =
+                null;
+
+            LastUninstallError =
+                null;
+
+            LastUninstallRequiresElevation =
+                false;
+
+            UninstallingPackageId =
+                package.Id;
+
+            UninstallStatus =
+                $"Uninstalling {package.Name} as administrator...";
+
+            UninstallProgress =
+                0;
+
+            OnPropertyChanged(
+                nameof(StatusText));
+
+            await _elevatedOperationService
+                .UninstallPackageAsync(
+                    package.Id,
+                    interactive);
+
+            RemovePackage(
+                package);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            LastUninstallError =
+                $"{package.Name}: {ex.Message}";
+
+            ErrorMessage =
+                LastUninstallError;
+
+            return false;
+        }
+        finally
+        {
+            IsUninstalling =
+                false;
+
+            UninstallingPackageId =
+                null;
+
+            UninstallStatus =
+                string.Empty;
+
+            UninstallProgress =
+                0;
+
+            OnPropertyChanged(
+                nameof(StatusText));
+        }
+    }
+
     public bool IsPackageUninstalling(
         PackageInfo package)
     {
-        return IsUninstalling &&
-               string.Equals(
-                   UninstallingPackageId,
-                   package.Id,
-                   StringComparison.OrdinalIgnoreCase);
+        return
+            IsUninstalling &&
+            string.Equals(
+                UninstallingPackageId,
+                package.Id,
+                StringComparison.OrdinalIgnoreCase);
     }
 
     partial void OnSearchTextChanged(
         string value)
     {
+        ApplyFilter();
+    }
+
+    private void RemovePackage(
+        PackageInfo package)
+    {
+        _allPackages.RemoveAll(
+            item =>
+                string.Equals(
+                    item.Id,
+                    package.Id,
+                    StringComparison.OrdinalIgnoreCase));
+
         ApplyFilter();
     }
 
@@ -213,7 +358,8 @@ public partial class InstalledViewModel : ObservableObject
         var searchText =
             SearchText.Trim();
 
-        if (!string.IsNullOrWhiteSpace(searchText))
+        if (!string.IsNullOrWhiteSpace(
+                searchText))
         {
             packages =
                 packages.Where(
@@ -233,17 +379,23 @@ public partial class InstalledViewModel : ObservableObject
         }
 
         foreach (var package in packages)
-            Packages.Add(package);
+        {
+            Packages.Add(
+                package);
+        }
 
-        OnPropertyChanged(nameof(StatusText));
+        OnPropertyChanged(
+            nameof(StatusText));
     }
 
     private static bool Contains(
         string? value,
         string searchText)
     {
-        return value?.Contains(
-            searchText,
-            StringComparison.OrdinalIgnoreCase) == true;
+        return
+            value?.Contains(
+                searchText,
+                StringComparison.OrdinalIgnoreCase) ==
+            true;
     }
 }

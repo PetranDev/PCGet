@@ -16,28 +16,48 @@ static async Task<int> MainAsync(string[] args)
 
         if (!IsAdministrator())
         {
-            Log("ERROR: AppDeck.Elevated is not running as Administrator.");
+            Log(
+                "ERROR: AppDeck.Elevated is not running as Administrator.");
+
             return 2;
         }
 
         if (args.Length == 0)
         {
-            Log("ERROR: No command was specified.");
+            Log(
+                "ERROR: No command was specified.");
+
             return 3;
         }
 
         return args[0].ToLowerInvariant() switch
         {
-            "--test" => TestElevation(),
-            "--query" => await QueryPackageAsync(args),
-            "--update" => await UpdatePackageAsync(args),
-            _ => UnknownCommand(args[0])
+            "--test" =>
+                TestElevation(),
+
+            "--query" =>
+                await QueryPackageAsync(args),
+
+            "--install" =>
+                await InstallPackageAsync(args),
+
+            "--update" =>
+                await UpdatePackageAsync(args),
+
+            "--uninstall" =>
+                await UninstallPackageAsync(args),
+
+            _ =>
+                UnknownCommand(args[0])
         };
     }
     catch (Exception ex)
     {
-        Log("UNHANDLED EXCEPTION:");
-        Log(ex.ToString());
+        Log(
+            "UNHANDLED EXCEPTION:");
+
+        Log(
+            ex.ToString());
 
         return 1;
     }
@@ -57,20 +77,27 @@ static bool IsAdministrator()
 
 static int TestElevation()
 {
-    Log("Elevation test succeeded.");
+    Log(
+        "Elevation test succeeded.");
 
     return 0;
 }
 
-static async Task<int> QueryPackageAsync(string[] args)
+static async Task<int> QueryPackageAsync(
+    string[] args)
 {
-    if (!TryGetPackageId(args, out var packageId))
+    if (!TryGetPackageId(
+            args,
+            out var packageId))
     {
-        Log("ERROR: A package ID is required.");
+        Log(
+            "ERROR: A package ID is required.");
+
         return 4;
     }
 
-    Log($"Looking up package: {packageId}");
+    Log(
+        $"Looking up package: {packageId}");
 
     var result =
         await RunWinGetAsync(
@@ -83,24 +110,33 @@ static async Task<int> QueryPackageAsync(string[] args)
                 "--disable-interactivity"
             ]);
 
-    LogProcessResult(result);
+    LogProcessResult(
+        result);
 
     if (result.ExitCode != 0)
     {
-        Log("ERROR: WinGet query failed.");
+        Log(
+            "ERROR: WinGet query failed.");
+
         return 5;
     }
 
-    Log("Query completed successfully.");
+    Log(
+        "Query completed successfully.");
 
     return 0;
 }
 
-static async Task<int> UpdatePackageAsync(string[] args)
+static async Task<int> InstallPackageAsync(
+    string[] args)
 {
-    if (!TryGetPackageId(args, out var packageId))
+    if (!TryGetPackageId(
+            args,
+            out var packageId))
     {
-        Log("ERROR: A package ID is required.");
+        Log(
+            "ERROR: A package ID is required.");
+
         return 4;
     }
 
@@ -114,9 +150,93 @@ static async Task<int> UpdatePackageAsync(string[] args)
             args,
             "--dry-run");
 
-    Log($"Updating package: {packageId}");
-    Log($"Silent: {silent}");
-    Log($"Dry run: {dryRun}");
+    Log(
+        $"Installing package: {packageId}");
+
+    Log(
+        $"Silent: {silent}");
+
+    Log(
+        $"Dry run: {dryRun}");
+
+    var wingetArguments =
+        new List<string>
+        {
+            "install",
+            "--id",
+            packageId,
+            "--exact",
+            "--accept-package-agreements",
+            "--accept-source-agreements",
+            "--disable-interactivity"
+        };
+
+    if (silent)
+    {
+        wingetArguments.Add(
+            "--silent");
+    }
+
+    if (dryRun)
+    {
+        LogDryRun(
+            wingetArguments);
+
+        return 0;
+    }
+
+    var result =
+        await RunWinGetAsync(
+            wingetArguments);
+
+    LogProcessResult(
+        result);
+
+    if (result.ExitCode != 0)
+    {
+        Log(
+            "ERROR: WinGet install failed.");
+
+        return 9;
+    }
+
+    Log(
+        "Install completed successfully.");
+
+    return 0;
+}
+
+static async Task<int> UpdatePackageAsync(
+    string[] args)
+{
+    if (!TryGetPackageId(
+            args,
+            out var packageId))
+    {
+        Log(
+            "ERROR: A package ID is required.");
+
+        return 4;
+    }
+
+    var silent =
+        HasArgument(
+            args,
+            "--silent");
+
+    var dryRun =
+        HasArgument(
+            args,
+            "--dry-run");
+
+    Log(
+        $"Updating package: {packageId}");
+
+    Log(
+        $"Silent: {silent}");
+
+    Log(
+        $"Dry run: {dryRun}");
 
     var wingetArguments =
         new List<string>
@@ -138,11 +258,8 @@ static async Task<int> UpdatePackageAsync(string[] args)
 
     if (dryRun)
     {
-        Log(
-            $"DRY RUN - would execute: winget.exe {string.Join(" ", wingetArguments.Select(FormatArgumentForLog))}");
-
-        Log(
-            "Dry run completed successfully. No update was performed.");
+        LogDryRun(
+            wingetArguments);
 
         return 0;
     }
@@ -151,17 +268,112 @@ static async Task<int> UpdatePackageAsync(string[] args)
         await RunWinGetAsync(
             wingetArguments);
 
-    LogProcessResult(result);
+    LogProcessResult(
+        result);
 
     if (result.ExitCode != 0)
     {
-        Log("ERROR: WinGet update failed.");
+        Log(
+            "ERROR: WinGet update failed.");
+
         return 10;
     }
 
-    Log("Update completed successfully.");
+    Log(
+        "Update completed successfully.");
 
     return 0;
+}
+
+static async Task<int> UninstallPackageAsync(
+    string[] args)
+{
+    if (!TryGetPackageId(
+            args,
+            out var packageId))
+    {
+        Log(
+            "ERROR: A package ID is required.");
+
+        return 4;
+    }
+
+    var silent =
+        HasArgument(
+            args,
+            "--silent");
+
+    var dryRun =
+        HasArgument(
+            args,
+            "--dry-run");
+
+    Log(
+        $"Uninstalling package: {packageId}");
+
+    Log(
+        $"Silent: {silent}");
+
+    Log(
+        $"Dry run: {dryRun}");
+
+    var wingetArguments =
+        new List<string>
+        {
+            "uninstall",
+            "--id",
+            packageId,
+            "--exact",
+            "--accept-source-agreements",
+            "--disable-interactivity"
+        };
+
+    if (silent)
+    {
+        wingetArguments.Add(
+            "--silent");
+    }
+
+    if (dryRun)
+    {
+        LogDryRun(
+            wingetArguments);
+
+        return 0;
+    }
+
+    var result =
+        await RunWinGetAsync(
+            wingetArguments);
+
+    LogProcessResult(
+        result);
+
+    if (result.ExitCode != 0)
+    {
+        Log(
+            "ERROR: WinGet uninstall failed.");
+
+        return 11;
+    }
+
+    Log(
+        "Uninstall completed successfully.");
+
+    return 0;
+}
+
+static void LogDryRun(
+    IEnumerable<string> arguments)
+{
+    var argumentList =
+        arguments.ToArray();
+
+    Log(
+        $"DRY RUN - would execute: winget.exe {string.Join(" ", argumentList.Select(FormatArgumentForLog))}");
+
+    Log(
+        "Dry run completed successfully. No package operation was performed.");
 }
 
 static bool TryGetPackageId(
@@ -172,7 +384,8 @@ static bool TryGetPackageId(
         string.Empty;
 
     if (args.Length < 2 ||
-        string.IsNullOrWhiteSpace(args[1]))
+        string.IsNullOrWhiteSpace(
+            args[1]))
     {
         return false;
     }
@@ -207,13 +420,26 @@ static async Task<ProcessResult> RunWinGetAsync(
     var startInfo =
         new ProcessStartInfo
         {
-            FileName = "winget.exe",
-            UseShellExecute = false,
-            CreateNoWindow = true,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            StandardOutputEncoding = Encoding.UTF8,
-            StandardErrorEncoding = Encoding.UTF8
+            FileName =
+                "winget.exe",
+
+            UseShellExecute =
+                false,
+
+            CreateNoWindow =
+                true,
+
+            RedirectStandardOutput =
+                true,
+
+            RedirectStandardError =
+                true,
+
+            StandardOutputEncoding =
+                Encoding.UTF8,
+
+            StandardErrorEncoding =
+                Encoding.UTF8
         };
 
     foreach (var argument in argumentList)
@@ -225,7 +451,8 @@ static async Task<ProcessResult> RunWinGetAsync(
     using var process =
         new Process
         {
-            StartInfo = startInfo
+            StartInfo =
+                startInfo
         };
 
     process.Start();
@@ -259,15 +486,21 @@ static void LogProcessResult(
     if (!string.IsNullOrWhiteSpace(
             result.StandardOutput))
     {
-        Log("STANDARD OUTPUT:");
-        Log(result.StandardOutput);
+        Log(
+            "STANDARD OUTPUT:");
+
+        Log(
+            result.StandardOutput);
     }
 
     if (!string.IsNullOrWhiteSpace(
             result.StandardError))
     {
-        Log("STANDARD ERROR:");
-        Log(result.StandardError);
+        Log(
+            "STANDARD ERROR:");
+
+        Log(
+            result.StandardError);
     }
 }
 
@@ -277,7 +510,8 @@ static string FormatArgumentForLog(
     if (!argument.Contains(' '))
         return argument;
 
-    return $"\"{argument}\"";
+    return
+        $"\"{argument}\"";
 }
 
 static int UnknownCommand(

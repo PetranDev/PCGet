@@ -13,16 +13,29 @@ namespace AppDeck.Views;
 
 public sealed partial class DiscoverPage : Page
 {
-    private const double MinimumResultsWidth = 350;
-    private const double MinimumDetailsWidth = 300;
+    private const double MinimumResultsWidth =
+        350;
+
+    private const double MinimumDetailsWidth =
+        300;
+
+    private readonly AppSettingsService _settingsService;
 
     public DiscoverViewModel ViewModel { get; }
 
     public DiscoverPage()
     {
+        _settingsService =
+            new AppSettingsService();
+
+        var elevatedOperationService =
+            new ElevatedOperationService(
+                _settingsService);
+
         ViewModel =
             new DiscoverViewModel(
-                new WinGetService());
+                new WinGetService(),
+                elevatedOperationService);
 
         InitializeComponent();
 
@@ -34,8 +47,9 @@ public sealed partial class DiscoverPage : Page
         AutoSuggestBox sender,
         AutoSuggestBoxQuerySubmittedEventArgs args)
     {
-        await ViewModel.SearchCommand.ExecuteAsync(
-            null);
+        await ViewModel
+            .SearchCommand
+            .ExecuteAsync(null);
     }
 
     private async void InstallButton_Click(
@@ -48,8 +62,59 @@ public sealed partial class DiscoverPage : Page
         if (button.Tag is not DiscoverPackageInfo package)
             return;
 
-        await ViewModel.InstallAsync(
-            package);
+        var succeeded =
+            await ViewModel.InstallAsync(
+                package,
+                showError: false);
+
+        if (succeeded)
+            return;
+
+        if (!ViewModel.LastInstallRequiresElevation)
+        {
+            ViewModel.ErrorMessage =
+                ViewModel.LastInstallError;
+
+            return;
+        }
+
+        var dialog =
+            new ContentDialog
+            {
+                XamlRoot =
+                    XamlRoot,
+
+                Title =
+                    "Administrator privileges required",
+
+                Content =
+                    $"{package.Name} requires administrator privileges to install. AppDeck can retry the installation as administrator.",
+
+                PrimaryButtonText =
+                    "Retry as administrator",
+
+                CloseButtonText =
+                    "Cancel",
+
+                DefaultButton =
+                    ContentDialogButton.Primary
+            };
+
+        var result =
+            await dialog.ShowAsync();
+
+        if (result !=
+            ContentDialogResult.Primary)
+        {
+            ViewModel.ErrorMessage =
+                ViewModel.LastInstallError;
+
+            return;
+        }
+
+        await ViewModel
+            .InstallAsAdministratorAsync(
+                package);
     }
 
     private void Splitter_DragDelta(
@@ -68,7 +133,8 @@ public sealed partial class DiscoverPage : Page
             totalWidth -
             newResultsWidth;
 
-        if (newResultsWidth < MinimumResultsWidth)
+        if (newResultsWidth <
+            MinimumResultsWidth)
         {
             newResultsWidth =
                 MinimumResultsWidth;
@@ -78,7 +144,8 @@ public sealed partial class DiscoverPage : Page
                 newResultsWidth;
         }
 
-        if (newDetailsWidth < MinimumDetailsWidth)
+        if (newDetailsWidth <
+            MinimumDetailsWidth)
         {
             newDetailsWidth =
                 MinimumDetailsWidth;
@@ -124,7 +191,8 @@ public sealed partial class DiscoverPage : Page
             return;
 
         if (button.Tag is not string url ||
-            string.IsNullOrWhiteSpace(url))
+            string.IsNullOrWhiteSpace(
+                url))
         {
             return;
         }
@@ -145,8 +213,11 @@ public sealed partial class DiscoverPage : Page
         object? sender,
         System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName != nameof(ViewModel.ErrorMessage))
+        if (e.PropertyName !=
+            nameof(ViewModel.ErrorMessage))
+        {
             return;
+        }
 
         ErrorInfoBar.Message =
             ViewModel.ErrorMessage ??

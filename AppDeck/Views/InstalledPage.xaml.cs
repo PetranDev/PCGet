@@ -18,23 +18,34 @@ public sealed partial class InstalledPage : Page
         _settingsService =
             new AppSettingsService();
 
+        var elevatedOperationService =
+            new ElevatedOperationService(
+                _settingsService);
+
         ViewModel =
             new InstalledViewModel(
-                new WinGetService());
+                new WinGetService(),
+                elevatedOperationService);
 
         InitializeComponent();
 
-        Loaded += InstalledPage_Loaded;
-        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        Loaded +=
+            InstalledPage_Loaded;
+
+        ViewModel.PropertyChanged +=
+            ViewModel_PropertyChanged;
     }
 
     private async void InstalledPage_Loaded(
         object sender,
         RoutedEventArgs e)
     {
-        Loaded -= InstalledPage_Loaded;
+        Loaded -=
+            InstalledPage_Loaded;
 
-        await ViewModel.RefreshCommand.ExecuteAsync(null);
+        await ViewModel
+            .RefreshCommand
+            .ExecuteAsync(null);
     }
 
     private async void UninstallButton_Click(
@@ -53,12 +64,21 @@ public sealed partial class InstalledPage : Page
         var confirmationDialog =
             new ContentDialog
             {
-                XamlRoot = XamlRoot,
-                Title = "Uninstall application?",
+                XamlRoot =
+                    XamlRoot,
+
+                Title =
+                    "Uninstall application?",
+
                 Content =
                     $"Are you sure you want to uninstall {package.Name}?",
-                PrimaryButtonText = "Uninstall",
-                CloseButtonText = "Cancel",
+
+                PrimaryButtonText =
+                    "Uninstall",
+
+                CloseButtonText =
+                    "Cancel",
+
                 DefaultButton =
                     ContentDialogButton.Close
             };
@@ -66,22 +86,40 @@ public sealed partial class InstalledPage : Page
         var confirmationResult =
             await confirmationDialog.ShowAsync();
 
-        if (confirmationResult != ContentDialogResult.Primary)
+        if (confirmationResult !=
+            ContentDialogResult.Primary)
+        {
             return;
+        }
 
         var silentMode =
-            _settingsService.SilentPackageOperations;
+            _settingsService
+                .SilentPackageOperations;
 
         var succeeded =
             await ViewModel.UninstallAsync(
                 package,
-                showError: !silentMode);
+                showError: false);
 
         if (succeeded)
             return;
 
-        if (!silentMode)
+        if (ViewModel.LastUninstallRequiresElevation)
+        {
+            await OfferAdministratorRetryAsync(
+                package,
+                interactive: !silentMode);
+
             return;
+        }
+
+        if (!silentMode)
+        {
+            ViewModel.ErrorMessage =
+                ViewModel.LastUninstallError;
+
+            return;
+        }
 
         var silentError =
             ViewModel.LastUninstallError;
@@ -89,12 +127,21 @@ public sealed partial class InstalledPage : Page
         var retryDialog =
             new ContentDialog
             {
-                XamlRoot = XamlRoot,
-                Title = "Silent uninstall failed",
+                XamlRoot =
+                    XamlRoot,
+
+                Title =
+                    "Silent uninstall failed",
+
                 Content =
                     $"{package.Name} could not be uninstalled silently. Would you like to retry using the application's interactive uninstaller?",
-                PrimaryButtonText = "Retry interactively",
-                CloseButtonText = "Cancel",
+
+                PrimaryButtonText =
+                    "Retry interactively",
+
+                CloseButtonText =
+                    "Cancel",
+
                 DefaultButton =
                     ContentDialogButton.Primary
             };
@@ -102,7 +149,8 @@ public sealed partial class InstalledPage : Page
         var retryResult =
             await retryDialog.ShowAsync();
 
-        if (retryResult != ContentDialogResult.Primary)
+        if (retryResult !=
+            ContentDialogResult.Primary)
         {
             ViewModel.ErrorMessage =
                 silentError;
@@ -110,18 +158,85 @@ public sealed partial class InstalledPage : Page
             return;
         }
 
-        await ViewModel.UninstallAsync(
-            package,
-            interactive: true,
-            showError: true);
+        succeeded =
+            await ViewModel.UninstallAsync(
+                package,
+                interactive: true,
+                showError: false);
+
+        if (succeeded)
+            return;
+
+        if (ViewModel.LastUninstallRequiresElevation)
+        {
+            await OfferAdministratorRetryAsync(
+                package,
+                interactive: true);
+
+            return;
+        }
+
+        ViewModel.ErrorMessage =
+            ViewModel.LastUninstallError;
+    }
+
+    private async System.Threading.Tasks.Task
+        OfferAdministratorRetryAsync(
+            PackageInfo package,
+            bool interactive)
+    {
+        var error =
+            ViewModel.LastUninstallError;
+
+        var dialog =
+            new ContentDialog
+            {
+                XamlRoot =
+                    XamlRoot,
+
+                Title =
+                    "Administrator privileges required",
+
+                Content =
+                    $"{package.Name} requires administrator privileges to uninstall. AppDeck can retry the uninstall as administrator.",
+
+                PrimaryButtonText =
+                    "Retry as administrator",
+
+                CloseButtonText =
+                    "Cancel",
+
+                DefaultButton =
+                    ContentDialogButton.Primary
+            };
+
+        var result =
+            await dialog.ShowAsync();
+
+        if (result !=
+            ContentDialogResult.Primary)
+        {
+            ViewModel.ErrorMessage =
+                error;
+
+            return;
+        }
+
+        await ViewModel
+            .UninstallAsAdministratorAsync(
+                package,
+                interactive);
     }
 
     private void ViewModel_PropertyChanged(
         object? sender,
         System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName != nameof(ViewModel.ErrorMessage))
+        if (e.PropertyName !=
+            nameof(ViewModel.ErrorMessage))
+        {
             return;
+        }
 
         ErrorInfoBar.Message =
             ViewModel.ErrorMessage ??
