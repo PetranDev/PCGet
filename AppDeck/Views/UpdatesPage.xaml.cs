@@ -85,10 +85,21 @@ public sealed partial class UpdatesPage : Page
 
         try
         {
-            var updaterPath = Path.Combine(AppContext.BaseDirectory, "Updater", "AppDeck.Updater.exe");
+            var packagedUpdaterPath = Path.Combine(AppContext.BaseDirectory, "Updater", "AppDeck.Updater.exe");
 
-            if (!File.Exists(updaterPath))
-                throw new FileNotFoundException("The AppDeck updater could not be found.", updaterPath);
+            if (!File.Exists(packagedUpdaterPath))
+                throw new FileNotFoundException("The AppDeck updater could not be found.", packagedUpdaterPath);
+
+            var temporaryUpdaterDirectory = Path.Combine(
+                Path.GetTempPath(),
+                "AppDeck",
+                "Updater",
+                Guid.NewGuid().ToString("N"));
+
+            Directory.CreateDirectory(temporaryUpdaterDirectory);
+
+            var temporaryUpdaterPath = Path.Combine(temporaryUpdaterDirectory, "AppDeck.Updater.exe");
+            File.Copy(packagedUpdaterPath, temporaryUpdaterPath, true);
 
             var packageId = Package.Current.Id;
             var appDeckAumid = $"{packageId.FamilyName}!App";
@@ -96,7 +107,7 @@ public sealed partial class UpdatesPage : Page
 
             Process.Start(new ProcessStartInfo
             {
-                FileName = updaterPath,
+                FileName = temporaryUpdaterPath,
                 ArgumentList =
                 {
                     processId.ToString(),
