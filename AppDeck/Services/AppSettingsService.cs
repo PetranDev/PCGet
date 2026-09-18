@@ -4,7 +4,7 @@ namespace AppDeck.Services;
 
 public sealed class AppSettingsService
 {
-    private const string SilentPackageOperationsKey = "SilentInstall";
+    private const string SilentPackageOperationsKey = "SilentPackageOperations";
     private const string CheckUpdatesOnStartupKey = "CheckUpdatesOnStartup";
 
     private readonly ApplicationDataContainer _localSettings;
@@ -26,15 +26,10 @@ public sealed class AppSettingsService
         set => _localSettings.Values[CheckUpdatesOnStartupKey] = value;
     }
 
-    private bool GetBoolean(
-        string key,
-        bool defaultValue)
+    private bool GetBoolean(string key, bool defaultValue)
     {
-        if (_localSettings.Values.TryGetValue(key, out var value) &&
-            value is bool booleanValue)
-        {
+        if (_localSettings.Values.TryGetValue(key, out var value) && value is bool booleanValue)
             return booleanValue;
-        }
 
         return defaultValue;
     }

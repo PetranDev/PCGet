@@ -5,7 +5,10 @@
     <ScrollViewer>
         <StackPanel
             Padding="32"
-            Spacing="32">
+            Spacing="32"
+            MaxWidth="1000"
+            HorizontalAlignment="Left">
+
             <StackPanel Spacing="8">
                 <TextBlock
                     Text="Settings"
@@ -15,19 +18,24 @@
                     Style="{StaticResource BodyTextBlockStyle}"
                     Opacity="0.7" />
             </StackPanel>
+
             <StackPanel Spacing="12">
                 <TextBlock
                     Text="Package operations"
                     Style="{StaticResource SubtitleTextBlockStyle}" />
+
                 <Border
-                    Padding="16"
+                    Padding="20"
                     CornerRadius="8"
-                    BorderThickness="1">
-                    <Grid ColumnSpacing="24">
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                    <Grid ColumnSpacing="32">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
+
                         <StackPanel
                             Grid.Column="0"
                             Spacing="4">
@@ -39,6 +47,7 @@
                                 TextWrapping="Wrap"
                                 Opacity="0.7" />
                         </StackPanel>
+
                         <ToggleSwitch
                             Grid.Column="1"
                             VerticalAlignment="Center"
@@ -46,19 +55,24 @@
                     </Grid>
                 </Border>
             </StackPanel>
+
             <StackPanel Spacing="12">
                 <TextBlock
                     Text="Updates"
                     Style="{StaticResource SubtitleTextBlockStyle}" />
+
                 <Border
-                    Padding="16"
+                    Padding="20"
                     CornerRadius="8"
-                    BorderThickness="1">
-                    <Grid ColumnSpacing="24">
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                    <Grid ColumnSpacing="32">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
+
                         <StackPanel
                             Grid.Column="0"
                             Spacing="4">
@@ -70,6 +84,7 @@
                                 TextWrapping="Wrap"
                                 Opacity="0.7" />
                         </StackPanel>
+
                         <ToggleSwitch
                             Grid.Column="1"
                             VerticalAlignment="Center"
@@ -77,59 +92,76 @@
                     </Grid>
                 </Border>
             </StackPanel>
+
             <StackPanel Spacing="12">
                 <TextBlock
                     Text="Package sources"
                     Style="{StaticResource SubtitleTextBlockStyle}" />
+
                 <Border
-                    Padding="16"
+                    Padding="20"
                     CornerRadius="8"
-                    BorderThickness="1">
-                    <Grid ColumnSpacing="24">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel
-                            Grid.Column="0"
-                            Spacing="4">
-                            <TextBlock
-                                Text="WinGet sources"
-                                FontWeight="SemiBold" />
-                            <TextBlock
-                                Text="AppDeck currently uses the package sources configured in Windows Package Manager."
-                                TextWrapping="Wrap"
-                                Opacity="0.7" />
-                        </StackPanel>
-                        <Button
-                            Grid.Column="1"
-                            Content="Manage"
-                            VerticalAlignment="Center"
-                            IsEnabled="False" />
-                    </Grid>
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                    <StackPanel Spacing="4">
+                        <TextBlock
+                            Text="WinGet sources"
+                            FontWeight="SemiBold" />
+                        <TextBlock
+                            Text="AppDeck uses the package sources configured in Windows Package Manager."
+                            TextWrapping="Wrap"
+                            Opacity="0.7" />
+                    </StackPanel>
                 </Border>
             </StackPanel>
+
             <StackPanel Spacing="12">
                 <TextBlock
                     Text="About"
                     Style="{StaticResource SubtitleTextBlockStyle}" />
+
                 <Border
-                    Padding="16"
+                    Padding="20"
                     CornerRadius="8"
-                    BorderThickness="1">
-                    <StackPanel Spacing="6">
-                        <TextBlock
-                            Text="AppDeck"
-                            FontSize="18"
-                            FontWeight="SemiBold" />
-                        <TextBlock
-                            Text="Your Windows apps. One place."
-                            Opacity="0.7" />
-                        <TextBlock
-                            Text="Powered by Windows Package Manager"
-                            FontSize="12"
-                            Opacity="0.5" />
-                    </StackPanel>
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                    <Grid ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="48" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image
+                            Grid.Column="0"
+                            Width="48"
+                            Height="48"
+                            Source="/Assets/AppDeck.ico"
+                            Stretch="Uniform"
+                            VerticalAlignment="Top" />
+
+                        <StackPanel
+                            Grid.Column="1"
+                            Spacing="4"
+                            VerticalAlignment="Center">
+                            <TextBlock
+                                Text="AppDeck"
+                                FontSize="18"
+                                FontWeight="SemiBold" />
+                            <TextBlock
+                                Text="Your Windows apps. One place."
+                                Opacity="0.7" />
+                            <TextBlock
+                                Text="{x:Bind ViewModel.VersionText}"
+                                FontSize="12"
+                                Opacity="0.6" />
+                            <TextBlock
+                                Text="Powered by Windows Package Manager"
+                                FontSize="12"
+                                Opacity="0.5" />
+                        </StackPanel>
+                    </Grid>
                 </Border>
             </StackPanel>
         </StackPanel>
