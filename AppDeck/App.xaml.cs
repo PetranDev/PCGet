@@ -68,6 +68,23 @@ public partial class App : Application
         _backgroundUpdateService.ApplySettings();
     }
 
+    public void ExitApplication()
+    {
+        if (_isExiting)
+            return;
+
+        _isExiting = true;
+
+        if (_window is not null)
+        {
+            _window.Close();
+            return;
+        }
+
+        DisposeServices();
+        Exit();
+    }
+
     private void BackgroundUpdateService_CheckCompleted(object? sender, BackgroundUpdateCheckCompletedEventArgs e)
     {
         if (!e.HasChanged || e.Updates.Count == 0)
@@ -110,23 +127,6 @@ public partial class App : Application
     private void TrayIconService_ExitRequested(object? sender, EventArgs e)
     {
         DispatcherQueue.TryEnqueue(ExitApplication);
-    }
-
-    private void ExitApplication()
-    {
-        if (_isExiting)
-            return;
-
-        _isExiting = true;
-
-        if (_window is not null)
-        {
-            _window.Close();
-            return;
-        }
-
-        DisposeServices();
-        Exit();
     }
 
     private void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)

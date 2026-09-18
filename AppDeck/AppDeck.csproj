@@ -73,4 +73,18 @@
     </ItemGroup>
     <Copy SourceFiles="@(ElevatedHelperFiles)" DestinationFiles="@(ElevatedHelperFiles->'$(LayoutDir)\Elevated\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
+
+  <Target Name="PublishUpdater" BeforeTargets="Build">
+    <PropertyGroup>
+      <UpdaterPublishDirectory>$(IntermediateOutputPath)AppDeck.Updater\</UpdaterPublishDirectory>
+    </PropertyGroup>
+    <Exec Command="dotnet publish &quot;$(MSBuildProjectDirectory)\..\AppDeck.Updater\AppDeck.Updater.csproj&quot; -c $(Configuration) -r $(RuntimeIdentifier) --self-contained true -o &quot;$(UpdaterPublishDirectory)&quot;" />
+  </Target>
+
+  <Target Name="CopyUpdaterToAppX" AfterTargets="Build" DependsOnTargets="PublishUpdater" Condition="'$(LayoutDir)' != ''">
+    <ItemGroup>
+      <UpdaterFiles Include="$(UpdaterPublishDirectory)**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(UpdaterFiles)" DestinationFiles="@(UpdaterFiles->'$(LayoutDir)\Updater\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
 </Project>
