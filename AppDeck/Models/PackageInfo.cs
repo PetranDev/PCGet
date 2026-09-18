@@ -10,6 +10,8 @@ public partial class PackageInfo : ObservableObject
     public required string AvailableVersion { get; init; }
     public required string Source { get; init; }
 
+    public bool IsAppDeck => AppDeckIdentity.IsAppDeckPackage(Id);
+
     [ObservableProperty]
     public partial PackageUpdateState UpdateState { get; set; }
 
