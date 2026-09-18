@@ -12,6 +12,7 @@
     <WinUISDKReferences>false</WinUISDKReferences>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -56,25 +57,17 @@
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
   </PropertyGroup>
 
-  <Target Name="PublishElevatedHelper"
-          BeforeTargets="Build">
+  <Target Name="PublishElevatedHelper" BeforeTargets="Build">
     <PropertyGroup>
       <ElevatedHelperPublishDirectory>$(IntermediateOutputPath)AppDeck.Elevated\</ElevatedHelperPublishDirectory>
     </PropertyGroup>
-
     <Exec Command="dotnet publish &quot;$(MSBuildProjectDirectory)\..\AppDeck.Elevated\AppDeck.Elevated.csproj&quot; -c $(Configuration) -r $(RuntimeIdentifier) --self-contained true -o &quot;$(ElevatedHelperPublishDirectory)&quot;" />
   </Target>
 
-  <Target Name="CopyElevatedHelperToAppX"
-          AfterTargets="Build"
-          DependsOnTargets="PublishElevatedHelper"
-          Condition="'$(LayoutDir)' != ''">
+  <Target Name="CopyElevatedHelperToAppX" AfterTargets="Build" DependsOnTargets="PublishElevatedHelper" Condition="'$(LayoutDir)' != ''">
     <ItemGroup>
       <ElevatedHelperFiles Include="$(ElevatedHelperPublishDirectory)**\*" />
     </ItemGroup>
-
-    <Copy SourceFiles="@(ElevatedHelperFiles)"
-          DestinationFiles="@(ElevatedHelperFiles->'$(LayoutDir)\Elevated\%(RecursiveDir)%(Filename)%(Extension)')"
-          SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(ElevatedHelperFiles)" DestinationFiles="@(ElevatedHelperFiles->'$(LayoutDir)\Elevated\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
 </Project>
