@@ -36,9 +36,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel
-                            Grid.Column="0"
-                            Spacing="4">
+                        <StackPanel Grid.Column="0" Spacing="4">
                             <TextBlock
                                 Text="Silent package operations"
                                 FontWeight="SemiBold" />
@@ -67,29 +65,82 @@
                     BorderThickness="1"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                    <Grid ColumnSpacing="32">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                    <StackPanel Spacing="20">
 
-                        <StackPanel
-                            Grid.Column="0"
-                            Spacing="4">
-                            <TextBlock
-                                Text="Check for updates on startup"
-                                FontWeight="SemiBold" />
-                            <TextBlock
-                                Text="Automatically check for available package updates when AppDeck starts."
-                                TextWrapping="Wrap"
-                                Opacity="0.7" />
-                        </StackPanel>
+                        <Grid ColumnSpacing="32">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                        <ToggleSwitch
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            IsOn="{x:Bind ViewModel.CheckUpdatesOnStartup, Mode=TwoWay}" />
-                    </Grid>
+                            <StackPanel Grid.Column="0" Spacing="4">
+                                <TextBlock
+                                    Text="Check for updates on startup"
+                                    FontWeight="SemiBold" />
+                                <TextBlock
+                                    Text="Automatically check for available package updates when AppDeck starts."
+                                    TextWrapping="Wrap"
+                                    Opacity="0.7" />
+                            </StackPanel>
+
+                            <ToggleSwitch
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                IsOn="{x:Bind ViewModel.CheckUpdatesOnStartup, Mode=TwoWay}" />
+                        </Grid>
+
+                        <Rectangle
+                            Height="1"
+                            Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                        <Grid ColumnSpacing="32">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Spacing="4">
+                                <TextBlock
+                                    Text="Check for updates in the background"
+                                    FontWeight="SemiBold" />
+                                <TextBlock
+                                    Text="Periodically check for package updates while AppDeck is running."
+                                    TextWrapping="Wrap"
+                                    Opacity="0.7" />
+                            </StackPanel>
+
+                            <ToggleSwitch
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                IsOn="{x:Bind ViewModel.BackgroundUpdateChecks, Mode=TwoWay}" />
+                        </Grid>
+
+                        <Grid ColumnSpacing="32">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="220" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Spacing="4">
+                                <TextBlock
+                                    Text="Check interval"
+                                    FontWeight="SemiBold" />
+                                <TextBlock
+                                    Text="Choose how often AppDeck checks for available updates."
+                                    TextWrapping="Wrap"
+                                    Opacity="0.7" />
+                            </StackPanel>
+
+                            <ComboBox
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch"
+                                ItemsSource="{x:Bind ViewModel.BackgroundUpdateIntervals}"
+                                SelectedItem="{x:Bind ViewModel.SelectedBackgroundUpdateInterval, Mode=TwoWay}"
+                                IsEnabled="{x:Bind ViewModel.BackgroundUpdateChecks, Mode=OneWay}" />
+                        </Grid>
+
+                    </StackPanel>
                 </Border>
             </StackPanel>
 
@@ -110,9 +161,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel
-                            Grid.Column="0"
-                            Spacing="4">
+                        <StackPanel Grid.Column="0" Spacing="4">
                             <TextBlock
                                 Text="Start AppDeck with Windows"
                                 FontWeight="SemiBold" />
