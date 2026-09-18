@@ -1,5 +1,6 @@
 ﻿using AppDeck.Services;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
 
@@ -48,9 +49,11 @@ public partial class App : Application
         if (_window is null)
         {
             _window = new MainWindow();
+            _window.AppWindow.Closing += AppWindow_Closing;
             _window.Closed += Window_Closed;
         }
 
+        _window.AppWindow.Show();
         _window.Activate();
     }
 
@@ -111,10 +114,22 @@ public partial class App : Application
         Exit();
     }
 
+    private void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+    {
+        if (_isExiting || !_settingsService.BackgroundUpdateChecks)
+            return;
+
+        args.Cancel = true;
+        sender.Hide();
+    }
+
     private void Window_Closed(object sender, WindowEventArgs args)
     {
         if (_window is not null)
+        {
+            _window.AppWindow.Closing -= AppWindow_Closing;
             _window.Closed -= Window_Closed;
+        }
 
         _window = null;
 
