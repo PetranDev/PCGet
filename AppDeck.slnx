@@ -13,6 +13,7 @@
     </Project>
   </Folder>
   <Project Path="AppDeck.Elevated/AppDeck.Elevated.csproj" />
+  <Project Path="AppDeck.Updater/AppDeck.Updater.csproj" />
   <Project Path="AppDeck/AppDeck.csproj">
     <Platform Solution="*|ARM64" Project="ARM64" />
     <Platform Solution="*|x64" Project="x64" />
