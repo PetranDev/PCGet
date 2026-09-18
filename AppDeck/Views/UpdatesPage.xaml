@@ -11,13 +11,17 @@
             <RowDefinition Height="16" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+
             <StackPanel Spacing="8">
                 <TextBlock
                     Text="Updates"
@@ -27,6 +31,7 @@
                     Style="{StaticResource BodyTextBlockStyle}"
                     Opacity="0.7" />
             </StackPanel>
+
             <StackPanel
                 Grid.Column="1"
                 Orientation="Horizontal"
@@ -40,6 +45,7 @@
                     IsEnabled="{x:Bind ViewModel.CanUpdateAll, Mode=OneWay}" />
             </StackPanel>
         </Grid>
+
         <StackPanel
             Grid.Row="2"
             Orientation="Horizontal"
@@ -52,14 +58,44 @@
                 VerticalAlignment="Center"
                 Text="{x:Bind ViewModel.StatusText, Mode=OneWay}" />
         </StackPanel>
+
         <InfoBar
             x:Name="ErrorInfoBar"
             Grid.Row="4"
             IsOpen="False"
             Severity="Error"
             Title="WinGet operation failed" />
+
+        <Grid Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="180" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="180" />
+            </Grid.ColumnDefinitions>
+
+            <AutoSuggestBox
+                Grid.Column="0"
+                PlaceholderText="Search available updates"
+                QueryIcon="Find"
+                Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <ComboBox
+                Grid.Column="2"
+                ItemsSource="{x:Bind ViewModel.Sources}"
+                SelectedItem="{x:Bind ViewModel.SelectedSource, Mode=TwoWay}"
+                HorizontalAlignment="Stretch" />
+
+            <ComboBox
+                Grid.Column="4"
+                ItemsSource="{x:Bind ViewModel.SortOptions}"
+                SelectedItem="{x:Bind ViewModel.SelectedSort, Mode=TwoWay}"
+                HorizontalAlignment="Stretch" />
+        </Grid>
+
         <ListView
-            Grid.Row="6"
+            Grid.Row="8"
             ItemsSource="{x:Bind ViewModel.Updates, Mode=OneWay}"
             SelectionMode="None">
             <ListView.ItemTemplate>
@@ -70,6 +106,7 @@
                             <ColumnDefinition Width="24" />
                             <ColumnDefinition Width="180" />
                         </Grid.ColumnDefinitions>
+
                         <StackPanel
                             Grid.Column="0"
                             Spacing="4">
@@ -94,6 +131,7 @@
                                     Margin="12,0,0,0" />
                             </StackPanel>
                         </StackPanel>
+
                         <StackPanel
                             Grid.Column="2"
                             VerticalAlignment="Center"

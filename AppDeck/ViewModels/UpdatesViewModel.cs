@@ -12,19 +12,33 @@ namespace AppDeck.ViewModels;
 
 public partial class UpdatesViewModel : ObservableObject
 {
+    private const string AllSources = "All sources";
+
     private readonly IWinGetService _winGetService;
     private readonly ElevatedOperationService _elevatedOperationService;
     private readonly Queue<PackageInfo> _updateQueue = new();
+    private readonly List<PackageInfo> _allUpdates = [];
 
     private bool _isProcessingQueue;
 
     public ObservableCollection<PackageInfo> Updates { get; } = [];
+    public ObservableCollection<string> Sources { get; } = [AllSources];
+    public string[] SortOptions { get; } = ["Name A–Z", "Name Z–A", "Source A–Z"];
 
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
 
     [ObservableProperty]
     public partial string? ErrorMessage { get; set; }
+
+    [ObservableProperty]
+    public partial string SearchText { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string SelectedSource { get; set; } = AllSources;
+
+    [ObservableProperty]
+    public partial string SelectedSort { get; set; } = "Name A–Z";
 
     public bool IsUpdating => _isProcessingQueue;
     public int QueuedUpdateCount => _updateQueue.Count;
@@ -49,6 +63,19 @@ public partial class UpdatesViewModel : ObservableObject
                     0 => "Installing update...",
                     1 => "Installing update · 1 queued",
                     _ => $"Installing update · {QueuedUpdateCount} queued"
+                };
+            }
+
+            var isFiltered = !string.IsNullOrWhiteSpace(SearchText) ||
+                             !string.Equals(SelectedSource, AllSources, StringComparison.OrdinalIgnoreCase);
+
+            if (isFiltered)
+            {
+                return Updates.Count switch
+                {
+                    0 => "No matching updates.",
+                    1 => $"1 of {_allUpdates.Count} updates shown",
+                    _ => $"{Updates.Count} of {_allUpdates.Count} updates shown"
                 };
             }
 
@@ -120,7 +147,7 @@ public partial class UpdatesViewModel : ObservableObject
 
             await Task.Delay(500);
 
-            Updates.Remove(package);
+            RemoveUpdate(package);
         }
         catch (Exception ex)
         {
@@ -210,7 +237,7 @@ public partial class UpdatesViewModel : ObservableObject
 
             await Task.Delay(300);
 
-            Updates.Remove(package);
+            RemoveUpdate(package);
         }
         catch (Exception ex)
         {
@@ -238,10 +265,11 @@ public partial class UpdatesViewModel : ObservableObject
 
             var packages = await _winGetService.GetAvailableUpdatesAsync();
 
-            Updates.Clear();
+            _allUpdates.Clear();
+            _allUpdates.AddRange(packages);
 
-            foreach (var package in packages)
-                Updates.Add(package);
+            RebuildSources();
+            ApplyView();
         }
         catch (Exception ex)
         {
@@ -254,11 +282,98 @@ public partial class UpdatesViewModel : ObservableObject
         }
     }
 
+    private void RemoveUpdate(PackageInfo package)
+    {
+        _allUpdates.RemoveAll(item => string.Equals(item.Id, package.Id, StringComparison.OrdinalIgnoreCase));
+
+        RebuildSources();
+        ApplyView();
+    }
+
+    private void RebuildSources()
+    {
+        var previousSource = SelectedSource;
+
+        Sources.Clear();
+        Sources.Add(AllSources);
+
+        foreach (var source in _allUpdates
+            .Select(package => package.Source)
+            .Where(source => !string.IsNullOrWhiteSpace(source))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(source => source, StringComparer.OrdinalIgnoreCase))
+        {
+            Sources.Add(source);
+        }
+
+        SelectedSource = Sources.Any(source => string.Equals(source, previousSource, StringComparison.OrdinalIgnoreCase))
+            ? previousSource
+            : AllSources;
+    }
+
+    private void ApplyView()
+    {
+        IEnumerable<PackageInfo> packages = _allUpdates;
+        var searchText = SearchText.Trim();
+
+        if (!string.IsNullOrWhiteSpace(searchText))
+        {
+            packages = packages.Where(package =>
+                Contains(package.Name, searchText) ||
+                Contains(package.Id, searchText) ||
+                Contains(package.InstalledVersion, searchText) ||
+                Contains(package.AvailableVersion, searchText) ||
+                Contains(package.Source, searchText));
+        }
+
+        if (!string.Equals(SelectedSource, AllSources, StringComparison.OrdinalIgnoreCase))
+        {
+            packages = packages.Where(package =>
+                string.Equals(package.Source, SelectedSource, StringComparison.OrdinalIgnoreCase));
+        }
+
+        packages = SelectedSort switch
+        {
+            "Name Z–A" => packages.OrderByDescending(package => package.Name, StringComparer.OrdinalIgnoreCase),
+            "Source A–Z" => packages
+                .OrderBy(package => package.Source, StringComparer.OrdinalIgnoreCase)
+                .ThenBy(package => package.Name, StringComparer.OrdinalIgnoreCase),
+            _ => packages.OrderBy(package => package.Name, StringComparer.OrdinalIgnoreCase)
+        };
+
+        Updates.Clear();
+
+        foreach (var package in packages)
+            Updates.Add(package);
+
+        NotifyQueueStateChanged();
+    }
+
     private void NotifyQueueStateChanged()
     {
         OnPropertyChanged(nameof(IsUpdating));
         OnPropertyChanged(nameof(QueuedUpdateCount));
         OnPropertyChanged(nameof(CanUpdateAll));
         OnPropertyChanged(nameof(StatusText));
+    }
+
+    private static bool Contains(string? value, string searchText)
+    {
+        return value?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true;
+    }
+
+    partial void OnSearchTextChanged(string value)
+    {
+        ApplyView();
+    }
+
+    partial void OnSelectedSourceChanged(string value)
+    {
+        ApplyView();
+    }
+
+    partial void OnSelectedSortChanged(string value)
+    {
+        ApplyView();
     }
 }
