@@ -22,15 +22,14 @@ public sealed class TrayIconService : IDisposable
 
     private const uint ImageIcon = 1;
     private const uint LrLoadFromFile = 0x00000010;
+    private const uint LrDefaultSize = 0x00000040;
 
     private const uint MfString = 0x00000000;
     private const uint TpmRightButton = 0x0002;
     private const uint TpmReturnCmd = 0x0100;
 
-    private const int SmCxSmIcon = 49;
-    private const int SmCySmIcon = 50;
-
     private const uint OpenCommandId = 1;
+    private const uint CheckUpdatesCommandId = 2;
 
     private static readonly Dictionary<nint, TrayIconService> Instances = [];
     private static readonly WndProcDelegate WndProc = WindowProcedure;
@@ -41,6 +40,7 @@ public sealed class TrayIconService : IDisposable
     private bool _disposed;
 
     public event EventHandler? OpenRequested;
+    public event EventHandler? CheckUpdatesRequested;
 
     public TrayIconService()
     {
@@ -72,13 +72,7 @@ public sealed class TrayIconService : IDisposable
         if (!File.Exists(iconPath))
             throw new FileNotFoundException("The AppDeck tray icon could not be found.", iconPath);
 
-        _iconHandle = LoadImage(
-            nint.Zero,
-            iconPath,
-            ImageIcon,
-            GetSystemMetrics(SmCxSmIcon),
-            GetSystemMetrics(SmCySmIcon),
-            LrLoadFromFile);
+        _iconHandle = LoadImage(nint.Zero, iconPath, ImageIcon, 0, 0, LrLoadFromFile | LrDefaultSize);
 
         if (_iconHandle == nint.Zero)
             throw new InvalidOperationException("Unable to load the AppDeck tray icon.");
@@ -113,21 +107,17 @@ public sealed class TrayIconService : IDisposable
         try
         {
             AppendMenu(menu, MfString, OpenCommandId, "Open AppDeck");
+            AppendMenu(menu, MfString, CheckUpdatesCommandId, "Check for updates");
 
             GetCursorPos(out var point);
             SetForegroundWindow(_windowHandle);
 
-            var command = TrackPopupMenu(
-                menu,
-                TpmRightButton | TpmReturnCmd,
-                point.X,
-                point.Y,
-                0,
-                _windowHandle,
-                nint.Zero);
+            var command = TrackPopupMenu(menu, TpmRightButton | TpmReturnCmd, point.X, point.Y, 0, _windowHandle, nint.Zero);
 
             if (command == OpenCommandId)
                 OpenRequested?.Invoke(this, EventArgs.Empty);
+            else if (command == CheckUpdatesCommandId)
+                CheckUpdatesRequested?.Invoke(this, EventArgs.Empty);
         }
         finally
         {
@@ -174,10 +164,21 @@ public sealed class TrayIconService : IDisposable
                 }
             }
 
-            if (message == WmCommand && unchecked((uint)wParam.ToInt64()) == OpenCommandId)
+            if (message == WmCommand)
             {
-                instance.OpenRequested?.Invoke(instance, EventArgs.Empty);
-                return nint.Zero;
+                var command = unchecked((uint)wParam.ToInt64());
+
+                if (command == OpenCommandId)
+                {
+                    instance.OpenRequested?.Invoke(instance, EventArgs.Empty);
+                    return nint.Zero;
+                }
+
+                if (command == CheckUpdatesCommandId)
+                {
+                    instance.CheckUpdatesRequested?.Invoke(instance, EventArgs.Empty);
+                    return nint.Zero;
+                }
             }
         }
 
@@ -276,9 +277,6 @@ public sealed class TrayIconService : IDisposable
 
     [DllImport("user32.dll")]
     private static extern bool DestroyIcon(nint icon);
-
-    [DllImport("user32.dll")]
-    private static extern int GetSystemMetrics(int index);
 
     [DllImport("user32.dll")]
     private static extern nint CreatePopupMenu();

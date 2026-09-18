@@ -28,6 +28,7 @@ public partial class App : Application
 
         _trayIconService = new TrayIconService();
         _trayIconService.OpenRequested += TrayIconService_OpenRequested;
+        _trayIconService.CheckUpdatesRequested += TrayIconService_CheckUpdatesRequested;
 
         _notificationService.Register();
 
@@ -69,6 +70,23 @@ public partial class App : Application
         DispatcherQueue.TryEnqueue(ShowMainWindow);
     }
 
+    private void TrayIconService_CheckUpdatesRequested(object? sender, EventArgs e)
+    {
+        _ = CheckForUpdatesFromTrayAsync();
+    }
+
+    private async System.Threading.Tasks.Task CheckForUpdatesFromTrayAsync()
+    {
+        try
+        {
+            await _backgroundUpdateService.CheckNowAsync();
+        }
+        catch
+        {
+            // A manual tray check failure must not terminate AppDeck.
+        }
+    }
+
     private void Window_Closed(object sender, WindowEventArgs args)
     {
         if (_window is not null)
@@ -83,6 +101,7 @@ public partial class App : Application
         if (_trayIconService is not null)
         {
             _trayIconService.OpenRequested -= TrayIconService_OpenRequested;
+            _trayIconService.CheckUpdatesRequested -= TrayIconService_CheckUpdatesRequested;
             _trayIconService.Dispose();
             _trayIconService = null;
         }
