@@ -1,7 +1,11 @@
 using AppDeck.Views;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Windows.UI.ApplicationSettings;
+using System;
+using System.IO;
+using WinRT.Interop;
 
 namespace AppDeck;
 
@@ -11,7 +15,24 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
 
+        ConfigureWindow();
+
         ContentFrame.Navigate(typeof(UpdatesPage));
+    }
+
+    private void ConfigureWindow()
+    {
+        ExtendsContentIntoTitleBar = true;
+        SetTitleBar(AppTitleBar);
+
+        var windowHandle = WindowNative.GetWindowHandle(this);
+        var windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
+        var appWindow = AppWindow.GetFromWindowId(windowId);
+
+        var iconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "AppDeck.ico");
+
+        if (File.Exists(iconPath))
+            appWindow.SetIcon(iconPath);
     }
 
     private void NavigationView_SelectionChanged(
@@ -35,10 +56,7 @@ public sealed partial class MainWindow : Window
             _ => null
         };
 
-        if (pageType is not null &&
-            ContentFrame.CurrentSourcePageType != pageType)
-        {
+        if (pageType is not null && ContentFrame.CurrentSourcePageType != pageType)
             ContentFrame.Navigate(pageType);
-        }
     }
 }
