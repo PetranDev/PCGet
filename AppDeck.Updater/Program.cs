@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AppDeck.Updater;
@@ -13,19 +14,25 @@ public static class Program
     {
         try
         {
-            if (args.Length < 2 ||
-                !int.TryParse(args[0], out var appDeckProcessId) ||
-                string.IsNullOrWhiteSpace(args[1]))
+            var dryRun = args.Any(arg => string.Equals(arg, "--dry-run", StringComparison.OrdinalIgnoreCase));
+            var positionalArgs = args.Where(arg => !arg.StartsWith("--", StringComparison.Ordinal)).ToArray();
+
+            if (positionalArgs.Length < 2 ||
+                !int.TryParse(positionalArgs[0], out var appDeckProcessId) ||
+                string.IsNullOrWhiteSpace(positionalArgs[1]))
                 return 1;
 
-            var appDeckExecutable = Path.GetFullPath(args[1]);
+            var appDeckExecutable = Path.GetFullPath(positionalArgs[1]);
 
             await WaitForAppDeckToExitAsync(appDeckProcessId);
 
-            var exitCode = await UpdateAppDeckAsync();
+            if (!dryRun)
+            {
+                var exitCode = await UpdateAppDeckAsync();
 
-            if (exitCode != 0)
-                return exitCode;
+                if (exitCode != 0)
+                    return exitCode;
+            }
 
             if (!File.Exists(appDeckExecutable))
                 return 2;
