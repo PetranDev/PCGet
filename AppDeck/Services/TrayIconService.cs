@@ -25,11 +25,13 @@ public sealed class TrayIconService : IDisposable
     private const uint LrDefaultSize = 0x00000040;
 
     private const uint MfString = 0x00000000;
+    private const uint MfSeparator = 0x00000800;
     private const uint TpmRightButton = 0x0002;
     private const uint TpmReturnCmd = 0x0100;
 
     private const uint OpenCommandId = 1;
     private const uint CheckUpdatesCommandId = 2;
+    private const uint ExitCommandId = 3;
 
     private static readonly Dictionary<nint, TrayIconService> Instances = [];
     private static readonly WndProcDelegate WndProc = WindowProcedure;
@@ -41,6 +43,7 @@ public sealed class TrayIconService : IDisposable
 
     public event EventHandler? OpenRequested;
     public event EventHandler? CheckUpdatesRequested;
+    public event EventHandler? ExitRequested;
 
     public TrayIconService()
     {
@@ -108,6 +111,8 @@ public sealed class TrayIconService : IDisposable
         {
             AppendMenu(menu, MfString, OpenCommandId, "Open AppDeck");
             AppendMenu(menu, MfString, CheckUpdatesCommandId, "Check for updates");
+            AppendMenu(menu, MfSeparator, 0, string.Empty);
+            AppendMenu(menu, MfString, ExitCommandId, "Exit");
 
             GetCursorPos(out var point);
             SetForegroundWindow(_windowHandle);
@@ -118,6 +123,8 @@ public sealed class TrayIconService : IDisposable
                 OpenRequested?.Invoke(this, EventArgs.Empty);
             else if (command == CheckUpdatesCommandId)
                 CheckUpdatesRequested?.Invoke(this, EventArgs.Empty);
+            else if (command == ExitCommandId)
+                ExitRequested?.Invoke(this, EventArgs.Empty);
         }
         finally
         {
@@ -177,6 +184,12 @@ public sealed class TrayIconService : IDisposable
                 if (command == CheckUpdatesCommandId)
                 {
                     instance.CheckUpdatesRequested?.Invoke(instance, EventArgs.Empty);
+                    return nint.Zero;
+                }
+
+                if (command == ExitCommandId)
+                {
+                    instance.ExitRequested?.Invoke(instance, EventArgs.Empty);
                     return nint.Zero;
                 }
             }

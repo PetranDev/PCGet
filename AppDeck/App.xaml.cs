@@ -13,6 +13,7 @@ public partial class App : Application
 
     private MainWindow? _window;
     private TrayIconService? _trayIconService;
+    private bool _isExiting;
 
     public static App? CurrentApp => Current as App;
     public DispatcherQueue DispatcherQueue { get; private set; } = null!;
@@ -29,6 +30,7 @@ public partial class App : Application
         _trayIconService = new TrayIconService();
         _trayIconService.OpenRequested += TrayIconService_OpenRequested;
         _trayIconService.CheckUpdatesRequested += TrayIconService_CheckUpdatesRequested;
+        _trayIconService.ExitRequested += TrayIconService_ExitRequested;
 
         _notificationService.Register();
 
@@ -87,6 +89,28 @@ public partial class App : Application
         }
     }
 
+    private void TrayIconService_ExitRequested(object? sender, EventArgs e)
+    {
+        DispatcherQueue.TryEnqueue(ExitApplication);
+    }
+
+    private void ExitApplication()
+    {
+        if (_isExiting)
+            return;
+
+        _isExiting = true;
+
+        if (_window is not null)
+        {
+            _window.Close();
+            return;
+        }
+
+        DisposeServices();
+        Exit();
+    }
+
     private void Window_Closed(object sender, WindowEventArgs args)
     {
         if (_window is not null)
@@ -94,16 +118,25 @@ public partial class App : Application
 
         _window = null;
 
+        DisposeServices();
+
+        if (_isExiting)
+            Exit();
+    }
+
+    private void DisposeServices()
+    {
         _backgroundUpdateService.CheckCompleted -= BackgroundUpdateService_CheckCompleted;
         _backgroundUpdateService.Dispose();
         _notificationService.Dispose();
 
-        if (_trayIconService is not null)
-        {
-            _trayIconService.OpenRequested -= TrayIconService_OpenRequested;
-            _trayIconService.CheckUpdatesRequested -= TrayIconService_CheckUpdatesRequested;
-            _trayIconService.Dispose();
-            _trayIconService = null;
-        }
+        if (_trayIconService is null)
+            return;
+
+        _trayIconService.OpenRequested -= TrayIconService_OpenRequested;
+        _trayIconService.CheckUpdatesRequested -= TrayIconService_CheckUpdatesRequested;
+        _trayIconService.ExitRequested -= TrayIconService_ExitRequested;
+        _trayIconService.Dispose();
+        _trayIconService = null;
     }
 }
