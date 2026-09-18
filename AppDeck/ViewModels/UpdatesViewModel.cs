@@ -46,8 +46,9 @@ public partial class UpdatesViewModel : ObservableObject
     public bool CanUpdateAll =>
         !IsLoading &&
         Updates.Any(package =>
-            package.UpdateState == PackageUpdateState.Ready ||
-            package.UpdateState == PackageUpdateState.Failed);
+            !package.IsAppDeck &&
+            (package.UpdateState == PackageUpdateState.Ready ||
+             package.UpdateState == PackageUpdateState.Failed));
 
     public string StatusText
     {
@@ -115,7 +116,7 @@ public partial class UpdatesViewModel : ObservableObject
     [RelayCommand]
     private Task UpdateAllAsync()
     {
-        foreach (var package in Updates.ToArray())
+        foreach (var package in Updates.Where(package => !package.IsAppDeck).ToArray())
             QueuePackage(package);
 
         StartQueueIfNecessary();
