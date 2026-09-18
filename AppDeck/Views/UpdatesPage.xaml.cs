@@ -7,29 +7,24 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 
 namespace AppDeck.Views;
 
 public sealed partial class UpdatesPage : Page
 {
     private static bool _startupCheckHandled;
-
     private readonly AppSettingsService _settingsService;
-
     public UpdatesViewModel ViewModel { get; }
 
     public UpdatesPage()
     {
         _settingsService = new AppSettingsService();
-
         var elevatedOperationService = new ElevatedOperationService(_settingsService);
 
-        ViewModel = new UpdatesViewModel(
-            new WinGetService(),
-            elevatedOperationService);
+        ViewModel = new UpdatesViewModel(new WinGetService(), elevatedOperationService);
 
         InitializeComponent();
-
         Loaded += UpdatesPage_Loaded;
         ViewModel.PropertyChanged += ViewModel_PropertyChanged;
     }
@@ -53,7 +48,6 @@ public sealed partial class UpdatesPage : Page
     {
         if (sender is not Button button)
             return;
-
         if (button.Tag is not PackageInfo package)
             return;
 
@@ -96,11 +90,8 @@ public sealed partial class UpdatesPage : Page
             if (!File.Exists(updaterPath))
                 throw new FileNotFoundException("The AppDeck updater could not be found.", updaterPath);
 
-            var appDeckExecutable = Environment.ProcessPath;
-
-            if (string.IsNullOrWhiteSpace(appDeckExecutable))
-                throw new InvalidOperationException("The AppDeck executable path could not be determined.");
-
+            var packageId = Package.Current.Id;
+            var appDeckAumid = $"{packageId.FamilyName}!App";
             var processId = Environment.ProcessId;
 
             Process.Start(new ProcessStartInfo
@@ -109,7 +100,7 @@ public sealed partial class UpdatesPage : Page
                 ArgumentList =
                 {
                     processId.ToString(),
-                    appDeckExecutable
+                    appDeckAumid
                 },
                 UseShellExecute = false
             });

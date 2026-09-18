@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,16 +21,13 @@ public static class Program
                 string.IsNullOrWhiteSpace(positionalArgs[1]))
                 return 1;
 
-            var appDeckExecutable = Path.GetFullPath(positionalArgs[1]);
+            var appDeckAumid = positionalArgs[1];
 
             await WaitForAppDeckToExitAsync(appDeckProcessId);
 
-            if (!File.Exists(appDeckExecutable))
-                return 2;
-
             if (dryRun)
             {
-                RestartAppDeck(appDeckExecutable, "--update-result=success");
+                RestartAppDeck(appDeckAumid);
                 return 0;
             }
 
@@ -39,15 +35,11 @@ public static class Program
 
             if (exitCode == 0)
             {
-                RestartAppDeck(appDeckExecutable, "--update-result=success");
+                RestartAppDeck(appDeckAumid);
                 return 0;
             }
 
-            RestartAppDeck(
-                appDeckExecutable,
-                "--update-result=failed",
-                $"--update-exit-code={exitCode}");
-
+            RestartAppDeck(appDeckAumid);
             return exitCode;
         }
         catch
@@ -90,17 +82,13 @@ public static class Program
         return process.ExitCode;
     }
 
-    private static void RestartAppDeck(string appDeckExecutable, params string[] arguments)
+    private static void RestartAppDeck(string appDeckAumid)
     {
-        var startInfo = new ProcessStartInfo
+        Process.Start(new ProcessStartInfo
         {
-            FileName = appDeckExecutable,
+            FileName = "explorer.exe",
+            Arguments = $"shell:AppsFolder\\{appDeckAumid}",
             UseShellExecute = true
-        };
-
-        foreach (var argument in arguments)
-            startInfo.ArgumentList.Add(argument);
-
-        Process.Start(startInfo);
+        });
     }
 }
