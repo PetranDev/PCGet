@@ -7,6 +7,9 @@ namespace AppDeck;
 
 public partial class App : Application
 {
+    private readonly AppSettingsService _settingsService;
+    private readonly BackgroundUpdateService _backgroundUpdateService;
+
     private MainWindow? _window;
     private TrayIconService? _trayIconService;
 
@@ -18,8 +21,13 @@ public partial class App : Application
         InitializeComponent();
         DispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
+        _settingsService = new AppSettingsService();
+        _backgroundUpdateService = new BackgroundUpdateService(new WinGetService(), _settingsService);
+
         _trayIconService = new TrayIconService();
         _trayIconService.OpenRequested += TrayIconService_OpenRequested;
+
+        _backgroundUpdateService.ApplySettings();
     }
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
@@ -49,6 +57,8 @@ public partial class App : Application
             _window.Closed -= Window_Closed;
 
         _window = null;
+
+        _backgroundUpdateService.Dispose();
 
         if (_trayIconService is not null)
         {
