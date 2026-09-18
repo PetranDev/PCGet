@@ -58,7 +58,7 @@ public partial class App : Application
 
     private void BackgroundUpdateService_CheckCompleted(object? sender, BackgroundUpdateCheckCompletedEventArgs e)
     {
-        if (e.Updates.Count == 0)
+        if (!e.HasChanged || e.Updates.Count == 0)
             return;
 
         _notificationService.ShowUpdatesAvailable(e.Updates.Count);

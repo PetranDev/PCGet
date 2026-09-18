@@ -1,6 +1,7 @@
 ﻿using AppDeck.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ public sealed class BackgroundUpdateService : IDisposable
     private readonly SemaphoreSlim _checkLock = new(1, 1);
 
     private Timer? _timer;
+    private HashSet<string>? _lastUpdateIds;
     private bool _disposed;
 
     public event EventHandler<BackgroundUpdateCheckCompletedEventArgs>? CheckCompleted;
@@ -47,10 +49,14 @@ public sealed class BackgroundUpdateService : IDisposable
         try
         {
             var updates = await Task.Run(async () => await _winGetService.GetAvailableUpdatesAsync());
+            var updateIds = updates.Select(update => update.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            var hasChanged = _lastUpdateIds is null || !_lastUpdateIds.SetEquals(updateIds);
+
+            _lastUpdateIds = updateIds;
 
             CheckCompleted?.Invoke(
                 this,
-                new BackgroundUpdateCheckCompletedEventArgs(updates));
+                new BackgroundUpdateCheckCompletedEventArgs(updates, hasChanged));
 
             return updates;
         }
@@ -98,9 +104,11 @@ public sealed class BackgroundUpdateService : IDisposable
 public sealed class BackgroundUpdateCheckCompletedEventArgs : EventArgs
 {
     public IReadOnlyList<PackageInfo> Updates { get; }
+    public bool HasChanged { get; }
 
-    public BackgroundUpdateCheckCompletedEventArgs(IReadOnlyList<PackageInfo> updates)
+    public BackgroundUpdateCheckCompletedEventArgs(IReadOnlyList<PackageInfo> updates, bool hasChanged)
     {
         Updates = updates;
+        HasChanged = hasChanged;
     }
 }
