@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PCGet (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "PCGet (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
