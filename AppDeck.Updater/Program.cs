@@ -13,9 +13,12 @@ public static class Program
 
     public static async Task<int> Main(string[] args)
     {
+        string? appDeckAumid = null;
+
         try
         {
             var dryRun = args.Any(arg => string.Equals(arg, "--dry-run", StringComparison.OrdinalIgnoreCase));
+            var simulateFailure = args.Any(arg => string.Equals(arg, "--simulate-failure", StringComparison.OrdinalIgnoreCase));
             var positionalArgs = args.Where(arg => !arg.StartsWith("--", StringComparison.Ordinal)).ToArray();
 
             if (positionalArgs.Length < 2 ||
@@ -23,9 +26,12 @@ public static class Program
                 string.IsNullOrWhiteSpace(positionalArgs[1]))
                 return 1;
 
-            var appDeckAumid = positionalArgs[1];
+            appDeckAumid = positionalArgs[1];
 
             await WaitForAppDeckToExitAsync(appDeckProcessId);
+
+            if (simulateFailure)
+                throw new InvalidOperationException("Simulated self-update failure.");
 
             if (dryRun)
             {
@@ -43,6 +49,27 @@ public static class Program
         }
         catch
         {
+            if (string.IsNullOrWhiteSpace(appDeckAumid))
+                return 1;
+
+            try
+            {
+                WriteUpdateResult(false, 1);
+            }
+            catch
+            {
+                // Failure to write the result must not prevent AppDeck from restarting.
+            }
+
+            try
+            {
+                RestartAppDeck(appDeckAumid);
+            }
+            catch
+            {
+                // Nothing else can be done if package activation itself fails.
+            }
+
             return 1;
         }
     }
