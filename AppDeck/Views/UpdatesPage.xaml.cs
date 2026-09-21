@@ -85,7 +85,11 @@ public sealed partial class UpdatesPage : Page
 
         try
         {
-            var packagedUpdaterPath = Path.Combine(AppContext.BaseDirectory, "Updater", "AppDeck.Updater.exe");
+            var packagedUpdaterPath = Path.GetFullPath(Path.Combine(
+                AppContext.BaseDirectory,
+                "..",
+                "AppDeck.Updater",
+                "AppDeck.Updater.exe"));
 
             if (!File.Exists(packagedUpdaterPath))
                 throw new FileNotFoundException("The AppDeck updater could not be found.", packagedUpdaterPath);
