@@ -31,7 +31,7 @@
   <Applications>
     <Application
       Id="App"
-      Executable="PCGet.exe"
+      Executable="PCGet\PCGet.exe"
       EntryPoint="Windows.FullTrustApplication">
 
       <uap:VisualElements
@@ -54,7 +54,7 @@
 
         <com:Extension Category="windows.comServer">
           <com:ComServer>
-            <com:ExeServer Executable="PCGet.exe" Arguments="----AppNotificationActivated:" DisplayName="PCGet">
+            <com:ExeServer Executable="PCGet\PCGet.exe" Arguments="----AppNotificationActivated:" DisplayName="PCGet">
               <com:Class Id="B5A21D92-3D5C-4F19-A783-1B6E61D2A447" DisplayName="PCGet" />
             </com:ExeServer>
           </com:ComServer>
