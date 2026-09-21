@@ -160,8 +160,6 @@ public partial class DiscoverViewModel : ObservableObject
         if (package.IsInstalled || package.IsInstalling)
             return false;
 
-        var succeeded = false;
-
         try
         {
             ErrorMessage = null;
@@ -181,30 +179,22 @@ public partial class DiscoverViewModel : ObservableObject
 
             await Task.Run(async () => await _winGetService.InstallPackageAsync(package.Id, progress));
 
-            package.InstallStatus = "Installed";
-            package.InstallProgress = 100;
-            package.IsInstalled = true;
+            if (!await VerifyInstallAsync(package, showError))
+                return false;
 
-            succeeded = true;
+            CompleteInstall(package);
+            return true;
         }
         catch (Exception ex)
         {
-            package.InstallStatus = "Failed";
-            package.InstallProgress = 0;
-
-            LastInstallError = $"{package.Name}: {ex.Message}";
-            LastInstallRequiresElevation = PackageOperationErrorClassifier.RequiresElevation(ex.Message);
-
-            if (showError)
-                ErrorMessage = LastInstallError;
+            FailInstall(package, $"{package.Name}: {ex.Message}", showError, true);
+            return false;
         }
         finally
         {
             package.IsInstallIndeterminate = false;
             package.IsInstalling = false;
         }
-
-        return succeeded;
     }
 
     public async Task<bool> InstallAsAdministratorAsync(DiscoverPackageInfo package)
@@ -225,22 +215,15 @@ public partial class DiscoverViewModel : ObservableObject
 
             await _elevatedOperationService.InstallPackageAsync(package.Id);
 
-            package.IsInstallIndeterminate = false;
-            package.InstallStatus = "Installed";
-            package.InstallProgress = 100;
-            package.IsInstalled = true;
+            if (!await VerifyInstallAsync(package, true))
+                return false;
 
+            CompleteInstall(package);
             return true;
         }
         catch (Exception ex)
         {
-            package.IsInstallIndeterminate = false;
-            package.InstallStatus = "Failed";
-            package.InstallProgress = 0;
-
-            LastInstallError = $"{package.Name}: {ex.Message}";
-            ErrorMessage = LastInstallError;
-
+            FailInstall(package, $"{package.Name}: {ex.Message}", true, false);
             return false;
         }
         finally
@@ -248,6 +231,55 @@ public partial class DiscoverViewModel : ObservableObject
             package.IsInstallIndeterminate = false;
             package.IsInstalling = false;
         }
+    }
+
+    private async Task<bool> VerifyInstallAsync(DiscoverPackageInfo package, bool showError)
+    {
+        package.InstallStatus = "Verifying installation...";
+        package.InstallProgress = 0;
+        package.IsInstallIndeterminate = true;
+
+        var installedPackages = await Task.Run(async () => await _winGetService.GetInstalledPackagesAsync());
+        var isInstalled = installedPackages.Any(candidate =>
+            string.Equals(candidate.Id, package.Id, StringComparison.OrdinalIgnoreCase));
+
+        if (isInstalled)
+            return true;
+
+        var message = $"{package.Name}: The package operation finished, but WinGet does not report the application as installed.";
+
+        package.IsInstallIndeterminate = false;
+        package.InstallStatus = "Not installed";
+        package.InstallProgress = 0;
+
+        LastInstallError = message;
+        LastInstallRequiresElevation = false;
+
+        if (showError)
+            ErrorMessage = message;
+
+        return false;
+    }
+
+    private void CompleteInstall(DiscoverPackageInfo package)
+    {
+        package.IsInstallIndeterminate = false;
+        package.InstallStatus = "Installed";
+        package.InstallProgress = 100;
+        package.IsInstalled = true;
+    }
+
+    private void FailInstall(DiscoverPackageInfo package, string errorMessage, bool showError, bool classifyElevation)
+    {
+        package.IsInstallIndeterminate = false;
+        package.InstallStatus = "Failed";
+        package.InstallProgress = 0;
+
+        LastInstallError = errorMessage;
+        LastInstallRequiresElevation = classifyElevation && PackageOperationErrorClassifier.RequiresElevation(errorMessage);
+
+        if (showError)
+            ErrorMessage = errorMessage;
     }
 
     private void RebuildSources(string? preferredSource = null)

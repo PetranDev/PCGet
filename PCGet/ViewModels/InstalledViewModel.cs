@@ -123,8 +123,6 @@ public partial class InstalledViewModel : ObservableObject
         if (IsUninstalling)
             return false;
 
-        var succeeded = false;
-
         try
         {
             IsUninstalling = true;
@@ -148,22 +146,16 @@ public partial class InstalledViewModel : ObservableObject
 
             await Task.Run(async () => await _winGetService.UninstallPackageAsync(package.Id, progress, interactive));
 
-            package.UninstallStatus = "Uninstalled";
-            package.UninstallProgress = 100;
+            if (!await VerifyUninstallAsync(package, showError))
+                return false;
 
-            RemovePackage(package);
-            succeeded = true;
+            CompleteUninstall(package);
+            return true;
         }
         catch (Exception ex)
         {
-            package.UninstallStatus = "Failed";
-            package.UninstallProgress = 0;
-
-            LastUninstallError = $"{package.Name}: {ex.Message}";
-            LastUninstallRequiresElevation = PackageOperationErrorClassifier.RequiresElevation(ex.Message);
-
-            if (showError)
-                ErrorMessage = LastUninstallError;
+            FailUninstall(package, $"{package.Name}: {ex.Message}", showError, true);
+            return false;
         }
         finally
         {
@@ -173,8 +165,6 @@ public partial class InstalledViewModel : ObservableObject
             IsUninstalling = false;
             OnPropertyChanged(nameof(StatusText));
         }
-
-        return succeeded;
     }
 
     public async Task<bool> UninstallAsAdministratorAsync(PackageInfo package, bool interactive)
@@ -198,23 +188,15 @@ public partial class InstalledViewModel : ObservableObject
 
             await _elevatedOperationService.UninstallPackageAsync(package.Id, interactive);
 
-            package.IsUninstallIndeterminate = false;
-            package.UninstallStatus = "Uninstalled";
-            package.UninstallProgress = 100;
+            if (!await VerifyUninstallAsync(package, true))
+                return false;
 
-            RemovePackage(package);
-
+            CompleteUninstall(package);
             return true;
         }
         catch (Exception ex)
         {
-            package.IsUninstallIndeterminate = false;
-            package.UninstallStatus = "Failed";
-            package.UninstallProgress = 0;
-
-            LastUninstallError = $"{package.Name}: {ex.Message}";
-            ErrorMessage = LastUninstallError;
-
+            FailUninstall(package, $"{package.Name}: {ex.Message}", true, false);
             return false;
         }
         finally
@@ -230,6 +212,57 @@ public partial class InstalledViewModel : ObservableObject
     public bool IsPackageUninstalling(PackageInfo package)
     {
         return package.IsUninstalling;
+    }
+
+    private async Task<bool> VerifyUninstallAsync(PackageInfo package, bool showError)
+    {
+        package.UninstallStatus = $"Verifying uninstall of {package.Name}...";
+        package.UninstallProgress = 0;
+        package.IsUninstallIndeterminate = true;
+        OnPropertyChanged(nameof(StatusText));
+
+        var installedPackages = await Task.Run(async () => await _winGetService.GetInstalledPackagesAsync());
+        var isStillInstalled = installedPackages.Any(candidate =>
+            string.Equals(candidate.Id, package.Id, StringComparison.OrdinalIgnoreCase));
+
+        if (!isStillInstalled)
+            return true;
+
+        var message = $"{package.Name}: The package operation finished, but WinGet still reports the application as installed.";
+
+        package.IsUninstallIndeterminate = false;
+        package.UninstallStatus = "Still installed";
+        package.UninstallProgress = 0;
+
+        LastUninstallError = message;
+        LastUninstallRequiresElevation = false;
+
+        if (showError)
+            ErrorMessage = message;
+
+        return false;
+    }
+
+    private void CompleteUninstall(PackageInfo package)
+    {
+        package.IsUninstallIndeterminate = false;
+        package.UninstallStatus = "Uninstalled";
+        package.UninstallProgress = 100;
+
+        RemovePackage(package);
+    }
+
+    private void FailUninstall(PackageInfo package, string errorMessage, bool showError, bool classifyElevation)
+    {
+        package.IsUninstallIndeterminate = false;
+        package.UninstallStatus = "Failed";
+        package.UninstallProgress = 0;
+
+        LastUninstallError = errorMessage;
+        LastUninstallRequiresElevation = classifyElevation && PackageOperationErrorClassifier.RequiresElevation(errorMessage);
+
+        if (showError)
+            ErrorMessage = errorMessage;
     }
 
     partial void OnSearchTextChanged(string value)
