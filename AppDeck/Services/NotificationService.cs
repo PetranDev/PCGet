@@ -32,13 +32,35 @@ public sealed class NotificationService : IDisposable
         if (!_registered || updateCount <= 0)
             return;
 
-        var title = updateCount == 1
-            ? "1 update is available"
-            : $"{updateCount} updates are available";
+        var title = updateCount == 1 ? "1 update is available" : $"{updateCount} updates are available";
+
+        ShowNotification(
+            title,
+            "Open AppDeck to review and install available updates.");
+    }
+
+    public void ShowSelfUpdateSucceeded()
+    {
+        ShowNotification(
+            "AppDeck updated successfully",
+            "The latest version of AppDeck has been installed.");
+    }
+
+    public void ShowSelfUpdateFailed(int exitCode)
+    {
+        ShowNotification(
+            "AppDeck update failed",
+            $"The update could not be installed. WinGet returned exit code {exitCode}.");
+    }
+
+    private void ShowNotification(string title, string message)
+    {
+        if (!_registered)
+            return;
 
         var notification = new AppNotificationBuilder()
             .AddText(title)
-            .AddText("Open AppDeck to review and install available updates.")
+            .AddText(message)
             .BuildNotification();
 
         _notificationManager.Show(notification);

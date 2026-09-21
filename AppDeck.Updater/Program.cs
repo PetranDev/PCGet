@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace AppDeck.Updater;
@@ -27,19 +29,16 @@ public static class Program
 
             if (dryRun)
             {
+                WriteUpdateResult(true, 0);
                 RestartAppDeck(appDeckAumid);
                 return 0;
             }
 
             var exitCode = await UpdateAppDeckAsync();
 
-            if (exitCode == 0)
-            {
-                RestartAppDeck(appDeckAumid);
-                return 0;
-            }
-
+            WriteUpdateResult(exitCode == 0, exitCode);
             RestartAppDeck(appDeckAumid);
+
             return exitCode;
         }
         catch
@@ -82,6 +81,23 @@ public static class Program
         return process.ExitCode;
     }
 
+    private static void WriteUpdateResult(bool succeeded, int exitCode)
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "AppDeck");
+        Directory.CreateDirectory(directory);
+
+        var path = Path.Combine(directory, "SelfUpdateResult.json");
+
+        var result = new SelfUpdateResult
+        {
+            Succeeded = succeeded,
+            ExitCode = exitCode,
+            CompletedAtUtc = DateTimeOffset.UtcNow
+        };
+
+        File.WriteAllText(path, JsonSerializer.Serialize(result));
+    }
+
     private static void RestartAppDeck(string appDeckAumid)
     {
         Process.Start(new ProcessStartInfo
@@ -90,5 +106,12 @@ public static class Program
             Arguments = $"shell:AppsFolder\\{appDeckAumid}",
             UseShellExecute = true
         });
+    }
+
+    private sealed class SelfUpdateResult
+    {
+        public bool Succeeded { get; set; }
+        public int ExitCode { get; set; }
+        public DateTimeOffset CompletedAtUtc { get; set; }
     }
 }

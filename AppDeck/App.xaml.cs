@@ -3,6 +3,8 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
+using System.IO;
+using System.Text.Json;
 
 namespace AppDeck;
 
@@ -48,6 +50,7 @@ public partial class App : Application
             return;
 
         ShowMainWindow();
+        ShowPendingSelfUpdateResult();
     }
 
     public void ShowMainWindow()
@@ -83,6 +86,43 @@ public partial class App : Application
 
         DisposeServices();
         Exit();
+    }
+
+    private void ShowPendingSelfUpdateResult()
+    {
+        var path = Path.Combine(Path.GetTempPath(), "AppDeck", "SelfUpdateResult.json");
+
+        if (!File.Exists(path))
+            return;
+
+        try
+        {
+            var json = File.ReadAllText(path);
+            var result = JsonSerializer.Deserialize<SelfUpdateResult>(json);
+
+            if (result is null)
+                return;
+
+            if (result.Succeeded)
+                _notificationService.ShowSelfUpdateSucceeded();
+            else
+                _notificationService.ShowSelfUpdateFailed(result.ExitCode);
+        }
+        catch
+        {
+            // A malformed or inaccessible result file must never prevent AppDeck from starting.
+        }
+        finally
+        {
+            try
+            {
+                File.Delete(path);
+            }
+            catch
+            {
+                // Failure to delete the result file must not terminate AppDeck.
+            }
+        }
     }
 
     private void BackgroundUpdateService_CheckCompleted(object? sender, BackgroundUpdateCheckCompletedEventArgs e)
@@ -170,5 +210,12 @@ public partial class App : Application
         _trayIconService.ExitRequested -= TrayIconService_ExitRequested;
         _trayIconService.Dispose();
         _trayIconService = null;
+    }
+
+    private sealed class SelfUpdateResult
+    {
+        public bool Succeeded { get; set; }
+        public int ExitCode { get; set; }
+        public DateTimeOffset CompletedAtUtc { get; set; }
     }
 }
