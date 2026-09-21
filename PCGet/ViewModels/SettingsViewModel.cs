@@ -45,6 +45,15 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     public partial string StartupStatus { get; set; } = string.Empty;
 
+    [ObservableProperty]
+    public partial string InstallAdditionalArguments { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string UpdateAdditionalArguments { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string UninstallAdditionalArguments { get; set; } = string.Empty;
+
     public string VersionText
     {
         get
@@ -62,6 +71,9 @@ public partial class SettingsViewModel : ObservableObject
         SilentPackageOperations = _settingsService.SilentPackageOperations;
         CheckUpdatesOnStartup = _settingsService.CheckUpdatesOnStartup;
         BackgroundUpdateChecks = _settingsService.BackgroundUpdateChecks;
+        InstallAdditionalArguments = _settingsService.InstallAdditionalArguments;
+        UpdateAdditionalArguments = _settingsService.UpdateAdditionalArguments;
+        UninstallAdditionalArguments = _settingsService.UninstallAdditionalArguments;
 
         SelectedBackgroundUpdateInterval =
             BackgroundUpdateIntervals.FirstOrDefault(option => option.Minutes == _settingsService.BackgroundUpdateIntervalMinutes) ??
@@ -106,6 +118,21 @@ public partial class SettingsViewModel : ObservableObject
 
         _settingsService.BackgroundUpdateIntervalMinutes = value.Minutes;
         App.CurrentApp?.ApplyBackgroundUpdateSettings();
+    }
+
+    partial void OnInstallAdditionalArgumentsChanged(string value)
+    {
+        _settingsService.InstallAdditionalArguments = value ?? string.Empty;
+    }
+
+    partial void OnUpdateAdditionalArgumentsChanged(string value)
+    {
+        _settingsService.UpdateAdditionalArguments = value ?? string.Empty;
+    }
+
+    partial void OnUninstallAdditionalArgumentsChanged(string value)
+    {
+        _settingsService.UninstallAdditionalArguments = value ?? string.Empty;
     }
 
     async partial void OnStartWithWindowsChanged(bool value)

@@ -124,7 +124,7 @@ public partial class UpdatesViewModel : ObservableObject
         return Task.CompletedTask;
     }
 
-    public async Task UpdatePackageAsAdministratorAsync(PackageInfo package)
+    public async Task UpdatePackageAsAdministratorAsync(PackageInfo package, string? additionalArguments = null)
     {
         if (package.UpdateState == PackageUpdateState.Updating)
             return;
@@ -134,30 +134,22 @@ public partial class UpdatesViewModel : ObservableObject
             ErrorMessage = null;
 
             package.UpdateState = PackageUpdateState.Updating;
-            package.UpdateStatus = "Updating as administrator...";
+            package.UpdateStatus = "Running installer...";
             package.UpdateProgress = 0;
             package.IsUpdateIndeterminate = true;
 
             NotifyQueueStateChanged();
 
-            await _elevatedOperationService.UpdatePackageAsync(package.Id);
+            await _elevatedOperationService.UpdatePackageAsync(package.Id, additionalArguments);
 
-            package.IsUpdateIndeterminate = false;
-            package.UpdateStatus = "Completed";
-            package.UpdateProgress = 100;
+            if (!await VerifyUpdateAsync(package))
+                return;
 
-            await Task.Delay(500);
-
-            RemoveUpdate(package);
+            CompleteUpdate(package);
         }
         catch (Exception ex)
         {
-            package.IsUpdateIndeterminate = false;
-            package.UpdateState = PackageUpdateState.Failed;
-            package.UpdateStatus = "Failed";
-            package.UpdateProgress = 0;
-
-            ErrorMessage = $"{package.Name}: {ex.Message}";
+            FailUpdate(package, $"{package.Name}: {ex.Message}");
         }
         finally
         {
@@ -233,26 +225,63 @@ public partial class UpdatesViewModel : ObservableObject
 
             await _winGetService.UpdatePackageAsync(package.Id, progress);
 
-            package.UpdateStatus = "Completed";
-            package.UpdateProgress = 100;
+            if (!await VerifyUpdateAsync(package))
+                return;
 
-            await Task.Delay(300);
-
-            RemoveUpdate(package);
+            CompleteUpdate(package);
         }
         catch (Exception ex)
         {
-            package.UpdateState = PackageUpdateState.Failed;
-            package.UpdateStatus = "Failed";
-            package.UpdateProgress = 0;
-
-            ErrorMessage = $"{package.Name}: {ex.Message}";
+            FailUpdate(package, $"{package.Name}: {ex.Message}");
         }
         finally
         {
             package.IsUpdateIndeterminate = false;
             NotifyQueueStateChanged();
         }
+    }
+
+    private async Task<bool> VerifyUpdateAsync(PackageInfo package)
+    {
+        package.UpdateStatus = "Verifying update...";
+        package.UpdateProgress = 0;
+        package.IsUpdateIndeterminate = true;
+
+        var availableUpdates = await _winGetService.GetAvailableUpdatesAsync();
+
+        var remainingUpdate = availableUpdates.FirstOrDefault(
+            candidate => string.Equals(candidate.Id, package.Id, StringComparison.OrdinalIgnoreCase));
+
+        if (remainingUpdate is null)
+            return true;
+
+        package.IsUpdateIndeterminate = false;
+        package.UpdateState = PackageUpdateState.Failed;
+        package.UpdateStatus = "Update still available";
+        package.UpdateProgress = 0;
+
+        ErrorMessage = $"{package.Name}: The package operation finished, but WinGet still reports an available update.";
+
+        return false;
+    }
+
+    private void CompleteUpdate(PackageInfo package)
+    {
+        package.IsUpdateIndeterminate = false;
+        package.UpdateStatus = "Completed";
+        package.UpdateProgress = 100;
+
+        RemoveUpdate(package);
+    }
+
+    private void FailUpdate(PackageInfo package, string errorMessage)
+    {
+        package.IsUpdateIndeterminate = false;
+        package.UpdateState = PackageUpdateState.Failed;
+        package.UpdateStatus = "Failed";
+        package.UpdateProgress = 0;
+
+        ErrorMessage = errorMessage;
     }
 
     private async Task LoadUpdatesAsync()

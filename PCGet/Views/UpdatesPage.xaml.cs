@@ -48,6 +48,7 @@ public sealed partial class UpdatesPage : Page
     {
         if (sender is not Button button)
             return;
+
         if (button.Tag is not PackageInfo package)
             return;
 
@@ -130,11 +131,38 @@ public sealed partial class UpdatesPage : Page
 
     private async Task RetryAsAdministratorAsync(PackageInfo package)
     {
+        var argumentsTextBox = new TextBox
+        {
+            Header = "Additional WinGet arguments",
+            Text = _settingsService.UpdateAdditionalArguments,
+            PlaceholderText = "Example: --include-unknown",
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+
+        var rememberCheckBox = new CheckBox
+        {
+            Content = "Remember these arguments for updates"
+        };
+
+        var content = new StackPanel
+        {
+            Spacing = 16
+        };
+
+        content.Children.Add(new TextBlock
+        {
+            Text = $"{package.Name} could not be updated normally. PCGet can retry the update with administrator privileges.",
+            TextWrapping = TextWrapping.Wrap
+        });
+
+        content.Children.Add(argumentsTextBox);
+        content.Children.Add(rememberCheckBox);
+
         var dialog = new ContentDialog
         {
             XamlRoot = XamlRoot,
             Title = "Retry as administrator?",
-            Content = $"{package.Name} could not be updated normally. PCGet can retry the update with administrator privileges.",
+            Content = content,
             PrimaryButtonText = "Retry as administrator",
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary
@@ -145,7 +173,12 @@ public sealed partial class UpdatesPage : Page
         if (result != ContentDialogResult.Primary)
             return;
 
-        await ViewModel.UpdatePackageAsAdministratorAsync(package);
+        var additionalArguments = argumentsTextBox.Text.Trim();
+
+        if (rememberCheckBox.IsChecked == true)
+            _settingsService.UpdateAdditionalArguments = additionalArguments;
+
+        await ViewModel.UpdatePackageAsAdministratorAsync(package, additionalArguments);
     }
 
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

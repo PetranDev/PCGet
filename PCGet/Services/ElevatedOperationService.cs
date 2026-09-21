@@ -1,12 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PCGet.Services;
 
 public sealed class ElevatedOperationService
 {
+    private const string WinGetArgumentsSeparator = "--winget-args";
+
     private readonly AppSettingsService _settingsService;
 
     public ElevatedOperationService(AppSettingsService settingsService)
@@ -16,21 +20,34 @@ public sealed class ElevatedOperationService
 
     public Task InstallPackageAsync(string packageId)
     {
-        return RunPackageOperationAsync("--install", packageId, _settingsService.SilentPackageOperations);
+        return RunPackageOperationAsync(
+            "--install",
+            packageId,
+            _settingsService.SilentPackageOperations,
+            _settingsService.InstallAdditionalArguments);
     }
 
-    public Task UpdatePackageAsync(string packageId)
+    public Task UpdatePackageAsync(string packageId, string? additionalArguments = null)
     {
-        return RunPackageOperationAsync("--update", packageId, _settingsService.SilentPackageOperations);
+        return RunPackageOperationAsync(
+            "--update",
+            packageId,
+            _settingsService.SilentPackageOperations,
+            additionalArguments ?? _settingsService.UpdateAdditionalArguments);
     }
 
     public Task UninstallPackageAsync(string packageId, bool interactive = false)
     {
         var silent = !interactive && _settingsService.SilentPackageOperations;
-        return RunPackageOperationAsync("--uninstall", packageId, silent);
+
+        return RunPackageOperationAsync(
+            "--uninstall",
+            packageId,
+            silent,
+            _settingsService.UninstallAdditionalArguments);
     }
 
-    private static async Task RunPackageOperationAsync(string operation, string packageId, bool silent)
+    private static async Task RunPackageOperationAsync(string operation, string packageId, bool silent, string? additionalArguments)
     {
         var helperPath = GetHelperPath();
 
@@ -50,6 +67,16 @@ public sealed class ElevatedOperationService
         if (silent)
             startInfo.ArgumentList.Add("--silent");
 
+        var parsedArguments = ParseArguments(additionalArguments);
+
+        if (parsedArguments.Count > 0)
+        {
+            startInfo.ArgumentList.Add(WinGetArgumentsSeparator);
+
+            foreach (var argument in parsedArguments)
+                startInfo.ArgumentList.Add(argument);
+        }
+
         using var process = Process.Start(startInfo);
 
         if (process is null)
@@ -59,6 +86,66 @@ public sealed class ElevatedOperationService
 
         if (process.ExitCode != 0)
             throw new InvalidOperationException(GetFailureMessage(process.ExitCode));
+    }
+
+    private static List<string> ParseArguments(string? commandLine)
+    {
+        var arguments = new List<string>();
+
+        if (string.IsNullOrWhiteSpace(commandLine))
+            return arguments;
+
+        var current = new StringBuilder();
+        var inQuotes = false;
+        var quoteCharacter = '\0';
+
+        for (var i = 0; i < commandLine.Length; i++)
+        {
+            var character = commandLine[i];
+
+            if ((character == '"' || character == '\'') && (!inQuotes || character == quoteCharacter))
+            {
+                if (inQuotes)
+                {
+                    inQuotes = false;
+                    quoteCharacter = '\0';
+                }
+                else
+                {
+                    inQuotes = true;
+                    quoteCharacter = character;
+                }
+
+                continue;
+            }
+
+            if (char.IsWhiteSpace(character) && !inQuotes)
+            {
+                if (current.Length > 0)
+                {
+                    arguments.Add(current.ToString());
+                    current.Clear();
+                }
+
+                continue;
+            }
+
+            if (character == '\\' && i + 1 < commandLine.Length && commandLine[i + 1] == quoteCharacter)
+            {
+                current.Append(commandLine[++i]);
+                continue;
+            }
+
+            current.Append(character);
+        }
+
+        if (inQuotes)
+            throw new ArgumentException("Additional WinGet arguments contain an unmatched quote.");
+
+        if (current.Length > 0)
+            arguments.Add(current.ToString());
+
+        return arguments;
     }
 
     private static string GetHelperPath()

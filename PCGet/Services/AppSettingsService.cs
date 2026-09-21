@@ -8,6 +8,9 @@ public sealed class AppSettingsService
     private const string CheckUpdatesOnStartupKey = "CheckUpdatesOnStartup";
     private const string BackgroundUpdateChecksKey = "BackgroundUpdateChecks";
     private const string BackgroundUpdateIntervalMinutesKey = "BackgroundUpdateIntervalMinutes";
+    private const string InstallAdditionalArgumentsKey = "InstallAdditionalArguments";
+    private const string UpdateAdditionalArgumentsKey = "UpdateAdditionalArguments";
+    private const string UninstallAdditionalArgumentsKey = "UninstallAdditionalArguments";
 
     private readonly ApplicationDataContainer _localSettings;
 
@@ -40,6 +43,24 @@ public sealed class AppSettingsService
         set => _localSettings.Values[BackgroundUpdateIntervalMinutesKey] = value;
     }
 
+    public string InstallAdditionalArguments
+    {
+        get => GetString(InstallAdditionalArgumentsKey);
+        set => _localSettings.Values[InstallAdditionalArgumentsKey] = value;
+    }
+
+    public string UpdateAdditionalArguments
+    {
+        get => GetString(UpdateAdditionalArgumentsKey);
+        set => _localSettings.Values[UpdateAdditionalArgumentsKey] = value;
+    }
+
+    public string UninstallAdditionalArguments
+    {
+        get => GetString(UninstallAdditionalArgumentsKey);
+        set => _localSettings.Values[UninstallAdditionalArgumentsKey] = value;
+    }
+
     private bool GetBoolean(string key, bool defaultValue)
     {
         if (_localSettings.Values.TryGetValue(key, out var value) && value is bool booleanValue)
@@ -54,5 +75,13 @@ public sealed class AppSettingsService
             return intValue;
 
         return defaultValue;
+    }
+
+    private string GetString(string key)
+    {
+        if (_localSettings.Values.TryGetValue(key, out var value) && value is string stringValue)
+            return stringValue;
+
+        return string.Empty;
     }
 }
