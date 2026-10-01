@@ -12,7 +12,7 @@
   <Identity
     Name="7061680f-eb3f-4ac6-80be-a19a8ed0ae70"
     Publisher="CN=Petran"
-    Version="1.0.0.0" />
+    Version="1.0.0.1" />
 
   <Properties>
     <DisplayName>PCGet</DisplayName>
