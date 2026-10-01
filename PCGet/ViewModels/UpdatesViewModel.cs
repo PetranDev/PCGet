@@ -149,7 +149,7 @@ public partial class UpdatesViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            FailUpdate(package, $"{package.Name}: {ex.Message}");
+            FailUpdate(package, GetPackageErrorMessage(package, ex.Message));
         }
         finally
         {
@@ -232,7 +232,7 @@ public partial class UpdatesViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            FailUpdate(package, $"{package.Name}: {ex.Message}");
+            FailUpdate(package, GetPackageErrorMessage(package, ex.Message));
         }
         finally
         {
@@ -282,6 +282,12 @@ public partial class UpdatesViewModel : ObservableObject
         package.UpdateProgress = 0;
 
         ErrorMessage = errorMessage;
+    }
+
+    private static string GetPackageErrorMessage(PackageInfo package, string errorMessage)
+    {
+        var friendlyMessage = PackageOperationErrorClassifier.GetUserFriendlyMessage(errorMessage);
+        return $"{package.Name}: {friendlyMessage}";
     }
 
     private async Task LoadUpdatesAsync()
