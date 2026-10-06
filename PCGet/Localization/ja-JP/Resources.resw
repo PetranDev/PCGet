@@ -1,0 +1,694 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:schema id="root">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xs:element name="root" ns1:IsDataSet="true">
+      <xs:complexType>
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="metadata">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" use="required" type="xsd:string" />
+              <xs:attribute name="type" type="xsd:string" />
+              <xs:attribute name="mimetype" type="xsd:string" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="assembly">
+            <xs:complexType>
+              <xs:attribute name="alias" type="xsd:string" />
+              <xs:attribute name="name" type="xsd:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+                <xs:element name="comment" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" ns1:Ordinal="1" />
+              <xs:attribute name="type" type="xsd:string" ns1:Ordinal="3" />
+              <xs:attribute name="mimetype" type="xsd:string" ns1:Ordinal="4" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Common_PCGetError.Title" xml:space="preserve">
+    <value>PCGet エラー</value>
+  </data>
+  <data name="Common_Refresh.Content" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Common_Retry" xml:space="preserve">
+    <value>再試行</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="Common_WinGetOperationFailed.Title" xml:space="preserve">
+    <value>WinGet 操作に失敗しました</value>
+  </data>
+  <data name="Dialog_AdditionalArguments" xml:space="preserve">
+    <value>PCGet メッセージ</value>
+  </data>
+  <data name="Dialog_AdminRequiredTitle" xml:space="preserve">
+    <value>管理者権限が必要です</value>
+  </data>
+  <data name="Dialog_InstallAdminMessage" xml:space="preserve">
+    <value>PCGet メッセージ: {0}</value>
+  </data>
+  <data name="Dialog_RememberUpdateArguments" xml:space="preserve">
+    <value>PCGet メッセージ</value>
+  </data>
+  <data name="Dialog_RetryAdminButton" xml:space="preserve">
+    <value>管理者として再試行</value>
+  </data>
+  <data name="Dialog_RetryAdminTitle" xml:space="preserve">
+    <value>管理者として再試行しますか？</value>
+  </data>
+  <data name="Dialog_RetryInteractively" xml:space="preserve">
+    <value>対話形式で再試行</value>
+  </data>
+  <data name="Dialog_SilentUninstallFailedMessage" xml:space="preserve">
+    <value>PCGet メッセージ: {0}</value>
+  </data>
+  <data name="Dialog_SilentUninstallFailedTitle" xml:space="preserve">
+    <value>サイレント アンインストールに失敗しました</value>
+  </data>
+  <data name="Dialog_UninstallAdminMessage" xml:space="preserve">
+    <value>PCGet メッセージ: {0}</value>
+  </data>
+  <data name="Dialog_UninstallManyButton" xml:space="preserve">
+    <value>PCGet メッセージ: {0}</value>
+  </data>
+  <data name="Dialog_UninstallManyMessage" xml:space="preserve">
+    <value>PCGet メッセージ: {0}</value>
+  </data>
+  <data name="Dialog_UninstallMessage" xml:space="preserve">
+    <value>PCGet メッセージ: {0}</value>
+  </data>
+  <data name="Dialog_UninstallSelectedManyTitle" xml:space="preserve">
+    <value>PCGet メッセージ</value>
+  </data>
+  <data name="Dialog_UninstallSelectedOneTitle" xml:space="preserve">
+    <value>PCGet メッセージ</value>
+  </data>
+  <data name="Dialog_UninstallTitle" xml:space="preserve">
+    <value>アプリをアンインストールしますか？</value>
+  </data>
+  <data name="Dialog_UpdateAdminMessage" xml:space="preserve">
+    <value>PCGet メッセージ: {0}</value>
+  </data>
+  <data name="Dialog_UpdatePCGetButton" xml:space="preserve">
+    <value>PCGet メッセージ</value>
+  </data>
+  <data name="Dialog_UpdatePCGetMessage" xml:space="preserve">
+    <value>PCGet メッセージ: {0}</value>
+  </data>
+  <data name="Dialog_UpdatePCGetTitle" xml:space="preserve">
+    <value>PCGet を更新しますか？</value>
+  </data>
+  <data name="Discover_ApplicationsFound" xml:space="preserve">
+    <value>{0} アプリ found</value>
+  </data>
+  <data name="Discover_ApplicationsShown" xml:space="preserve">
+    <value>{0} of {1} アプリ shown</value>
+  </data>
+  <data name="Discover_Author.Text" xml:space="preserve">
+    <value>作成者</value>
+  </data>
+  <data name="Discover_InstallationNotes.Text" xml:space="preserve">
+    <value>インストールに関する注意事項</value>
+  </data>
+  <data name="Discover_Links.Text" xml:space="preserve">
+    <value>リンク</value>
+  </data>
+  <data name="Discover_Locale.Text" xml:space="preserve">
+    <value>ロケール</value>
+  </data>
+  <data name="Discover_NoApplicationsFound" xml:space="preserve">
+    <value>No アプリ found.</value>
+  </data>
+  <data name="Discover_OneApplicationFound" xml:space="preserve">
+    <value>1 アプリ found</value>
+  </data>
+  <data name="Discover_OneOfApplicationsShown" xml:space="preserve">
+    <value>1 of {0} アプリ shown</value>
+  </data>
+  <data name="Discover_PackageId.Text" xml:space="preserve">
+    <value>パッケージ ID</value>
+  </data>
+  <data name="Discover_PackageInformation.Text" xml:space="preserve">
+    <value>パッケージ情報</value>
+  </data>
+  <data name="Discover_PackageWebsite.Content" xml:space="preserve">
+    <value>パッケージ Web サイト</value>
+  </data>
+  <data name="Discover_Privacy.Content" xml:space="preserve">
+    <value>プライバシー</value>
+  </data>
+  <data name="Discover_PublisherWebsite.Content" xml:space="preserve">
+    <value>発行元 Web サイト</value>
+  </data>
+  <data name="Discover_RefreshCurrentSearch.ToolTipService.ToolTip" xml:space="preserve">
+    <value>アプリ情報</value>
+  </data>
+  <data name="Discover_Search.Content" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Discover_SearchPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>アプリを検索</value>
+  </data>
+  <data name="Discover_SearchPrompt" xml:space="preserve">
+    <value>WinGet でアプリを検索します。</value>
+  </data>
+  <data name="Discover_Source.Text" xml:space="preserve">
+    <value>ソース</value>
+  </data>
+  <data name="Discover_Subtitle.Text" xml:space="preserve">
+    <value>アプリ情報</value>
+  </data>
+  <data name="Discover_Support.Content" xml:space="preserve">
+    <value>サポート</value>
+  </data>
+  <data name="Discover_Tags.Text" xml:space="preserve">
+    <value>タグ</value>
+  </data>
+  <data name="Discover_Version.Text" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="Error_AlreadyInstalled" xml:space="preserve">
+    <value>パッケージ操作エラー: {0}</value>
+  </data>
+  <data name="Error_CatalogConnection" xml:space="preserve">
+    <value>パッケージ操作エラー: {0}</value>
+  </data>
+  <data name="Error_ElevatedFailed" xml:space="preserve">
+    <value>パッケージ操作エラー: {0}</value>
+  </data>
+  <data name="Error_ElevatedFailedWithLog" xml:space="preserve">
+    <value>パッケージ操作エラー: {0} {1}</value>
+  </data>
+  <data name="Error_ElevatedHelperNotFound" xml:space="preserve">
+    <value>パッケージ操作エラー</value>
+  </data>
+  <data name="Error_ElevatedHelperStart" xml:space="preserve">
+    <value>パッケージ操作エラー</value>
+  </data>
+  <data name="Error_Extended" xml:space="preserve">
+    <value> Error: {0}</value>
+  </data>
+  <data name="Error_Http404" xml:space="preserve">
+    <value>パッケージ操作エラー</value>
+  </data>
+  <data name="Error_InstallFailed" xml:space="preserve">
+    <value>パッケージ操作エラー: {0} {1}</value>
+  </data>
+  <data name="Error_InstallVerification" xml:space="preserve">
+    <value>パッケージ操作エラー: {0}</value>
+  </data>
+  <data name="Error_InstalledPackageNotFound" xml:space="preserve">
+    <value>パッケージ操作エラー: {0}</value>
+  </data>
+  <data name="Error_NoUpdateAvailable" xml:space="preserve">
+    <value>パッケージ操作エラー: {0}</value>
+  </data>
+  <data name="Error_PackageNotFound" xml:space="preserve">
+    <value>パッケージ操作エラー: {0}</value>
+  </data>
+  <data name="Error_PackageOperationFailed" xml:space="preserve">
+    <value>パッケージ操作エラー</value>
+  </data>
+  <data name="Error_SelfUpdateStart" xml:space="preserve">
+    <value>パッケージ操作エラー: {0}</value>
+  </data>
+  <data name="Error_UninstallFailed" xml:space="preserve">
+    <value>パッケージ操作エラー: {0} {1}</value>
+  </data>
+  <data name="Error_UninstallVerification" xml:space="preserve">
+    <value>パッケージ操作エラー: {0}</value>
+  </data>
+  <data name="Error_UnmatchedQuote" xml:space="preserve">
+    <value>パッケージ操作エラー</value>
+  </data>
+  <data name="Error_UpdateFailed" xml:space="preserve">
+    <value>パッケージ操作エラー: {0} {1}</value>
+  </data>
+  <data name="Error_UpdateVerification" xml:space="preserve">
+    <value>パッケージ操作エラー: {0}</value>
+  </data>
+  <data name="Error_UpdaterNotFound" xml:space="preserve">
+    <value>パッケージ操作エラー</value>
+  </data>
+  <data name="Filter_AllSources" xml:space="preserve">
+    <value>すべてのソース</value>
+  </data>
+  <data name="Installed_ApplicationsShown" xml:space="preserve">
+    <value>{0} of {1} アプリ shown</value>
+  </data>
+  <data name="Installed_InstalledCount" xml:space="preserve">
+    <value>インストール済みアプリ: {0}</value>
+  </data>
+  <data name="Installed_Loading" xml:space="preserve">
+    <value>インストール済みアプリ</value>
+  </data>
+  <data name="Installed_NoMatchingApplications" xml:space="preserve">
+    <value>インストール済みアプリ</value>
+  </data>
+  <data name="Installed_NoneFound" xml:space="preserve">
+    <value>インストール済みアプリ</value>
+  </data>
+  <data name="Installed_OneInstalled" xml:space="preserve">
+    <value>インストール済みアプリ</value>
+  </data>
+  <data name="Installed_OneOfApplicationsShown" xml:space="preserve">
+    <value>1 of {0} アプリ shown</value>
+  </data>
+  <data name="Installed_OneSelected" xml:space="preserve">
+    <value>インストール済みアプリ</value>
+  </data>
+  <data name="Installed_SearchPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>インストール済みアプリを検索</value>
+  </data>
+  <data name="Installed_SelectedCount" xml:space="preserve">
+    <value>インストール済みアプリ: {0}</value>
+  </data>
+  <data name="Installed_Subtitle.Text" xml:space="preserve">
+    <value>インストール済みアプリ</value>
+  </data>
+  <data name="Installed_UninstallSelected.Content" xml:space="preserve">
+    <value>インストール済みアプリ</value>
+  </data>
+  <data name="Interval_12Hours" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Interval_15Minutes" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Interval_1Day" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Interval_1Hour" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Interval_2Hours" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Interval_30Minutes" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Interval_4Hours" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Interval_8Hours" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Notification_OneUpdateAvailable" xml:space="preserve">
+    <value>1 更新 is 利用可能</value>
+  </data>
+  <data name="Notification_OpenPCGet" xml:space="preserve">
+    <value>PCGet 通知</value>
+  </data>
+  <data name="Notification_SelfUpdateFailedMessage" xml:space="preserve">
+    <value>PCGet 通知: {0}</value>
+  </data>
+  <data name="Notification_SelfUpdateFailedTitle" xml:space="preserve">
+    <value>PCGet 通知</value>
+  </data>
+  <data name="Notification_SelfUpdateSucceededMessage" xml:space="preserve">
+    <value>PCGet 通知</value>
+  </data>
+  <data name="Notification_SelfUpdateSucceededTitle" xml:space="preserve">
+    <value>PCGet 更新d successfully</value>
+  </data>
+  <data name="Notification_UpdatesAvailable" xml:space="preserve">
+    <value>{0} 更新 are 利用可能</value>
+  </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>バージョン情報</value>
+  </data>
+  <data name="Settings_AdvancedArguments.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_AdvancedArgumentsDescription.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_AppLanguage.Text" xml:space="preserve">
+    <value>アプリの言語</value>
+  </data>
+  <data name="Settings_AppLanguageDescription.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_BackgroundChecks.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_BackgroundChecksDescription.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_CheckInterval.Text" xml:space="preserve">
+    <value>確認間隔</value>
+  </data>
+  <data name="Settings_CheckIntervalDescription.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_CheckStartup.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_Language.Text" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Settings_LanguageRestartRequired" xml:space="preserve">
+    <value>新しい言語を適用するには PCGet を再起動してください。</value>
+  </data>
+  <data name="Settings_PackageOperations.Text" xml:space="preserve">
+    <value>パッケージ操作</value>
+  </data>
+  <data name="Settings_PackageSources.Text" xml:space="preserve">
+    <value>パッケージ ソース</value>
+  </data>
+  <data name="Settings_PoweredBy.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_SilentOperations.Text" xml:space="preserve">
+    <value>Silent パッケージ operations</value>
+  </data>
+  <data name="Settings_SilentOperationsDescription.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_StartWithWindows.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_StartWithWindowsDescription.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_Subtitle.Text" xml:space="preserve">
+    <value>PCGet がアプリを管理する方法を設定します。</value>
+  </data>
+  <data name="Settings_Tagline.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_Title.Text" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Settings_UninstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_Version" xml:space="preserve">
+    <value>PCGet 設定: {0} {1} {2} {3}</value>
+  </data>
+  <data name="Settings_WinGetSources.Text" xml:space="preserve">
+    <value>WinGet ソース</value>
+  </data>
+  <data name="Settings_WinGetSourcesDescription.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_WindowsStartup.Text" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Sort_NameAZ" xml:space="preserve">
+    <value>名前 A–Z</value>
+  </data>
+  <data name="Sort_NameZA" xml:space="preserve">
+    <value>名前 Z–A</value>
+  </data>
+  <data name="Sort_PublisherAZ" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Sort_Relevance" xml:space="preserve">
+    <value>関連性</value>
+  </data>
+  <data name="Sort_SourceAZ" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Sort_VersionAZ" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Sort_VersionZA" xml:space="preserve">
+    <value>PCGet</value>
+  </data>
+  <data name="Startup_Disabled" xml:space="preserve">
+    <value>スタートアップ設定</value>
+  </data>
+  <data name="Startup_DisabledByPolicy" xml:space="preserve">
+    <value>スタートアップ設定</value>
+  </data>
+  <data name="Startup_DisabledByUser" xml:space="preserve">
+    <value>スタートアップ設定</value>
+  </data>
+  <data name="Startup_Enabled" xml:space="preserve">
+    <value>スタートアップ設定</value>
+  </data>
+  <data name="Startup_Unavailable" xml:space="preserve">
+    <value>スタートアップ設定</value>
+  </data>
+  <data name="Status_Completed" xml:space="preserve">
+    <value>完了</value>
+  </data>
+  <data name="Status_DownloadingPercent" xml:space="preserve">
+    <value>ダウンロード中 {0:0}%</value>
+  </data>
+  <data name="Status_Failed" xml:space="preserve">
+    <value>失敗</value>
+  </data>
+  <data name="Status_Finishing" xml:space="preserve">
+    <value>完了処理中...</value>
+  </data>
+  <data name="Status_Installed" xml:space="preserve">
+    <value>インストール済み</value>
+  </data>
+  <data name="Status_Installing" xml:space="preserve">
+    <value>インストール中...</value>
+  </data>
+  <data name="Status_InstallingAsAdministrator" xml:space="preserve">
+    <value>操作状態</value>
+  </data>
+  <data name="Status_InstallingPercent" xml:space="preserve">
+    <value>Installing {0:0}%</value>
+  </data>
+  <data name="Status_NotInstalled" xml:space="preserve">
+    <value>未インストール</value>
+  </data>
+  <data name="Status_PackageStatus" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Status_Preparing" xml:space="preserve">
+    <value>準備中...</value>
+  </data>
+  <data name="Status_PreparingToUninstall" xml:space="preserve">
+    <value>操作状態: {0}</value>
+  </data>
+  <data name="Status_Queued" xml:space="preserve">
+    <value>待機中</value>
+  </data>
+  <data name="Status_QueuedInteractive" xml:space="preserve">
+    <value>Queued (interactive)</value>
+  </data>
+  <data name="Status_Ready" xml:space="preserve">
+    <value>準備完了</value>
+  </data>
+  <data name="Status_RunningInstaller" xml:space="preserve">
+    <value>操作状態</value>
+  </data>
+  <data name="Status_StillInstalled" xml:space="preserve">
+    <value>操作状態</value>
+  </data>
+  <data name="Status_Uninstalled" xml:space="preserve">
+    <value>Uninstalled</value>
+  </data>
+  <data name="Status_Uninstalling" xml:space="preserve">
+    <value>アンインストール中...</value>
+  </data>
+  <data name="Status_UninstallingApplication" xml:space="preserve">
+    <value>Uninstalling アプリ...</value>
+  </data>
+  <data name="Status_UninstallingAsAdministrator" xml:space="preserve">
+    <value>操作状態: {0}</value>
+  </data>
+  <data name="Status_UninstallingInteractivelyPercent" xml:space="preserve">
+    <value>Uninstalling interactively {0:0}%</value>
+  </data>
+  <data name="Status_UninstallingPercent" xml:space="preserve">
+    <value>Uninstalling {0:0}%</value>
+  </data>
+  <data name="Status_UpdateStillAvailable" xml:space="preserve">
+    <value>操作状態</value>
+  </data>
+  <data name="Status_Updating" xml:space="preserve">
+    <value>更新中...</value>
+  </data>
+  <data name="Status_VerifyingInstallation" xml:space="preserve">
+    <value>確認中 installation...</value>
+  </data>
+  <data name="Status_VerifyingUninstall" xml:space="preserve">
+    <value>操作状態: {0}</value>
+  </data>
+  <data name="Status_VerifyingUpdate" xml:space="preserve">
+    <value>確認中 更新...</value>
+  </data>
+  <data name="Tray_CheckUpdates" xml:space="preserve">
+    <value>更新プログラムを確認</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>終了</value>
+  </data>
+  <data name="Tray_Open" xml:space="preserve">
+    <value>PCGet を開く</value>
+  </data>
+  <data name="Updates_Available" xml:space="preserve">
+    <value>{0} 更新 利用可能</value>
+  </data>
+  <data name="Updates_Checking" xml:space="preserve">
+    <value>更新情報</value>
+  </data>
+  <data name="Updates_Installing" xml:space="preserve">
+    <value>Installing 更新...</value>
+  </data>
+  <data name="Updates_InstallingOneQueued" xml:space="preserve">
+    <value>Installing 更新 · 1 queued</value>
+  </data>
+  <data name="Updates_InstallingQueued" xml:space="preserve">
+    <value>Installing 更新 · {0} queued</value>
+  </data>
+  <data name="Updates_NoMatching" xml:space="preserve">
+    <value>更新情報</value>
+  </data>
+  <data name="Updates_OneAvailable" xml:space="preserve">
+    <value>1 更新 利用可能</value>
+  </data>
+  <data name="Updates_OneOfShown" xml:space="preserve">
+    <value>1 of {0} 更新 shown</value>
+  </data>
+  <data name="Updates_SearchPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>利用可能な更新を検索</value>
+  </data>
+  <data name="Updates_Shown" xml:space="preserve">
+    <value>{0} of {1} 更新 shown</value>
+  </data>
+  <data name="Updates_Subtitle.Text" xml:space="preserve">
+    <value>インストール済みアプリを最新の状態に保ちます。</value>
+  </data>
+  <data name="Updates_UpToDate" xml:space="preserve">
+    <value>アプリは最新です。</value>
+  </data>
+  <data name="Updates_UpdateAll.Content" xml:space="preserve">
+    <value>すべて更新</value>
+  </data>
+  <data name="Settings_InstallArgumentsBox.Header" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="Settings_InstallArgumentsBox.PlaceholderText" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Settings_UpdateArgumentsBox.Header" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Settings_UpdateArgumentsBox.PlaceholderText" xml:space="preserve">
+    <value>Example: --include-unknown</value>
+  </data>
+  <data name="Settings_UninstallArgumentsBox.Header" xml:space="preserve">
+    <value>アンインストール</value>
+  </data>
+  <data name="Settings_UninstallArgumentsBox.PlaceholderText" xml:space="preserve">
+    <value>PCGet 設定</value>
+  </data>
+  <data name="Error_TrayWindowCreate" xml:space="preserve">
+    <value>パッケージ操作エラー</value>
+  </data>
+  <data name="Error_TrayIconNotFound" xml:space="preserve">
+    <value>パッケージ操作エラー</value>
+  </data>
+  <data name="Error_TrayIconLoad" xml:space="preserve">
+    <value>パッケージ操作エラー</value>
+  </data>
+  <data name="Error_TrayIconAdd" xml:space="preserve">
+    <value>パッケージ操作エラー</value>
+  </data>
+  <data name="Error_TrayClassRegister" xml:space="preserve">
+    <value>パッケージ操作エラー</value>
+  </data>
+  <data name="Common_Install" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="Common_Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Common_Uninstall" xml:space="preserve">
+    <value>アンインストール</value>
+  </data>
+  <data name="Settings_UpdateArgsPlaceholder" xml:space="preserve">
+    <value>Example: --include-unknown</value>
+  </data>
+  <data name="Status_Searching" xml:space="preserve">
+    <value>検索中...</value>
+  </data>
+  <data name="Navigation_Updates.Content" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Navigation_Installed.Content" xml:space="preserve">
+    <value>インストール済み</value>
+  </data>
+  <data name="Navigation_Discover.Content" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Common_Updates.Text" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Common_Installed.Text" xml:space="preserve">
+    <value>インストール済み</value>
+  </data>
+  <data name="Common_Discover.Text" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Common_LicenseText.Text" xml:space="preserve">
+    <value>ライセンス</value>
+  </data>
+  <data name="Common_LicenseButton.Content" xml:space="preserve">
+    <value>ライセンス</value>
+  </data>
+  <data name="Common_CopyrightText.Text" xml:space="preserve">
+    <value>著作権</value>
+  </data>
+  <data name="Common_CopyrightButton.Content" xml:space="preserve">
+    <value>著作権</value>
+  </data>
+  <data name="Common_ReleaseNotesText.Text" xml:space="preserve">
+    <value>リリース ノート</value>
+  </data>
+  <data name="Common_ReleaseNotesButton.Content" xml:space="preserve">
+    <value>リリース ノート</value>
+  </data>
+</root>

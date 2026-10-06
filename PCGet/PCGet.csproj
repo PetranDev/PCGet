@@ -57,6 +57,25 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
 
+  <Target Name="GenerateLocalizationManifest" BeforeTargets="PrepareForBuild">
+    <ItemGroup>
+      <LocalizationResource Include="$(MSBuildProjectDirectory)\Localization\*\Resources.resw" />
+      <LocalizationLanguage Include="@(LocalizationResource->'%(RecursiveDir)')" />
+    </ItemGroup>
+    <PropertyGroup>
+      <LocalizationManifestDirectory>$(IntermediateOutputPath)Localization\</LocalizationManifestDirectory>
+      <LocalizationManifestFile>$(LocalizationManifestDirectory)languages.txt</LocalizationManifestFile>
+    </PropertyGroup>
+    <MakeDir Directories="$(LocalizationManifestDirectory)" />
+    <WriteLinesToFile File="$(LocalizationManifestFile)" Lines="@(LocalizationLanguage)" Overwrite="true" />
+    <ItemGroup>
+      <Content Include="$(LocalizationManifestFile)">
+        <Link>Localization\languages.txt</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+  </Target>
+
   <Target Name="PublishElevatedHelper" BeforeTargets="Build">
     <PropertyGroup>
       <ElevatedHelperPublishDirectory>$(IntermediateOutputPath)PCGet.Elevated\</ElevatedHelperPublishDirectory>

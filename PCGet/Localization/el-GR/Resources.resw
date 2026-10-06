@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:schema id="root">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xs:element name="root" ns1:IsDataSet="true">
+      <xs:complexType>
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="metadata">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" use="required" type="xsd:string" />
+              <xs:attribute name="type" type="xsd:string" />
+              <xs:attribute name="mimetype" type="xsd:string" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="assembly">
+            <xs:complexType>
+              <xs:attribute name="alias" type="xsd:string" />
+              <xs:attribute name="name" type="xsd:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+                <xs:element name="comment" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" ns1:Ordinal="1" />
+              <xs:attribute name="type" type="xsd:string" ns1:Ordinal="3" />
+              <xs:attribute name="mimetype" type="xsd:string" ns1:Ordinal="4" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Ακύρωση</value>
+  </data>
+  <data name="Common_PCGetError.Title" xml:space="preserve">
+    <value>Σφάλμα PCGet</value>
+  </data>
+  <data name="Common_Refresh.Content" xml:space="preserve">
+    <value>Ανανέωση</value>
+  </data>
+  <data name="Common_Retry" xml:space="preserve">
+    <value>Επανάληψη</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>Άγνωστο</value>
+  </data>
+  <data name="Common_WinGetOperationFailed.Title" xml:space="preserve">
+    <value>Η λειτουργία WinGet απέτυχε</value>
+  </data>
+  <data name="Dialog_AdditionalArguments" xml:space="preserve">
+    <value>Πρόσθετα ορίσματα WinGet</value>
+  </data>
+  <data name="Dialog_AdminRequiredTitle" xml:space="preserve">
+    <value>Απαιτούνται δικαιώματα διαχειριστή</value>
+  </data>
+  <data name="Dialog_InstallAdminMessage" xml:space="preserve">
+    <value>Το {0} απαιτεί δικαιώματα διαχειριστή για εγκατάσταση. Το PCGet μπορεί να επαναλάβει την εγκατάσταση ως διαχειριστής.</value>
+  </data>
+  <data name="Dialog_RememberUpdateArguments" xml:space="preserve">
+    <value>Απομνημόνευση αυτών των ορισμάτων για ενημερώσεις</value>
+  </data>
+  <data name="Dialog_RetryAdminButton" xml:space="preserve">
+    <value>Επανάληψη ως διαχειριστής</value>
+  </data>
+  <data name="Dialog_RetryAdminTitle" xml:space="preserve">
+    <value>Επανάληψη ως διαχειριστής;</value>
+  </data>
+  <data name="Dialog_RetryInteractively" xml:space="preserve">
+    <value>Επανάληψη με αλληλεπίδραση</value>
+  </data>
+  <data name="Dialog_SilentUninstallFailedMessage" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η αθόρυβη απεγκατάσταση του {0}. Θέλετε να επαναλάβετε χρησιμοποιώντας το διαδραστικό πρόγραμμα απεγκατάστασης της εφαρμογής;</value>
+  </data>
+  <data name="Dialog_SilentUninstallFailedTitle" xml:space="preserve">
+    <value>Η αθόρυβη απεγκατάσταση απέτυχε</value>
+  </data>
+  <data name="Dialog_UninstallAdminMessage" xml:space="preserve">
+    <value>Το {0} απαιτεί δικαιώματα διαχειριστή για απεγκατάσταση. Το PCGet μπορεί να επαναλάβει την απεγκατάσταση ως διαχειριστής.</value>
+  </data>
+  <data name="Dialog_UninstallManyButton" xml:space="preserve">
+    <value>Απεγκατάσταση {0} εφαρμογών</value>
+  </data>
+  <data name="Dialog_UninstallManyMessage" xml:space="preserve">
+    <value>Είστε βέβαιοι ότι θέλετε να απεγκαταστήσετε αυτές τις {0} εφαρμογές;</value>
+  </data>
+  <data name="Dialog_UninstallMessage" xml:space="preserve">
+    <value>Είστε βέβαιοι ότι θέλετε να απεγκαταστήσετε το {0};</value>
+  </data>
+  <data name="Dialog_UninstallSelectedManyTitle" xml:space="preserve">
+    <value>Απεγκατάσταση επιλεγμένων εφαρμογών;</value>
+  </data>
+  <data name="Dialog_UninstallSelectedOneTitle" xml:space="preserve">
+    <value>Απεγκατάσταση επιλεγμένης εφαρμογής;</value>
+  </data>
+  <data name="Dialog_UninstallTitle" xml:space="preserve">
+    <value>Απεγκατάσταση εφαρμογής;</value>
+  </data>
+  <data name="Dialog_UpdateAdminMessage" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η κανονική ενημέρωση του {0}. Το PCGet μπορεί να επαναλάβει την ενημέρωση με δικαιώματα διαχειριστή.</value>
+  </data>
+  <data name="Dialog_UpdatePCGetButton" xml:space="preserve">
+    <value>Ενημέρωση PCGet</value>
+  </data>
+  <data name="Dialog_UpdatePCGetMessage" xml:space="preserve">
+    <value>Το PCGet {0} είναι διαθέσιμο. Το PCGet θα κλείσει, θα εγκαταστήσει την ενημέρωση και θα ξεκινήσει ξανά αυτόματα.</value>
+  </data>
+  <data name="Dialog_UpdatePCGetTitle" xml:space="preserve">
+    <value>Ενημέρωση PCGet;</value>
+  </data>
+  <data name="Discover_ApplicationsFound" xml:space="preserve">
+    <value>Βρέθηκαν {0} εφαρμογές</value>
+  </data>
+  <data name="Discover_ApplicationsShown" xml:space="preserve">
+    <value>Εμφανίζονται {0} από {1} εφαρμογές</value>
+  </data>
+  <data name="Discover_Author.Text" xml:space="preserve">
+    <value>Δημιουργός</value>
+  </data>
+  <data name="Discover_InstallationNotes.Text" xml:space="preserve">
+    <value>Σημειώσεις εγκατάστασης</value>
+  </data>
+  <data name="Discover_Links.Text" xml:space="preserve">
+    <value>Σύνδεσμοι</value>
+  </data>
+  <data name="Discover_Locale.Text" xml:space="preserve">
+    <value>Γλώσσα/περιοχή</value>
+  </data>
+  <data name="Discover_NoApplicationsFound" xml:space="preserve">
+    <value>Δεν βρέθηκαν εφαρμογές.</value>
+  </data>
+  <data name="Discover_OneApplicationFound" xml:space="preserve">
+    <value>Βρέθηκε 1 εφαρμογή</value>
+  </data>
+  <data name="Discover_OneOfApplicationsShown" xml:space="preserve">
+    <value>Εμφανίζεται 1 από {0} εφαρμογές</value>
+  </data>
+  <data name="Discover_PackageId.Text" xml:space="preserve">
+    <value>Αναγνωριστικό πακέτου</value>
+  </data>
+  <data name="Discover_PackageInformation.Text" xml:space="preserve">
+    <value>Πληροφορίες πακέτου</value>
+  </data>
+  <data name="Discover_PackageWebsite.Content" xml:space="preserve">
+    <value>Ιστότοπος πακέτου</value>
+  </data>
+  <data name="Discover_Privacy.Content" xml:space="preserve">
+    <value>Απόρρητο</value>
+  </data>
+  <data name="Discover_PublisherWebsite.Content" xml:space="preserve">
+    <value>Ιστότοπος εκδότη</value>
+  </data>
+  <data name="Discover_RefreshCurrentSearch.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ανανέωση τρέχουσας αναζήτησης</value>
+  </data>
+  <data name="Discover_Search.Content" xml:space="preserve">
+    <value>Αναζήτηση</value>
+  </data>
+  <data name="Discover_SearchPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Αναζήτηση εφαρμογών</value>
+  </data>
+  <data name="Discover_SearchPrompt" xml:space="preserve">
+    <value>Αναζητήστε εφαρμογές στο WinGet.</value>
+  </data>
+  <data name="Discover_Source.Text" xml:space="preserve">
+    <value>Πηγή</value>
+  </data>
+  <data name="Discover_Subtitle.Text" xml:space="preserve">
+    <value>Αναζητήστε εφαρμογές και εγκαταστήστε τις με το WinGet.</value>
+  </data>
+  <data name="Discover_Support.Content" xml:space="preserve">
+    <value>Υποστήριξη</value>
+  </data>
+  <data name="Discover_Tags.Text" xml:space="preserve">
+    <value>Ετικέτες</value>
+  </data>
+  <data name="Discover_Version.Text" xml:space="preserve">
+    <value>Έκδοση</value>
+  </data>
+  <data name="Error_AlreadyInstalled" xml:space="preserve">
+    <value>Το πακέτο '{0}' είναι ήδη εγκατεστημένο.</value>
+  </data>
+  <data name="Error_CatalogConnection" xml:space="preserve">
+    <value>Δεν είναι δυνατή η σύνδεση στον σύνθετο κατάλογο WinGet. Κατάσταση: {0}</value>
+  </data>
+  <data name="Error_ElevatedFailed" xml:space="preserve">
+    <value>Η λειτουργία πακέτου με αυξημένα δικαιώματα απέτυχε με κωδικό εξόδου {0}.</value>
+  </data>
+  <data name="Error_ElevatedFailedWithLog" xml:space="preserve">
+    <value>Η λειτουργία πακέτου με αυξημένα δικαιώματα απέτυχε με κωδικό εξόδου {0}.
+
+{1}</value>
+  </data>
+  <data name="Error_ElevatedHelperNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε το βοηθητικό πρόγραμμα αυξημένων δικαιωμάτων του PCGet.</value>
+  </data>
+  <data name="Error_ElevatedHelperStart" xml:space="preserve">
+    <value>Δεν είναι δυνατή η εκκίνηση του βοηθητικού προγράμματος αυξημένων δικαιωμάτων του PCGet.</value>
+  </data>
+  <data name="Error_Extended" xml:space="preserve">
+    <value> Σφάλμα: {0}</value>
+  </data>
+  <data name="Error_Http404" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η λήψη του προγράμματος εγκατάστασης επειδή η διεύθυνση URL του πακέτου επέστρεψε 404 (Δεν βρέθηκε). Το πακέτο WinGet ενδέχεται να περιέχει παρωχημένο σύνδεσμο λήψης.</value>
+  </data>
+  <data name="Error_InstallFailed" xml:space="preserve">
+    <value>Το WinGet απέτυχε να εγκαταστήσει το '{0}'. Κατάσταση: {1}.</value>
+  </data>
+  <data name="Error_InstallVerification" xml:space="preserve">
+    <value>{0}: Η λειτουργία πακέτου ολοκληρώθηκε, αλλά το WinGet δεν αναφέρει την εφαρμογή ως εγκατεστημένη.</value>
+  </data>
+  <data name="Error_InstalledPackageNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε το εγκατεστημένο πακέτο '{0}'.</value>
+  </data>
+  <data name="Error_NoUpdateAvailable" xml:space="preserve">
+    <value>Το πακέτο '{0}' δεν έχει πλέον διαθέσιμη ενημέρωση.</value>
+  </data>
+  <data name="Error_PackageNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε το πακέτο '{0}'.</value>
+  </data>
+  <data name="Error_PackageOperationFailed" xml:space="preserve">
+    <value>Η λειτουργία πακέτου απέτυχε.</value>
+  </data>
+  <data name="Error_SelfUpdateStart" xml:space="preserve">
+    <value>Το PCGet δεν μπόρεσε να ξεκινήσει τη διαδικασία αυτοενημέρωσης: {0}</value>
+  </data>
+  <data name="Error_UninstallFailed" xml:space="preserve">
+    <value>Το WinGet απέτυχε να απεγκαταστήσει το '{0}'. Κατάσταση: {1}.</value>
+  </data>
+  <data name="Error_UninstallVerification" xml:space="preserve">
+    <value>{0}: Η λειτουργία πακέτου ολοκληρώθηκε, αλλά το WinGet εξακολουθεί να αναφέρει την εφαρμογή ως εγκατεστημένη.</value>
+  </data>
+  <data name="Error_UnmatchedQuote" xml:space="preserve">
+    <value>Τα πρόσθετα ορίσματα WinGet περιέχουν μη αντιστοιχισμένο εισαγωγικό.</value>
+  </data>
+  <data name="Error_UpdateFailed" xml:space="preserve">
+    <value>Το WinGet απέτυχε να ενημερώσει το '{0}'. Κατάσταση: {1}.</value>
+  </data>
+  <data name="Error_UpdateVerification" xml:space="preserve">
+    <value>{0}: Η λειτουργία πακέτου ολοκληρώθηκε, αλλά το WinGet εξακολουθεί να αναφέρει διαθέσιμη ενημέρωση.</value>
+  </data>
+  <data name="Error_UpdaterNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε το πρόγραμμα ενημέρωσης του PCGet.</value>
+  </data>
+  <data name="Filter_AllSources" xml:space="preserve">
+    <value>Όλες οι πηγές</value>
+  </data>
+  <data name="Installed_ApplicationsShown" xml:space="preserve">
+    <value>Εμφανίζονται {0} από {1} εφαρμογές</value>
+  </data>
+  <data name="Installed_InstalledCount" xml:space="preserve">
+    <value>{0} εγκατεστημένες εφαρμογές</value>
+  </data>
+  <data name="Installed_Loading" xml:space="preserve">
+    <value>Φόρτωση εγκατεστημένων εφαρμογών...</value>
+  </data>
+  <data name="Installed_NoMatchingApplications" xml:space="preserve">
+    <value>Δεν υπάρχουν εφαρμογές που να ταιριάζουν.</value>
+  </data>
+  <data name="Installed_NoneFound" xml:space="preserve">
+    <value>Δεν βρέθηκαν εγκατεστημένες εφαρμογές.</value>
+  </data>
+  <data name="Installed_OneInstalled" xml:space="preserve">
+    <value>1 εγκατεστημένη εφαρμογή</value>
+  </data>
+  <data name="Installed_OneOfApplicationsShown" xml:space="preserve">
+    <value>Εμφανίζεται 1 από {0} εφαρμογές</value>
+  </data>
+  <data name="Installed_OneSelected" xml:space="preserve">
+    <value>1 επιλεγμένη εφαρμογή</value>
+  </data>
+  <data name="Installed_SearchPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Αναζήτηση εγκατεστημένων εφαρμογών</value>
+  </data>
+  <data name="Installed_SelectedCount" xml:space="preserve">
+    <value>{0} επιλεγμένες εφαρμογές</value>
+  </data>
+  <data name="Installed_Subtitle.Text" xml:space="preserve">
+    <value>Εφαρμογές που διαχειρίζεται το WinGet.</value>
+  </data>
+  <data name="Installed_UninstallSelected.Content" xml:space="preserve">
+    <value>Απεγκατάσταση επιλεγμένων</value>
+  </data>
+  <data name="Interval_12Hours" xml:space="preserve">
+    <value>Κάθε 12 ώρες</value>
+  </data>
+  <data name="Interval_15Minutes" xml:space="preserve">
+    <value>Κάθε 15 λεπτά</value>
+  </data>
+  <data name="Interval_1Day" xml:space="preserve">
+    <value>Κάθε ημέρα</value>
+  </data>
+  <data name="Interval_1Hour" xml:space="preserve">
+    <value>Κάθε ώρα</value>
+  </data>
+  <data name="Interval_2Hours" xml:space="preserve">
+    <value>Κάθε 2 ώρες</value>
+  </data>
+  <data name="Interval_30Minutes" xml:space="preserve">
+    <value>Κάθε 30 λεπτά</value>
+  </data>
+  <data name="Interval_4Hours" xml:space="preserve">
+    <value>Κάθε 4 ώρες</value>
+  </data>
+  <data name="Interval_8Hours" xml:space="preserve">
+    <value>Κάθε 8 ώρες</value>
+  </data>
+  <data name="Notification_OneUpdateAvailable" xml:space="preserve">
+    <value>1 ενημέρωση είναι διαθέσιμη</value>
+  </data>
+  <data name="Notification_OpenPCGet" xml:space="preserve">
+    <value>Ανοίξτε το PCGet για να ελέγξετε και να εγκαταστήσετε τις διαθέσιμες ενημερώσεις.</value>
+  </data>
+  <data name="Notification_SelfUpdateFailedMessage" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η εγκατάσταση της ενημέρωσης. Το WinGet επέστρεψε κωδικό εξόδου {0}.</value>
+  </data>
+  <data name="Notification_SelfUpdateFailedTitle" xml:space="preserve">
+    <value>Η ενημέρωση του PCGet απέτυχε</value>
+  </data>
+  <data name="Notification_SelfUpdateSucceededMessage" xml:space="preserve">
+    <value>Εγκαταστάθηκε η πιο πρόσφατη έκδοση του PCGet.</value>
+  </data>
+  <data name="Notification_SelfUpdateSucceededTitle" xml:space="preserve">
+    <value>Το PCGet ενημερώθηκε με επιτυχία</value>
+  </data>
+  <data name="Notification_UpdatesAvailable" xml:space="preserve">
+    <value>{0} ενημερώσεις είναι διαθέσιμες</value>
+  </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>Σχετικά</value>
+  </data>
+  <data name="Settings_AdvancedArguments.Text" xml:space="preserve">
+    <value>Προηγμένα ορίσματα WinGet</value>
+  </data>
+  <data name="Settings_AdvancedArgumentsDescription.Text" xml:space="preserve">
+    <value>Πρόσθετα ορίσματα προστίθενται στην εντολή WinGet όταν το PCGet εκτελεί λειτουργία πακέτου με αυξημένα δικαιώματα. Το PCGet συνεχίζει να διαχειρίζεται το αναγνωριστικό πακέτου, την ακριβή αντιστοίχιση, τις συμφωνίες, την αλληλεπίδραση και την αθόρυβη λειτουργία.</value>
+  </data>
+  <data name="Settings_AppLanguage.Text" xml:space="preserve">
+    <value>Γλώσσα εφαρμογής</value>
+  </data>
+  <data name="Settings_AppLanguageDescription.Text" xml:space="preserve">
+    <value>Επιλέξτε τη γλώσσα που χρησιμοποιεί το PCGet. Απαιτείται επανεκκίνηση μετά την αλλαγή.</value>
+  </data>
+  <data name="Settings_BackgroundChecks.Text" xml:space="preserve">
+    <value>Έλεγχος για ενημερώσεις στο παρασκήνιο</value>
+  </data>
+  <data name="Settings_BackgroundChecksDescription.Text" xml:space="preserve">
+    <value>Περιοδικός έλεγχος για ενημερώσεις πακέτων όσο εκτελείται το PCGet.</value>
+  </data>
+  <data name="Settings_CheckInterval.Text" xml:space="preserve">
+    <value>Διάστημα ελέγχου</value>
+  </data>
+  <data name="Settings_CheckIntervalDescription.Text" xml:space="preserve">
+    <value>Επιλέξτε πόσο συχνά το PCGet ελέγχει για διαθέσιμες ενημερώσεις.</value>
+  </data>
+  <data name="Settings_CheckStartup.Text" xml:space="preserve">
+    <value>Έλεγχος για ενημερώσεις κατά την εκκίνηση</value>
+  </data>
+  <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
+    <value>Αυτόματος έλεγχος για διαθέσιμες ενημερώσεις πακέτων κατά την εκκίνηση του PCGet.</value>
+  </data>
+  <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Πρόσθετα ορίσματα για winget install</value>
+  </data>
+  <data name="Settings_Language.Text" xml:space="preserve">
+    <value>Γλώσσα</value>
+  </data>
+  <data name="Settings_LanguageRestartRequired" xml:space="preserve">
+    <value>Επανεκκινήστε το PCGet για να εφαρμοστεί η νέα γλώσσα.</value>
+  </data>
+  <data name="Settings_PackageOperations.Text" xml:space="preserve">
+    <value>Λειτουργίες πακέτων</value>
+  </data>
+  <data name="Settings_PackageSources.Text" xml:space="preserve">
+    <value>Πηγές πακέτων</value>
+  </data>
+  <data name="Settings_PoweredBy.Text" xml:space="preserve">
+    <value>Με την υποστήριξη του Windows Package Manager</value>
+  </data>
+  <data name="Settings_SilentOperations.Text" xml:space="preserve">
+    <value>Αθόρυβες λειτουργίες πακέτων</value>
+  </data>
+  <data name="Settings_SilentOperationsDescription.Text" xml:space="preserve">
+    <value>Εγκατάσταση, ενημέρωση και απεγκατάσταση εφαρμογών χωρίς εμφάνιση του περιβάλλοντος εγκατάστασης, όταν υποστηρίζεται.</value>
+  </data>
+  <data name="Settings_StartWithWindows.Text" xml:space="preserve">
+    <value>Εκκίνηση του PCGet με τα Windows</value>
+  </data>
+  <data name="Settings_StartWithWindowsDescription.Text" xml:space="preserve">
+    <value>Αυτόματη εκκίνηση του PCGet όταν συνδέεστε στα Windows.</value>
+  </data>
+  <data name="Settings_Subtitle.Text" xml:space="preserve">
+    <value>Ρυθμίστε τον τρόπο με τον οποίο το PCGet διαχειρίζεται τις εφαρμογές σας.</value>
+  </data>
+  <data name="Settings_Tagline.Text" xml:space="preserve">
+    <value>Οι εφαρμογές Windows σας. Σε ένα μέρος.</value>
+  </data>
+  <data name="Settings_Title.Text" xml:space="preserve">
+    <value>Ρυθμίσεις</value>
+  </data>
+  <data name="Settings_UninstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Πρόσθετα ορίσματα για winget uninstall</value>
+  </data>
+  <data name="Settings_Version" xml:space="preserve">
+    <value>Έκδοση {0}.{1}.{2}.{3}</value>
+  </data>
+  <data name="Settings_WinGetSources.Text" xml:space="preserve">
+    <value>Πηγές WinGet</value>
+  </data>
+  <data name="Settings_WinGetSourcesDescription.Text" xml:space="preserve">
+    <value>Το PCGet χρησιμοποιεί τις πηγές πακέτων που έχουν ρυθμιστεί στο Windows Package Manager.</value>
+  </data>
+  <data name="Settings_WindowsStartup.Text" xml:space="preserve">
+    <value>Εκκίνηση των Windows</value>
+  </data>
+  <data name="Sort_NameAZ" xml:space="preserve">
+    <value>Όνομα Α–Ω</value>
+  </data>
+  <data name="Sort_NameZA" xml:space="preserve">
+    <value>Όνομα Ω–Α</value>
+  </data>
+  <data name="Sort_PublisherAZ" xml:space="preserve">
+    <value>Εκδότης Α–Ω</value>
+  </data>
+  <data name="Sort_Relevance" xml:space="preserve">
+    <value>Συνάφεια</value>
+  </data>
+  <data name="Sort_SourceAZ" xml:space="preserve">
+    <value>Πηγή Α–Ω</value>
+  </data>
+  <data name="Sort_VersionAZ" xml:space="preserve">
+    <value>Έκδοση Α–Ω</value>
+  </data>
+  <data name="Sort_VersionZA" xml:space="preserve">
+    <value>Έκδοση Ω–Α</value>
+  </data>
+  <data name="Startup_Disabled" xml:space="preserve">
+    <value>Το PCGet δεν θα ξεκινά αυτόματα με τα Windows.</value>
+  </data>
+  <data name="Startup_DisabledByPolicy" xml:space="preserve">
+    <value>Η εκκίνηση είναι απενεργοποιημένη από πολιτική των Windows.</value>
+  </data>
+  <data name="Startup_DisabledByUser" xml:space="preserve">
+    <value>Η εκκίνηση έχει απενεργοποιηθεί στις Ρυθμίσεις των Windows. Ενεργοποιήστε εκεί το PCGet για να επιτρέψετε αυτή την επιλογή.</value>
+  </data>
+  <data name="Startup_Enabled" xml:space="preserve">
+    <value>Το PCGet θα ξεκινά αυτόματα όταν συνδέεστε στα Windows.</value>
+  </data>
+  <data name="Startup_Unavailable" xml:space="preserve">
+    <value>Η κατάσταση εκκίνησης των Windows δεν είναι διαθέσιμη.</value>
+  </data>
+  <data name="Status_Completed" xml:space="preserve">
+    <value>Ολοκληρώθηκε</value>
+  </data>
+  <data name="Status_DownloadingPercent" xml:space="preserve">
+    <value>Λήψη {0:0}%</value>
+  </data>
+  <data name="Status_Failed" xml:space="preserve">
+    <value>Απέτυχε</value>
+  </data>
+  <data name="Status_Finishing" xml:space="preserve">
+    <value>Ολοκλήρωση...</value>
+  </data>
+  <data name="Status_Installed" xml:space="preserve">
+    <value>Εγκατεστημένες</value>
+  </data>
+  <data name="Status_Installing" xml:space="preserve">
+    <value>Εγκατάσταση...</value>
+  </data>
+  <data name="Status_InstallingAsAdministrator" xml:space="preserve">
+    <value>Εγκατάσταση ως διαχειριστής...</value>
+  </data>
+  <data name="Status_InstallingPercent" xml:space="preserve">
+    <value>Εγκατάσταση {0:0}%</value>
+  </data>
+  <data name="Status_NotInstalled" xml:space="preserve">
+    <value>Δεν είναι εγκατεστημένο</value>
+  </data>
+  <data name="Status_PackageStatus" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Status_Preparing" xml:space="preserve">
+    <value>Προετοιμασία...</value>
+  </data>
+  <data name="Status_PreparingToUninstall" xml:space="preserve">
+    <value>Προετοιμασία απεγκατάστασης του {0}...</value>
+  </data>
+  <data name="Status_Queued" xml:space="preserve">
+    <value>Σε αναμονή</value>
+  </data>
+  <data name="Status_QueuedInteractive" xml:space="preserve">
+    <value>Σε αναμονή (διαδραστικά)</value>
+  </data>
+  <data name="Status_Ready" xml:space="preserve">
+    <value>Έτοιμο</value>
+  </data>
+  <data name="Status_RunningInstaller" xml:space="preserve">
+    <value>Εκτέλεση προγράμματος εγκατάστασης...</value>
+  </data>
+  <data name="Status_StillInstalled" xml:space="preserve">
+    <value>Παραμένει εγκατεστημένο</value>
+  </data>
+  <data name="Status_Uninstalled" xml:space="preserve">
+    <value>Απεγκαταστάθηκε</value>
+  </data>
+  <data name="Status_Uninstalling" xml:space="preserve">
+    <value>Απεγκατάσταση...</value>
+  </data>
+  <data name="Status_UninstallingApplication" xml:space="preserve">
+    <value>Απεγκατάσταση εφαρμογής...</value>
+  </data>
+  <data name="Status_UninstallingAsAdministrator" xml:space="preserve">
+    <value>Απεγκατάσταση του {0} ως διαχειριστής...</value>
+  </data>
+  <data name="Status_UninstallingInteractivelyPercent" xml:space="preserve">
+    <value>Διαδραστική απεγκατάσταση {0:0}%</value>
+  </data>
+  <data name="Status_UninstallingPercent" xml:space="preserve">
+    <value>Απεγκατάσταση {0:0}%</value>
+  </data>
+  <data name="Status_UpdateStillAvailable" xml:space="preserve">
+    <value>Η ενημέρωση παραμένει διαθέσιμη</value>
+  </data>
+  <data name="Status_Updating" xml:space="preserve">
+    <value>Ενημέρωση...</value>
+  </data>
+  <data name="Status_VerifyingInstallation" xml:space="preserve">
+    <value>Επαλήθευση εγκατάστασης...</value>
+  </data>
+  <data name="Status_VerifyingUninstall" xml:space="preserve">
+    <value>Επαλήθευση απεγκατάστασης του {0}...</value>
+  </data>
+  <data name="Status_VerifyingUpdate" xml:space="preserve">
+    <value>Επαλήθευση ενημέρωσης...</value>
+  </data>
+  <data name="Tray_CheckUpdates" xml:space="preserve">
+    <value>Έλεγχος για ενημερώσεις</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>Έξοδος</value>
+  </data>
+  <data name="Tray_Open" xml:space="preserve">
+    <value>Άνοιγμα PCGet</value>
+  </data>
+  <data name="Updates_Available" xml:space="preserve">
+    <value>{0} διαθέσιμες ενημερώσεις</value>
+  </data>
+  <data name="Updates_Checking" xml:space="preserve">
+    <value>Έλεγχος για ενημερώσεις...</value>
+  </data>
+  <data name="Updates_Installing" xml:space="preserve">
+    <value>Εγκατάσταση ενημέρωσης...</value>
+  </data>
+  <data name="Updates_InstallingOneQueued" xml:space="preserve">
+    <value>Εγκατάσταση ενημέρωσης · 1 σε αναμονή</value>
+  </data>
+  <data name="Updates_InstallingQueued" xml:space="preserve">
+    <value>Εγκατάσταση ενημέρωσης · {0} σε αναμονή</value>
+  </data>
+  <data name="Updates_NoMatching" xml:space="preserve">
+    <value>Δεν υπάρχουν ενημερώσεις που να ταιριάζουν.</value>
+  </data>
+  <data name="Updates_OneAvailable" xml:space="preserve">
+    <value>1 διαθέσιμη ενημέρωση</value>
+  </data>
+  <data name="Updates_OneOfShown" xml:space="preserve">
+    <value>Εμφανίζεται 1 από {0} ενημερώσεις</value>
+  </data>
+  <data name="Updates_SearchPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Αναζήτηση διαθέσιμων ενημερώσεων</value>
+  </data>
+  <data name="Updates_Shown" xml:space="preserve">
+    <value>Εμφανίζονται {0} από {1} ενημερώσεις</value>
+  </data>
+  <data name="Updates_Subtitle.Text" xml:space="preserve">
+    <value>Διατηρήστε τις εγκατεστημένες εφαρμογές σας ενημερωμένες.</value>
+  </data>
+  <data name="Updates_UpToDate" xml:space="preserve">
+    <value>Οι εφαρμογές σας είναι ενημερωμένες.</value>
+  </data>
+  <data name="Updates_UpdateAll.Content" xml:space="preserve">
+    <value>Ενημέρωση όλων)</value>
+  </data>
+  <data name="Settings_InstallArgumentsBox.Header" xml:space="preserve">
+    <value>Εγκατάσταση</value>
+  </data>
+  <data name="Settings_InstallArgumentsBox.PlaceholderText" xml:space="preserve">
+    <value>Πρόσθετα ορίσματα για winget install</value>
+  </data>
+  <data name="Settings_UpdateArgumentsBox.Header" xml:space="preserve">
+    <value>Ενημέρωση</value>
+  </data>
+  <data name="Settings_UpdateArgumentsBox.PlaceholderText" xml:space="preserve">
+    <value>Παράδειγμα: --include-unknown</value>
+  </data>
+  <data name="Settings_UninstallArgumentsBox.Header" xml:space="preserve">
+    <value>Απεγκατάσταση</value>
+  </data>
+  <data name="Settings_UninstallArgumentsBox.PlaceholderText" xml:space="preserve">
+    <value>Πρόσθετα ορίσματα για winget uninstall</value>
+  </data>
+  <data name="Error_TrayWindowCreate" xml:space="preserve">
+    <value>Δεν είναι δυνατή η δημιουργία του παραθύρου περιοχής ειδοποιήσεων του PCGet.</value>
+  </data>
+  <data name="Error_TrayIconNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε το εικονίδιο περιοχής ειδοποιήσεων του PCGet.</value>
+  </data>
+  <data name="Error_TrayIconLoad" xml:space="preserve">
+    <value>Δεν είναι δυνατή η φόρτωση του εικονιδίου περιοχής ειδοποιήσεων του PCGet.</value>
+  </data>
+  <data name="Error_TrayIconAdd" xml:space="preserve">
+    <value>Δεν είναι δυνατή η προσθήκη του εικονιδίου PCGet στην περιοχή ειδοποιήσεων.</value>
+  </data>
+  <data name="Error_TrayClassRegister" xml:space="preserve">
+    <value>Δεν είναι δυνατή η καταχώριση της κλάσης παραθύρου περιοχής ειδοποιήσεων του PCGet.</value>
+  </data>
+  <data name="Common_Install" xml:space="preserve">
+    <value>Εγκατάσταση</value>
+  </data>
+  <data name="Common_Update" xml:space="preserve">
+    <value>Ενημέρωση</value>
+  </data>
+  <data name="Common_Uninstall" xml:space="preserve">
+    <value>Απεγκατάσταση</value>
+  </data>
+  <data name="Settings_UpdateArgsPlaceholder" xml:space="preserve">
+    <value>Παράδειγμα: --include-unknown</value>
+  </data>
+  <data name="Status_Searching" xml:space="preserve">
+    <value>Αναζήτηση...</value>
+  </data>
+  <data name="Navigation_Updates.Content" xml:space="preserve">
+    <value>Ενημερώσεις</value>
+  </data>
+  <data name="Navigation_Installed.Content" xml:space="preserve">
+    <value>Εγκατεστημένες</value>
+  </data>
+  <data name="Navigation_Discover.Content" xml:space="preserve">
+    <value>Αναζήτηση</value>
+  </data>
+  <data name="Common_Updates.Text" xml:space="preserve">
+    <value>Ενημερώσεις</value>
+  </data>
+  <data name="Common_Installed.Text" xml:space="preserve">
+    <value>Εγκατεστημένες</value>
+  </data>
+  <data name="Common_Discover.Text" xml:space="preserve">
+    <value>Αναζήτηση</value>
+  </data>
+  <data name="Common_LicenseText.Text" xml:space="preserve">
+    <value>Άδεια χρήσης</value>
+  </data>
+  <data name="Common_LicenseButton.Content" xml:space="preserve">
+    <value>Άδεια χρήσης</value>
+  </data>
+  <data name="Common_CopyrightText.Text" xml:space="preserve">
+    <value>Πνευματικά δικαιώματα</value>
+  </data>
+  <data name="Common_CopyrightButton.Content" xml:space="preserve">
+    <value>Πνευματικά δικαιώματα</value>
+  </data>
+  <data name="Common_ReleaseNotesText.Text" xml:space="preserve">
+    <value>Σημειώσεις έκδοσης</value>
+  </data>
+  <data name="Common_ReleaseNotesButton.Content" xml:space="preserve">
+    <value>Σημειώσεις έκδοσης</value>
+  </data>
+</root>

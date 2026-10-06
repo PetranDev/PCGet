@@ -11,6 +11,7 @@ namespace PCGet.Services;
 public static class LocalizationService
 {
     private const string DefaultLanguage = "en-US";
+    private const string LanguageManifestPath = "Localization\\languages.txt";
     private static ResourceLoader? _resourceLoader;
 
     public static string CurrentLanguage => ApplicationLanguages.PrimaryLanguageOverride.Length > 0
@@ -38,7 +39,6 @@ public static class LocalizationService
         try
         {
             _resourceLoader ??= new ResourceLoader();
-
             var value = _resourceLoader.GetString(key);
             return string.IsNullOrEmpty(value) ? key : value;
         }
@@ -55,35 +55,41 @@ public static class LocalizationService
 
     private static IReadOnlyList<LocalizationOption> DiscoverLanguages()
     {
-        var languages = new List<LocalizationOption>();
-        var localizationPath = Path.Combine(AppContext.BaseDirectory, "Localization");
+        var languageTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var manifestPath = Path.Combine(AppContext.BaseDirectory, LanguageManifestPath);
 
-        if (Directory.Exists(localizationPath))
+        if (File.Exists(manifestPath))
         {
-            foreach (var directory in Directory.GetDirectories(localizationPath))
+            foreach (var line in File.ReadAllLines(manifestPath))
             {
-                var languageTag = Path.GetFileName(directory);
+                var languageTag = line.Trim().TrimEnd('\\', '/');
 
-                if (string.IsNullOrWhiteSpace(languageTag))
-                    continue;
-
-                try
-                {
-                    var culture = CultureInfo.GetCultureInfo(languageTag);
-                    languages.Add(new LocalizationOption(languageTag, culture.NativeName));
-                }
-                catch (CultureNotFoundException)
-                {
-                }
+                if (!string.IsNullOrWhiteSpace(languageTag))
+                    languageTags.Add(languageTag);
             }
         }
 
-        if (!languages.Any(option => string.Equals(option.LanguageTag, DefaultLanguage, StringComparison.OrdinalIgnoreCase)))
-            languages.Add(new LocalizationOption(DefaultLanguage, CultureInfo.GetCultureInfo(DefaultLanguage).NativeName));
+        languageTags.Add(DefaultLanguage);
 
-        return languages
+        return languageTags
+            .Select(CreateLocalizationOption)
+            .Where(option => option is not null)
+            .Cast<LocalizationOption>()
             .OrderBy(option => option.DisplayName, StringComparer.CurrentCultureIgnoreCase)
             .ToArray();
+    }
+
+    private static LocalizationOption? CreateLocalizationOption(string languageTag)
+    {
+        try
+        {
+            var culture = CultureInfo.GetCultureInfo(languageTag);
+            return new LocalizationOption(culture.Name, culture.NativeName);
+        }
+        catch (CultureNotFoundException)
+        {
+            return null;
+        }
     }
 }
 
