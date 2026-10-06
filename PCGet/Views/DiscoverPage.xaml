@@ -18,10 +18,10 @@
 
         <StackPanel Grid.Row="0" Spacing="8">
             <TextBlock
-                Text="Discover"
+                x:Uid="Common_Discover"
                 Style="{StaticResource TitleTextBlockStyle}" />
             <TextBlock
-                Text="Search for applications and install them with WinGet."
+                x:Uid="Discover_Subtitle"
                 Style="{StaticResource BodyTextBlockStyle}"
                 Opacity="0.7" />
         </StackPanel>
@@ -42,7 +42,7 @@
             <AutoSuggestBox
                 x:Name="SearchBox"
                 Grid.Column="0"
-                PlaceholderText="Search applications"
+                x:Uid="Discover_SearchPlaceholder"
                 QueryIcon="Find"
                 Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 QuerySubmitted="SearchBox_QuerySubmitted" />
@@ -63,14 +63,14 @@
 
             <Button
                 Grid.Column="6"
-                Content="Search"
+                x:Uid="Discover_Search"
                 Command="{x:Bind ViewModel.SearchCommand}" />
 
             <Button
                 Grid.Column="8"
                 Command="{x:Bind ViewModel.RefreshCommand}"
                 IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"
-                ToolTipService.ToolTip="Refresh current search">
+                x:Uid="Discover_RefreshCurrentSearch">
                 <FontIcon Glyph="&#xE72C;" />
             </Button>
         </Grid>
@@ -93,7 +93,7 @@
             Grid.Row="6"
             IsOpen="False"
             Severity="Error"
-            Title="PCGet error" />
+            x:Uid="Common_PCGetError" />
 
         <Grid
             x:Name="ResultsGrid"
@@ -303,7 +303,7 @@
 
                         <StackPanel Spacing="12">
                             <TextBlock
-                                Text="Package information"
+                                x:Uid="Discover_PackageInformation"
                                 FontSize="18"
                                 FontWeight="SemiBold" />
 
@@ -322,13 +322,13 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Version" Opacity="0.6" />
+                                <TextBlock Grid.Row="0" Grid.Column="0" x:Uid="Discover_Version" Opacity="0.6" />
                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Version}" TextWrapping="Wrap" />
 
-                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Source" Opacity="0.6" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" x:Uid="Discover_Source" Opacity="0.6" />
                                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Source}" TextWrapping="Wrap" />
 
-                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Package ID" Opacity="0.6" />
+                                <TextBlock Grid.Row="2" Grid.Column="0" x:Uid="Discover_PackageId" Opacity="0.6" />
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="1"
@@ -339,7 +339,7 @@
                                 <TextBlock
                                     Grid.Row="3"
                                     Grid.Column="0"
-                                    Text="Author"
+                                    x:Uid="Discover_Author"
                                     Opacity="0.6"
                                     Visibility="{Binding HasAuthor}" />
                                 <TextBlock
@@ -352,7 +352,7 @@
                                 <TextBlock
                                     Grid.Row="4"
                                     Grid.Column="0"
-                                    Text="Locale"
+                                    x:Uid="Discover_Locale"
                                     Opacity="0.6"
                                     Visibility="{Binding HasLocale}" />
                                 <TextBlock
@@ -365,7 +365,7 @@
                                 <TextBlock
                                     Grid.Row="5"
                                     Grid.Column="0"
-                                    Text="License"
+                                    x:Uid="Common_LicenseText"
                                     Opacity="0.6"
                                     Visibility="{Binding HasLicense}" />
                                 <TextBlock
@@ -378,7 +378,7 @@
                                 <TextBlock
                                     Grid.Row="6"
                                     Grid.Column="0"
-                                    Text="Tags"
+                                    x:Uid="Discover_Tags"
                                     Opacity="0.6"
                                     Visibility="{Binding HasTags}" />
                                 <TextBlock
@@ -394,7 +394,7 @@
                             Spacing="8"
                             Visibility="{Binding HasCopyright}">
                             <TextBlock
-                                Text="Copyright"
+                                x:Uid="Common_CopyrightText"
                                 FontSize="18"
                                 FontWeight="SemiBold" />
                             <TextBlock
@@ -407,7 +407,7 @@
                             Spacing="8"
                             Visibility="{Binding HasReleaseNotes}">
                             <TextBlock
-                                Text="Release notes"
+                                x:Uid="Common_ReleaseNotesText"
                                 FontSize="18"
                                 FontWeight="SemiBold" />
                             <TextBlock
@@ -420,7 +420,7 @@
                             Spacing="8"
                             Visibility="{Binding HasInstallationNotes}">
                             <TextBlock
-                                Text="Installation notes"
+                                x:Uid="Discover_InstallationNotes"
                                 FontSize="18"
                                 FontWeight="SemiBold" />
                             <TextBlock
@@ -433,54 +433,54 @@
                             Spacing="8"
                             Visibility="{Binding HasLinks}">
                             <TextBlock
-                                Text="Links"
+                                x:Uid="Discover_Links"
                                 FontSize="18"
                                 FontWeight="SemiBold" />
 
                             <Button
-                                Content="Package website"
+                                x:Uid="Discover_PackageWebsite"
                                 Tag="{Binding PackageUrl}"
                                 Click="LinkButton_Click"
                                 HorizontalAlignment="Left"
                                 Visibility="{Binding HasPackageUrl}" />
 
                             <Button
-                                Content="Publisher website"
+                                x:Uid="Discover_PublisherWebsite"
                                 Tag="{Binding PublisherUrl}"
                                 Click="LinkButton_Click"
                                 HorizontalAlignment="Left"
                                 Visibility="{Binding HasPublisherUrl}" />
 
                             <Button
-                                Content="Support"
+                                x:Uid="Discover_Support"
                                 Tag="{Binding PublisherSupportUrl}"
                                 Click="LinkButton_Click"
                                 HorizontalAlignment="Left"
                                 Visibility="{Binding HasPublisherSupportUrl}" />
 
                             <Button
-                                Content="License"
+                                x:Uid="Common_LicenseButton"
                                 Tag="{Binding LicenseUrl}"
                                 Click="LinkButton_Click"
                                 HorizontalAlignment="Left"
                                 Visibility="{Binding HasLicenseUrl}" />
 
                             <Button
-                                Content="Privacy"
+                                x:Uid="Discover_Privacy"
                                 Tag="{Binding PrivacyUrl}"
                                 Click="LinkButton_Click"
                                 HorizontalAlignment="Left"
                                 Visibility="{Binding HasPrivacyUrl}" />
 
                             <Button
-                                Content="Copyright"
+                                x:Uid="Common_CopyrightButton"
                                 Tag="{Binding CopyrightUrl}"
                                 Click="LinkButton_Click"
                                 HorizontalAlignment="Left"
                                 Visibility="{Binding HasCopyrightUrl}" />
 
                             <Button
-                                Content="Release notes"
+                                x:Uid="Common_ReleaseNotesButton"
                                 Tag="{Binding ReleaseNotesUrl}"
                                 Click="LinkButton_Click"
                                 HorizontalAlignment="Left"

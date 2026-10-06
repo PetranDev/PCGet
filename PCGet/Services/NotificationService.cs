@@ -32,25 +32,25 @@ public sealed class NotificationService : IDisposable
         if (!_registered || updateCount <= 0)
             return;
 
-        var title = updateCount == 1 ? "1 update is available" : $"{updateCount} updates are available";
+        var title = updateCount == 1 ? LocalizationService.GetString("Notification_OneUpdateAvailable") : LocalizationService.Format("Notification_UpdatesAvailable", updateCount);
 
         ShowNotification(
             title,
-            "Open PCGet to review and install available updates.");
+            LocalizationService.GetString("Notification_OpenPCGet"));
     }
 
     public void ShowSelfUpdateSucceeded()
     {
         ShowNotification(
-            "PCGet updated successfully",
-            "The latest version of PCGet has been installed.");
+            LocalizationService.GetString("Notification_SelfUpdateSucceededTitle"),
+            LocalizationService.GetString("Notification_SelfUpdateSucceededMessage"));
     }
 
     public void ShowSelfUpdateFailed(int exitCode)
     {
         ShowNotification(
-            "PCGet update failed",
-            $"The update could not be installed. WinGet returned exit code {exitCode}.");
+            LocalizationService.GetString("Notification_SelfUpdateFailedTitle"),
+            LocalizationService.Format("Notification_SelfUpdateFailedMessage", exitCode));
     }
 
     private void ShowNotification(string title, string message)

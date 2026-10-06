@@ -11,6 +11,7 @@ public sealed class AppSettingsService
     private const string InstallAdditionalArgumentsKey = "InstallAdditionalArguments";
     private const string UpdateAdditionalArgumentsKey = "UpdateAdditionalArguments";
     private const string UninstallAdditionalArgumentsKey = "UninstallAdditionalArguments";
+    private const string LanguageKey = "Language";
 
     private readonly ApplicationDataContainer _localSettings;
 
@@ -59,6 +60,12 @@ public sealed class AppSettingsService
     {
         get => GetString(UninstallAdditionalArgumentsKey);
         set => _localSettings.Values[UninstallAdditionalArgumentsKey] = value;
+    }
+
+    public string Language
+    {
+        get => GetString(LanguageKey);
+        set => _localSettings.Values[LanguageKey] = value;
     }
 
     private bool GetBoolean(string key, bool defaultValue)

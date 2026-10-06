@@ -48,10 +48,10 @@ public sealed partial class InstalledPage : Page
         var confirmationDialog = new ContentDialog
         {
             XamlRoot = XamlRoot,
-            Title = "Uninstall application?",
-            Content = $"Are you sure you want to uninstall {package.Name}?",
-            PrimaryButtonText = "Uninstall",
-            CloseButtonText = "Cancel",
+            Title = LocalizationService.GetString("Dialog_UninstallTitle"),
+            Content = LocalizationService.Format("Dialog_UninstallMessage", package.Name),
+            PrimaryButtonText = LocalizationService.GetString("Common_Uninstall"),
+            CloseButtonText = LocalizationService.GetString("Common_Cancel"),
             DefaultButton = ContentDialogButton.Close
         };
 
@@ -76,12 +76,12 @@ public sealed partial class InstalledPage : Page
         var confirmationDialog = new ContentDialog
         {
             XamlRoot = XamlRoot,
-            Title = packages.Length == 1 ? "Uninstall selected application?" : "Uninstall selected applications?",
+            Title = packages.Length == 1 ? LocalizationService.GetString("Dialog_UninstallSelectedOneTitle") : LocalizationService.GetString("Dialog_UninstallSelectedManyTitle"),
             Content = packages.Length == 1
-                ? $"Are you sure you want to uninstall {packages[0].Name}?"
-                : $"Are you sure you want to uninstall these {packages.Length} applications?",
-            PrimaryButtonText = packages.Length == 1 ? "Uninstall" : $"Uninstall {packages.Length} applications",
-            CloseButtonText = "Cancel",
+                ? LocalizationService.Format("Dialog_UninstallMessage", packages[0].Name)
+                : LocalizationService.Format("Dialog_UninstallManyMessage", packages.Length),
+            PrimaryButtonText = packages.Length == 1 ? LocalizationService.GetString("Common_Uninstall") : LocalizationService.Format("Dialog_UninstallManyButton", packages.Length),
+            CloseButtonText = LocalizationService.GetString("Common_Cancel"),
             DefaultButton = ContentDialogButton.Close
         };
 
@@ -120,10 +120,10 @@ public sealed partial class InstalledPage : Page
         var retryDialog = new ContentDialog
         {
             XamlRoot = XamlRoot,
-            Title = "Silent uninstall failed",
-            Content = $"{package.Name} could not be uninstalled silently. Would you like to retry using the application's interactive uninstaller?",
-            PrimaryButtonText = "Retry interactively",
-            CloseButtonText = "Cancel",
+            Title = LocalizationService.GetString("Dialog_SilentUninstallFailedTitle"),
+            Content = LocalizationService.Format("Dialog_SilentUninstallFailedMessage", package.Name),
+            PrimaryButtonText = LocalizationService.GetString("Dialog_RetryInteractively"),
+            CloseButtonText = LocalizationService.GetString("Common_Cancel"),
             DefaultButton = ContentDialogButton.Primary
         };
 
@@ -154,10 +154,10 @@ public sealed partial class InstalledPage : Page
         var dialog = new ContentDialog
         {
             XamlRoot = XamlRoot,
-            Title = "Administrator privileges required",
-            Content = $"{package.Name} requires administrator privileges to uninstall. PCGet can retry the uninstall as administrator.",
-            PrimaryButtonText = "Retry as administrator",
-            CloseButtonText = "Cancel",
+            Title = LocalizationService.GetString("Dialog_AdminRequiredTitle"),
+            Content = LocalizationService.Format("Dialog_UninstallAdminMessage", package.Name),
+            PrimaryButtonText = LocalizationService.GetString("Dialog_RetryAdminButton"),
+            CloseButtonText = LocalizationService.GetString("Common_Cancel"),
             DefaultButton = ContentDialogButton.Primary
         };
 
@@ -186,8 +186,8 @@ public sealed partial class InstalledPage : Page
         SelectionStatusText.Text = count switch
         {
             0 => string.Empty,
-            1 => "1 application selected",
-            _ => $"{count} applications selected"
+            1 => LocalizationService.GetString("Installed_OneSelected"),
+            _ => LocalizationService.Format("Installed_SelectedCount", count)
         };
     }
 

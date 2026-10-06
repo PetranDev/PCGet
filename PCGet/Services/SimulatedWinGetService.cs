@@ -69,7 +69,7 @@ public sealed class SimulatedWinGetService : IWinGetService
     {
         progress?.Report(
             new PackageInstallProgress(
-                "Queued",
+                LocalizationService.GetString("Status_Queued"),
                 0));
 
         await Task.Delay(300);
@@ -78,7 +78,7 @@ public sealed class SimulatedWinGetService : IWinGetService
         {
             progress?.Report(
                 new PackageInstallProgress(
-                    $"Downloading {value}%",
+                    LocalizationService.Format("Status_DownloadingPercent", value),
                     value * 0.5));
 
             await Task.Delay(60);
@@ -88,7 +88,7 @@ public sealed class SimulatedWinGetService : IWinGetService
         {
             progress?.Report(
                 new PackageInstallProgress(
-                    $"Installing {value}%",
+                    LocalizationService.Format("Status_InstallingPercent", value),
                     50 + value * 0.5));
 
             await Task.Delay(75);
@@ -107,7 +107,7 @@ public sealed class SimulatedWinGetService : IWinGetService
 
         progress?.Report(
             new PackageInstallProgress(
-                "Completed",
+                LocalizationService.GetString("Status_Completed"),
                 100));
     }
 
@@ -117,7 +117,7 @@ public sealed class SimulatedWinGetService : IWinGetService
     {
         progress?.Report(
             new PackageUpdateProgress(
-                "Queued",
+                LocalizationService.GetString("Status_Queued"),
                 0));
 
         await Task.Delay(500);
@@ -126,7 +126,7 @@ public sealed class SimulatedWinGetService : IWinGetService
         {
             progress?.Report(
                 new PackageUpdateProgress(
-                    $"Downloading {value}%",
+                    LocalizationService.Format("Status_DownloadingPercent", value),
                     value * 0.5));
 
             await Task.Delay(80);
@@ -138,7 +138,7 @@ public sealed class SimulatedWinGetService : IWinGetService
         {
             progress?.Report(
                 new PackageUpdateProgress(
-                    $"Installing {value}%",
+                    LocalizationService.Format("Status_InstallingPercent", value),
                     50 + value * 0.45));
 
             await Task.Delay(100);
@@ -146,14 +146,14 @@ public sealed class SimulatedWinGetService : IWinGetService
 
         progress?.Report(
             new PackageUpdateProgress(
-                "Finishing...",
+                LocalizationService.GetString("Status_Finishing"),
                 98));
 
         await Task.Delay(600);
 
         progress?.Report(
             new PackageUpdateProgress(
-                "Completed",
+                LocalizationService.GetString("Status_Completed"),
                 100));
 
         await Task.Delay(300);
@@ -174,8 +174,8 @@ public sealed class SimulatedWinGetService : IWinGetService
         progress?.Report(
             new PackageUninstallProgress(
                 interactive
-                    ? "Queued (interactive)"
-                    : "Queued",
+                    ? LocalizationService.GetString("Status_QueuedInteractive")
+                    : LocalizationService.GetString("Status_Queued"),
                 0));
 
         await Task.Delay(300);
@@ -185,8 +185,8 @@ public sealed class SimulatedWinGetService : IWinGetService
             progress?.Report(
                 new PackageUninstallProgress(
                     interactive
-                        ? $"Uninstalling interactively {value}%"
-                        : $"Uninstalling {value}%",
+                        ? LocalizationService.Format("Status_UninstallingInteractivelyPercent", value)
+                        : LocalizationService.Format("Status_UninstallingPercent", value),
                     value));
 
             await Task.Delay(75);
@@ -201,7 +201,7 @@ public sealed class SimulatedWinGetService : IWinGetService
 
         progress?.Report(
             new PackageUninstallProgress(
-                "Completed",
+                LocalizationService.GetString("Status_Completed"),
                 100));
     }
 

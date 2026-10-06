@@ -12,7 +12,7 @@ namespace PCGet.ViewModels;
 
 public partial class DiscoverViewModel : ObservableObject
 {
-    private const string AllSources = "All sources";
+    private static string AllSources => LocalizationService.GetString("Filter_AllSources");
 
     private readonly IWinGetService _winGetService;
     private readonly ElevatedOperationService _elevatedOperationService;
@@ -20,7 +20,7 @@ public partial class DiscoverViewModel : ObservableObject
 
     public ObservableCollection<DiscoverPackageInfo> Packages { get; } = [];
     public ObservableCollection<string> Sources { get; } = [AllSources];
-    public string[] SortOptions { get; } = ["Relevance", "Name A–Z", "Name Z–A", "Publisher A–Z"];
+    public string[] SortOptions { get; } = [LocalizationService.GetString("Sort_Relevance"), LocalizationService.GetString("Sort_NameAZ"), LocalizationService.GetString("Sort_NameZA"), LocalizationService.GetString("Sort_PublisherAZ")];
 
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
@@ -44,7 +44,7 @@ public partial class DiscoverViewModel : ObservableObject
     public partial string SelectedSource { get; set; } = AllSources;
 
     [ObservableProperty]
-    public partial string SelectedSort { get; set; } = "Relevance";
+    public partial string SelectedSort { get; set; } = LocalizationService.GetString("Sort_Relevance");
 
     public bool HasSelectedPackage => SelectedPackage is not null;
     public bool HasSearchResults => _searchResults.Count > 0;
@@ -55,24 +55,24 @@ public partial class DiscoverViewModel : ObservableObject
         get
         {
             if (IsSearching)
-                return "Searching...";
+                return LocalizationService.GetString("Status_Searching");
 
             if (string.IsNullOrWhiteSpace(SearchText))
-                return "Search WinGet for applications.";
+                return LocalizationService.GetString("Discover_SearchPrompt");
 
             if (_searchResults.Count == 0)
-                return "No applications found.";
+                return LocalizationService.GetString("Discover_NoApplicationsFound");
 
             if (Packages.Count != _searchResults.Count)
                 return Packages.Count == 1
-                    ? $"1 of {_searchResults.Count} applications shown"
-                    : $"{Packages.Count} of {_searchResults.Count} applications shown";
+                    ? LocalizationService.Format("Discover_OneOfApplicationsShown", _searchResults.Count)
+                    : LocalizationService.Format("Discover_ApplicationsShown", Packages.Count, _searchResults.Count);
 
             return Packages.Count switch
             {
-                0 => "No applications found.",
-                1 => "1 application found",
-                _ => $"{Packages.Count} applications found"
+                0 => LocalizationService.GetString("Discover_NoApplicationsFound"),
+                1 => LocalizationService.GetString("Discover_OneApplicationFound"),
+                _ => LocalizationService.Format("Discover_ApplicationsFound", Packages.Count)
             };
         }
     }
@@ -167,7 +167,7 @@ public partial class DiscoverViewModel : ObservableObject
             LastInstallRequiresElevation = false;
 
             package.IsInstalling = true;
-            package.InstallStatus = "Preparing...";
+            package.InstallStatus = LocalizationService.GetString("Status_Preparing");
             package.InstallProgress = 0;
             package.IsInstallIndeterminate = false;
 
@@ -209,7 +209,7 @@ public partial class DiscoverViewModel : ObservableObject
             LastInstallRequiresElevation = false;
 
             package.IsInstalling = true;
-            package.InstallStatus = "Installing as administrator...";
+            package.InstallStatus = LocalizationService.GetString("Status_InstallingAsAdministrator");
             package.InstallProgress = 0;
             package.IsInstallIndeterminate = true;
 
@@ -235,7 +235,7 @@ public partial class DiscoverViewModel : ObservableObject
 
     private async Task<bool> VerifyInstallAsync(DiscoverPackageInfo package, bool showError)
     {
-        package.InstallStatus = "Verifying installation...";
+        package.InstallStatus = LocalizationService.GetString("Status_VerifyingInstallation");
         package.InstallProgress = 0;
         package.IsInstallIndeterminate = true;
 
@@ -246,10 +246,10 @@ public partial class DiscoverViewModel : ObservableObject
         if (isInstalled)
             return true;
 
-        var message = $"{package.Name}: The package operation finished, but WinGet does not report the application as installed.";
+        var message = LocalizationService.Format("Error_InstallVerification", package.Name);
 
         package.IsInstallIndeterminate = false;
-        package.InstallStatus = "Not installed";
+        package.InstallStatus = LocalizationService.GetString("Status_NotInstalled");
         package.InstallProgress = 0;
 
         LastInstallError = message;
@@ -264,7 +264,7 @@ public partial class DiscoverViewModel : ObservableObject
     private void CompleteInstall(DiscoverPackageInfo package)
     {
         package.IsInstallIndeterminate = false;
-        package.InstallStatus = "Installed";
+        package.InstallStatus = LocalizationService.GetString("Status_Installed");
         package.InstallProgress = 100;
         package.IsInstalled = true;
     }
@@ -272,7 +272,7 @@ public partial class DiscoverViewModel : ObservableObject
     private void FailInstall(DiscoverPackageInfo package, string errorMessage, bool showError, bool classifyElevation)
     {
         package.IsInstallIndeterminate = false;
-        package.InstallStatus = "Failed";
+        package.InstallStatus = LocalizationService.GetString("Status_Failed");
         package.InstallProgress = 0;
 
         LastInstallError = errorMessage;
@@ -317,9 +317,9 @@ public partial class DiscoverViewModel : ObservableObject
 
         packages = SelectedSort switch
         {
-            "Name A–Z" => packages.OrderBy(package => package.Name, StringComparer.OrdinalIgnoreCase),
-            "Name Z–A" => packages.OrderByDescending(package => package.Name, StringComparer.OrdinalIgnoreCase),
-            "Publisher A–Z" => packages
+            var sort when sort == LocalizationService.GetString("Sort_NameAZ") => packages.OrderBy(package => package.Name, StringComparer.OrdinalIgnoreCase),
+            var sort when sort == LocalizationService.GetString("Sort_NameZA") => packages.OrderByDescending(package => package.Name, StringComparer.OrdinalIgnoreCase),
+            var sort when sort == LocalizationService.GetString("Sort_PublisherAZ") => packages
                 .OrderBy(package => package.Publisher, StringComparer.OrdinalIgnoreCase)
                 .ThenBy(package => package.Name, StringComparer.OrdinalIgnoreCase),
             _ => packages

@@ -12,7 +12,7 @@ namespace PCGet.ViewModels;
 
 public partial class UpdatesViewModel : ObservableObject
 {
-    private const string AllSources = "All sources";
+    private static string AllSources => LocalizationService.GetString("Filter_AllSources");
 
     private readonly IWinGetService _winGetService;
     private readonly ElevatedOperationService _elevatedOperationService;
@@ -23,7 +23,7 @@ public partial class UpdatesViewModel : ObservableObject
 
     public ObservableCollection<PackageInfo> Updates { get; } = [];
     public ObservableCollection<string> Sources { get; } = [AllSources];
-    public string[] SortOptions { get; } = ["Name A–Z", "Name Z–A", "Source A–Z"];
+    public string[] SortOptions { get; } = [LocalizationService.GetString("Sort_NameAZ"), LocalizationService.GetString("Sort_NameZA"), LocalizationService.GetString("Sort_SourceAZ")];
 
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
@@ -38,7 +38,7 @@ public partial class UpdatesViewModel : ObservableObject
     public partial string SelectedSource { get; set; } = AllSources;
 
     [ObservableProperty]
-    public partial string SelectedSort { get; set; } = "Name A–Z";
+    public partial string SelectedSort { get; set; } = LocalizationService.GetString("Sort_NameAZ");
 
     public bool IsUpdating => _isProcessingQueue;
     public int QueuedUpdateCount => _updateQueue.Count;
@@ -55,15 +55,15 @@ public partial class UpdatesViewModel : ObservableObject
         get
         {
             if (IsLoading)
-                return "Checking for updates...";
+                return LocalizationService.GetString("Updates_Checking");
 
             if (IsUpdating)
             {
                 return QueuedUpdateCount switch
                 {
-                    0 => "Installing update...",
-                    1 => "Installing update · 1 queued",
-                    _ => $"Installing update · {QueuedUpdateCount} queued"
+                    0 => LocalizationService.GetString("Updates_Installing"),
+                    1 => LocalizationService.GetString("Updates_InstallingOneQueued"),
+                    _ => LocalizationService.Format("Updates_InstallingQueued", QueuedUpdateCount)
                 };
             }
 
@@ -74,17 +74,17 @@ public partial class UpdatesViewModel : ObservableObject
             {
                 return Updates.Count switch
                 {
-                    0 => "No matching updates.",
-                    1 => $"1 of {_allUpdates.Count} updates shown",
-                    _ => $"{Updates.Count} of {_allUpdates.Count} updates shown"
+                    0 => LocalizationService.GetString("Updates_NoMatching"),
+                    1 => LocalizationService.Format("Updates_OneOfShown", _allUpdates.Count),
+                    _ => LocalizationService.Format("Updates_Shown", Updates.Count, _allUpdates.Count)
                 };
             }
 
             return Updates.Count switch
             {
-                0 => "Your applications are up to date.",
-                1 => "1 update available",
-                _ => $"{Updates.Count} updates available"
+                0 => LocalizationService.GetString("Updates_UpToDate"),
+                1 => LocalizationService.GetString("Updates_OneAvailable"),
+                _ => LocalizationService.Format("Updates_Available", Updates.Count)
             };
         }
     }
@@ -134,7 +134,7 @@ public partial class UpdatesViewModel : ObservableObject
             ErrorMessage = null;
 
             package.UpdateState = PackageUpdateState.Updating;
-            package.UpdateStatus = "Running installer...";
+            package.UpdateStatus = LocalizationService.GetString("Status_RunningInstaller");
             package.UpdateProgress = 0;
             package.IsUpdateIndeterminate = true;
 
@@ -165,7 +165,7 @@ public partial class UpdatesViewModel : ObservableObject
             return;
 
         package.UpdateState = PackageUpdateState.Queued;
-        package.UpdateStatus = "Queued";
+        package.UpdateStatus = LocalizationService.GetString("Status_Queued");
         package.UpdateProgress = 0;
         package.IsUpdateIndeterminate = false;
 
@@ -213,7 +213,7 @@ public partial class UpdatesViewModel : ObservableObject
         {
             ErrorMessage = null;
 
-            package.UpdateStatus = "Preparing...";
+            package.UpdateStatus = LocalizationService.GetString("Status_Preparing");
             package.UpdateProgress = 0;
             package.IsUpdateIndeterminate = false;
 
@@ -243,7 +243,7 @@ public partial class UpdatesViewModel : ObservableObject
 
     private async Task<bool> VerifyUpdateAsync(PackageInfo package)
     {
-        package.UpdateStatus = "Verifying update...";
+        package.UpdateStatus = LocalizationService.GetString("Status_VerifyingUpdate");
         package.UpdateProgress = 0;
         package.IsUpdateIndeterminate = true;
 
@@ -257,10 +257,10 @@ public partial class UpdatesViewModel : ObservableObject
 
         package.IsUpdateIndeterminate = false;
         package.UpdateState = PackageUpdateState.Failed;
-        package.UpdateStatus = "Update still available";
+        package.UpdateStatus = LocalizationService.GetString("Status_UpdateStillAvailable");
         package.UpdateProgress = 0;
 
-        ErrorMessage = $"{package.Name}: The package operation finished, but WinGet still reports an available update.";
+        ErrorMessage = LocalizationService.Format("Error_UpdateVerification", package.Name);
 
         return false;
     }
@@ -268,7 +268,7 @@ public partial class UpdatesViewModel : ObservableObject
     private void CompleteUpdate(PackageInfo package)
     {
         package.IsUpdateIndeterminate = false;
-        package.UpdateStatus = "Completed";
+        package.UpdateStatus = LocalizationService.GetString("Status_Completed");
         package.UpdateProgress = 100;
 
         RemoveUpdate(package);
@@ -278,7 +278,7 @@ public partial class UpdatesViewModel : ObservableObject
     {
         package.IsUpdateIndeterminate = false;
         package.UpdateState = PackageUpdateState.Failed;
-        package.UpdateStatus = "Failed";
+        package.UpdateStatus = LocalizationService.GetString("Status_Failed");
         package.UpdateProgress = 0;
 
         ErrorMessage = errorMessage;
@@ -370,8 +370,8 @@ public partial class UpdatesViewModel : ObservableObject
 
         packages = SelectedSort switch
         {
-            "Name Z–A" => packages.OrderByDescending(package => package.Name, StringComparer.OrdinalIgnoreCase),
-            "Source A–Z" => packages
+            var sort when sort == LocalizationService.GetString("Sort_NameZA") => packages.OrderByDescending(package => package.Name, StringComparer.OrdinalIgnoreCase),
+            var sort when sort == LocalizationService.GetString("Sort_SourceAZ") => packages
                 .OrderBy(package => package.Source, StringComparer.OrdinalIgnoreCase)
                 .ThenBy(package => package.Name, StringComparer.OrdinalIgnoreCase),
             _ => packages.OrderBy(package => package.Name, StringComparer.OrdinalIgnoreCase)

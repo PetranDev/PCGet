@@ -5,12 +5,12 @@
     <ScrollViewer>
         <StackPanel Padding="32" Spacing="32" MaxWidth="1000" HorizontalAlignment="Left">
             <StackPanel Spacing="8">
-                <TextBlock Text="Settings" Style="{StaticResource TitleTextBlockStyle}" />
-                <TextBlock Text="Configure how PCGet manages your applications." Style="{StaticResource BodyTextBlockStyle}" Opacity="0.7" />
+                <TextBlock x:Uid="Settings_Title" Style="{StaticResource TitleTextBlockStyle}" />
+                <TextBlock x:Uid="Settings_Subtitle" Style="{StaticResource BodyTextBlockStyle}" Opacity="0.7" />
             </StackPanel>
 
             <StackPanel Spacing="12">
-                <TextBlock Text="Package operations" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock x:Uid="Settings_PackageOperations" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <Border Padding="20" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                     <Grid ColumnSpacing="32">
                         <Grid.ColumnDefinitions>
@@ -18,8 +18,8 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Spacing="4">
-                            <TextBlock Text="Silent package operations" FontWeight="SemiBold" />
-                            <TextBlock Text="Install, update, and uninstall applications without showing their installer interface when supported." TextWrapping="Wrap" Opacity="0.7" />
+                            <TextBlock x:Uid="Settings_SilentOperations" FontWeight="SemiBold" />
+                            <TextBlock x:Uid="Settings_SilentOperationsDescription" TextWrapping="Wrap" Opacity="0.7" />
                         </StackPanel>
                         <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.SilentPackageOperations, Mode=TwoWay}" />
                     </Grid>
@@ -27,7 +27,7 @@
             </StackPanel>
 
             <StackPanel Spacing="12">
-                <TextBlock Text="Updates" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock x:Uid="Common_Updates" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <Border Padding="20" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                     <StackPanel Spacing="20">
                         <Grid ColumnSpacing="32">
@@ -36,8 +36,8 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Spacing="4">
-                                <TextBlock Text="Check for updates on startup" FontWeight="SemiBold" />
-                                <TextBlock Text="Automatically check for available package updates when PCGet starts." TextWrapping="Wrap" Opacity="0.7" />
+                                <TextBlock x:Uid="Settings_CheckStartup" FontWeight="SemiBold" />
+                                <TextBlock x:Uid="Settings_CheckStartupDescription" TextWrapping="Wrap" Opacity="0.7" />
                             </StackPanel>
                             <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.CheckUpdatesOnStartup, Mode=TwoWay}" />
                         </Grid>
@@ -50,8 +50,8 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Spacing="4">
-                                <TextBlock Text="Check for updates in the background" FontWeight="SemiBold" />
-                                <TextBlock Text="Periodically check for package updates while PCGet is running." TextWrapping="Wrap" Opacity="0.7" />
+                                <TextBlock x:Uid="Settings_BackgroundChecks" FontWeight="SemiBold" />
+                                <TextBlock x:Uid="Settings_BackgroundChecksDescription" TextWrapping="Wrap" Opacity="0.7" />
                             </StackPanel>
                             <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.BackgroundUpdateChecks, Mode=TwoWay}" />
                         </Grid>
@@ -62,8 +62,8 @@
                                 <ColumnDefinition Width="220" />
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Spacing="4">
-                                <TextBlock Text="Check interval" FontWeight="SemiBold" />
-                                <TextBlock Text="Choose how often PCGet checks for available updates." TextWrapping="Wrap" Opacity="0.7" />
+                                <TextBlock x:Uid="Settings_CheckInterval" FontWeight="SemiBold" />
+                                <TextBlock x:Uid="Settings_CheckIntervalDescription" TextWrapping="Wrap" Opacity="0.7" />
                             </StackPanel>
                             <ComboBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.BackgroundUpdateIntervals}" SelectedItem="{x:Bind ViewModel.SelectedBackgroundUpdateInterval, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.BackgroundUpdateChecks, Mode=OneWay}" />
                         </Grid>
@@ -72,7 +72,25 @@
             </StackPanel>
 
             <StackPanel Spacing="12">
-                <TextBlock Text="Windows startup" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock x:Uid="Settings_Language" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <Border Padding="20" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                    <Grid ColumnSpacing="32">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="220" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="4">
+                            <TextBlock x:Uid="Settings_AppLanguage" FontWeight="SemiBold" />
+                            <TextBlock x:Uid="Settings_AppLanguageDescription" TextWrapping="Wrap" Opacity="0.7" />
+                            <TextBlock Text="{x:Bind ViewModel.LanguageRestartStatus, Mode=OneWay}" TextWrapping="Wrap" FontSize="12" Opacity="0.6" />
+                        </StackPanel>
+                        <ComboBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Languages}" SelectedItem="{x:Bind ViewModel.SelectedLanguage, Mode=TwoWay}" />
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Spacing="12">
+                <TextBlock x:Uid="Settings_WindowsStartup" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <Border Padding="20" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                     <Grid ColumnSpacing="32">
                         <Grid.ColumnDefinitions>
@@ -80,8 +98,8 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Spacing="4">
-                            <TextBlock Text="Start PCGet with Windows" FontWeight="SemiBold" />
-                            <TextBlock Text="Automatically launch PCGet when you sign in to Windows." TextWrapping="Wrap" Opacity="0.7" />
+                            <TextBlock x:Uid="Settings_StartWithWindows" FontWeight="SemiBold" />
+                            <TextBlock x:Uid="Settings_StartWithWindowsDescription" TextWrapping="Wrap" Opacity="0.7" />
                             <TextBlock Text="{x:Bind ViewModel.StartupStatus, Mode=OneWay}" TextWrapping="Wrap" FontSize="12" Opacity="0.6" />
                         </StackPanel>
                         <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsEnabled="{x:Bind ViewModel.CanChangeStartWithWindows, Mode=OneWay}" IsOn="{x:Bind ViewModel.StartWithWindows, Mode=TwoWay}" />
@@ -90,41 +108,38 @@
             </StackPanel>
 
             <StackPanel Spacing="12">
-                <TextBlock Text="Advanced WinGet arguments" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock x:Uid="Settings_AdvancedArguments" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <Border Padding="20" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                     <StackPanel Spacing="20">
-                        <TextBlock Text="Additional arguments are appended to the WinGet command when PCGet performs an elevated package operation. PCGet continues to manage the package ID, exact matching, agreements, interactivity, and silent mode." TextWrapping="Wrap" Opacity="0.7" />
+                        <TextBlock x:Uid="Settings_AdvancedArgumentsDescription" TextWrapping="Wrap" Opacity="0.7" />
 
                         <TextBox
-                            Header="Install"
-                            PlaceholderText="Additional arguments for winget install"
+                            x:Uid="Settings_InstallArgumentsBox"
                             Text="{x:Bind ViewModel.InstallAdditionalArguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBox
-                            Header="Update"
-                            PlaceholderText="Example: --include-unknown"
+                            x:Uid="Settings_UpdateArgumentsBox"
                             Text="{x:Bind ViewModel.UpdateAdditionalArguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBox
-                            Header="Uninstall"
-                            PlaceholderText="Additional arguments for winget uninstall"
+                            x:Uid="Settings_UninstallArgumentsBox"
                             Text="{x:Bind ViewModel.UninstallAdditionalArguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                 </Border>
             </StackPanel>
 
             <StackPanel Spacing="12">
-                <TextBlock Text="Package sources" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock x:Uid="Settings_PackageSources" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <Border Padding="20" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="WinGet sources" FontWeight="SemiBold" />
-                        <TextBlock Text="PCGet uses the package sources configured in Windows Package Manager." TextWrapping="Wrap" Opacity="0.7" />
+                        <TextBlock x:Uid="Settings_WinGetSources" FontWeight="SemiBold" />
+                        <TextBlock x:Uid="Settings_WinGetSourcesDescription" TextWrapping="Wrap" Opacity="0.7" />
                     </StackPanel>
                 </Border>
             </StackPanel>
 
             <StackPanel Spacing="12">
-                <TextBlock Text="About" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock x:Uid="Settings_About" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <Border Padding="20" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
@@ -134,9 +149,9 @@
                         <Image Grid.Column="0" Width="48" Height="48" Source="/Assets/PCGet.ico" Stretch="Uniform" VerticalAlignment="Top" />
                         <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
                             <TextBlock Text="PCGet" FontSize="18" FontWeight="SemiBold" />
-                            <TextBlock Text="Your Windows apps. One place." Opacity="0.7" />
+                            <TextBlock x:Uid="Settings_Tagline" Opacity="0.7" />
                             <TextBlock Text="{x:Bind ViewModel.VersionText}" FontSize="12" Opacity="0.6" />
-                            <TextBlock Text="Powered by Windows Package Manager" FontSize="12" Opacity="0.5" />
+                            <TextBlock x:Uid="Settings_PoweredBy" FontSize="12" Opacity="0.5" />
                         </StackPanel>
                     </Grid>
                 </Border>

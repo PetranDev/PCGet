@@ -24,13 +24,15 @@ public partial class App : Application
 
     public App(bool startedByWindows)
     {
+        _settingsService = new AppSettingsService();
+        LocalizationService.ApplyLanguage(_settingsService.Language);
+
         InitializeComponent();
         DispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
         UpdaterCleanupService.Cleanup();
 
         _startedByWindows = startedByWindows;
-        _settingsService = new AppSettingsService();
         _backgroundUpdateService = new BackgroundUpdateService(new WinGetService(), _settingsService);
         _notificationService = new NotificationService();
 

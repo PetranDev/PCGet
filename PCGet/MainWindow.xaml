@@ -43,16 +43,16 @@
 
             <NavigationView.MenuItems>
                 <NavigationViewItem
-                    Content="Updates"
+                    x:Uid="Navigation_Updates"
                     Icon="Sync"
                     Tag="Updates"
                     IsSelected="True" />
                 <NavigationViewItem
-                    Content="Installed"
+                    x:Uid="Navigation_Installed"
                     Icon="AllApps"
                     Tag="Installed" />
                 <NavigationViewItem
-                    Content="Discover"
+                    x:Uid="Navigation_Discover"
                     Icon="Find"
                     Tag="Discover" />
             </NavigationView.MenuItems>

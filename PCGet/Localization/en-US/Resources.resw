@@ -1,0 +1,696 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:schema id="root">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xs:element name="root" ns1:IsDataSet="true">
+      <xs:complexType>
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="metadata">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" use="required" type="xsd:string" />
+              <xs:attribute name="type" type="xsd:string" />
+              <xs:attribute name="mimetype" type="xsd:string" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="assembly">
+            <xs:complexType>
+              <xs:attribute name="alias" type="xsd:string" />
+              <xs:attribute name="name" type="xsd:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+                <xs:element name="comment" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" ns1:Ordinal="1" />
+              <xs:attribute name="type" type="xsd:string" ns1:Ordinal="3" />
+              <xs:attribute name="mimetype" type="xsd:string" ns1:Ordinal="4" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Common_PCGetError.Title" xml:space="preserve">
+    <value>PCGet error</value>
+  </data>
+  <data name="Common_Refresh.Content" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Common_Retry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="Common_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="Common_WinGetOperationFailed.Title" xml:space="preserve">
+    <value>WinGet operation failed</value>
+  </data>
+  <data name="Dialog_AdditionalArguments" xml:space="preserve">
+    <value>Additional WinGet arguments</value>
+  </data>
+  <data name="Dialog_AdminRequiredTitle" xml:space="preserve">
+    <value>Administrator privileges required</value>
+  </data>
+  <data name="Dialog_InstallAdminMessage" xml:space="preserve">
+    <value>{0} requires administrator privileges to install. PCGet can retry the installation as administrator.</value>
+  </data>
+  <data name="Dialog_RememberUpdateArguments" xml:space="preserve">
+    <value>Remember these arguments for updates</value>
+  </data>
+  <data name="Dialog_RetryAdminButton" xml:space="preserve">
+    <value>Retry as administrator</value>
+  </data>
+  <data name="Dialog_RetryAdminTitle" xml:space="preserve">
+    <value>Retry as administrator?</value>
+  </data>
+  <data name="Dialog_RetryInteractively" xml:space="preserve">
+    <value>Retry interactively</value>
+  </data>
+  <data name="Dialog_SilentUninstallFailedMessage" xml:space="preserve">
+    <value>{0} could not be uninstalled silently. Would you like to retry using the application's interactive uninstaller?</value>
+  </data>
+  <data name="Dialog_SilentUninstallFailedTitle" xml:space="preserve">
+    <value>Silent uninstall failed</value>
+  </data>
+  <data name="Dialog_UninstallAdminMessage" xml:space="preserve">
+    <value>{0} requires administrator privileges to uninstall. PCGet can retry the uninstall as administrator.</value>
+  </data>
+  <data name="Dialog_UninstallManyButton" xml:space="preserve">
+    <value>Uninstall {0} applications</value>
+  </data>
+  <data name="Dialog_UninstallManyMessage" xml:space="preserve">
+    <value>Are you sure you want to uninstall these {0} applications?</value>
+  </data>
+  <data name="Dialog_UninstallMessage" xml:space="preserve">
+    <value>Are you sure you want to uninstall {0}?</value>
+  </data>
+  <data name="Dialog_UninstallSelectedManyTitle" xml:space="preserve">
+    <value>Uninstall selected applications?</value>
+  </data>
+  <data name="Dialog_UninstallSelectedOneTitle" xml:space="preserve">
+    <value>Uninstall selected application?</value>
+  </data>
+  <data name="Dialog_UninstallTitle" xml:space="preserve">
+    <value>Uninstall application?</value>
+  </data>
+  <data name="Dialog_UpdateAdminMessage" xml:space="preserve">
+    <value>{0} could not be updated normally. PCGet can retry the update with administrator privileges.</value>
+  </data>
+  <data name="Dialog_UpdatePCGetButton" xml:space="preserve">
+    <value>Update PCGet</value>
+  </data>
+  <data name="Dialog_UpdatePCGetMessage" xml:space="preserve">
+    <value>PCGet {0} is available. PCGet will close, install the update, and start again automatically.</value>
+  </data>
+  <data name="Dialog_UpdatePCGetTitle" xml:space="preserve">
+    <value>Update PCGet?</value>
+  </data>
+  <data name="Discover_ApplicationsFound" xml:space="preserve">
+    <value>{0} applications found</value>
+  </data>
+  <data name="Discover_ApplicationsShown" xml:space="preserve">
+    <value>{0} of {1} applications shown</value>
+  </data>
+  <data name="Discover_Author.Text" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="Discover_InstallationNotes.Text" xml:space="preserve">
+    <value>Installation notes</value>
+  </data>
+  <data name="Discover_Links.Text" xml:space="preserve">
+    <value>Links</value>
+  </data>
+  <data name="Discover_Locale.Text" xml:space="preserve">
+    <value>Locale</value>
+  </data>
+  <data name="Discover_NoApplicationsFound" xml:space="preserve">
+    <value>No applications found.</value>
+  </data>
+  <data name="Discover_OneApplicationFound" xml:space="preserve">
+    <value>1 application found</value>
+  </data>
+  <data name="Discover_OneOfApplicationsShown" xml:space="preserve">
+    <value>1 of {0} applications shown</value>
+  </data>
+  <data name="Discover_PackageId.Text" xml:space="preserve">
+    <value>Package ID</value>
+  </data>
+  <data name="Discover_PackageInformation.Text" xml:space="preserve">
+    <value>Package information</value>
+  </data>
+  <data name="Discover_PackageWebsite.Content" xml:space="preserve">
+    <value>Package website</value>
+  </data>
+  <data name="Discover_Privacy.Content" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="Discover_PublisherWebsite.Content" xml:space="preserve">
+    <value>Publisher website</value>
+  </data>
+  <data name="Discover_RefreshCurrentSearch.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Refresh current search</value>
+  </data>
+  <data name="Discover_Search.Content" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Discover_SearchPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Search applications</value>
+  </data>
+  <data name="Discover_SearchPrompt" xml:space="preserve">
+    <value>Search WinGet for applications.</value>
+  </data>
+  <data name="Discover_Source.Text" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="Discover_Subtitle.Text" xml:space="preserve">
+    <value>Search for applications and install them with WinGet.</value>
+  </data>
+  <data name="Discover_Support.Content" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="Discover_Tags.Text" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="Discover_Version.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Error_AlreadyInstalled" xml:space="preserve">
+    <value>Package '{0}' is already installed.</value>
+  </data>
+  <data name="Error_CatalogConnection" xml:space="preserve">
+    <value>Unable to connect to WinGet composite catalog. Status: {0}</value>
+  </data>
+  <data name="Error_ElevatedFailed" xml:space="preserve">
+    <value>The elevated package operation failed with exit code {0}.</value>
+  </data>
+  <data name="Error_ElevatedFailedWithLog" xml:space="preserve">
+    <value>The elevated package operation failed with exit code {0}.
+
+{1}</value>
+  </data>
+  <data name="Error_ElevatedHelperNotFound" xml:space="preserve">
+    <value>The PCGet elevated helper could not be found.</value>
+  </data>
+  <data name="Error_ElevatedHelperStart" xml:space="preserve">
+    <value>Unable to start the elevated PCGet helper.</value>
+  </data>
+  <data name="Error_Extended" xml:space="preserve">
+    <value> Error: {0}</value>
+  </data>
+  <data name="Error_Http404" xml:space="preserve">
+    <value>The installer could not be downloaded because the package URL returned 404 (Not Found). The WinGet package may contain an outdated download link.</value>
+  </data>
+  <data name="Error_InstallFailed" xml:space="preserve">
+    <value>WinGet failed to install '{0}'. Status: {1}.</value>
+  </data>
+  <data name="Error_InstallVerification" xml:space="preserve">
+    <value>{0}: The package operation finished, but WinGet does not report the application as installed.</value>
+  </data>
+  <data name="Error_InstalledPackageNotFound" xml:space="preserve">
+    <value>Installed package '{0}' could not be found.</value>
+  </data>
+  <data name="Error_NoUpdateAvailable" xml:space="preserve">
+    <value>Package '{0}' no longer has an update available.</value>
+  </data>
+  <data name="Error_PackageNotFound" xml:space="preserve">
+    <value>Package '{0}' could not be found.</value>
+  </data>
+  <data name="Error_PackageOperationFailed" xml:space="preserve">
+    <value>The package operation failed.</value>
+  </data>
+  <data name="Error_SelfUpdateStart" xml:space="preserve">
+    <value>PCGet could not start the self-update process: {0}</value>
+  </data>
+  <data name="Error_UninstallFailed" xml:space="preserve">
+    <value>WinGet failed to uninstall '{0}'. Status: {1}.</value>
+  </data>
+  <data name="Error_UninstallVerification" xml:space="preserve">
+    <value>{0}: The package operation finished, but WinGet still reports the application as installed.</value>
+  </data>
+  <data name="Error_UnmatchedQuote" xml:space="preserve">
+    <value>Additional WinGet arguments contain an unmatched quote.</value>
+  </data>
+  <data name="Error_UpdateFailed" xml:space="preserve">
+    <value>WinGet failed to update '{0}'. Status: {1}.</value>
+  </data>
+  <data name="Error_UpdateVerification" xml:space="preserve">
+    <value>{0}: The package operation finished, but WinGet still reports an available update.</value>
+  </data>
+  <data name="Error_UpdaterNotFound" xml:space="preserve">
+    <value>The PCGet updater could not be found.</value>
+  </data>
+  <data name="Filter_AllSources" xml:space="preserve">
+    <value>All sources</value>
+  </data>
+  <data name="Installed_ApplicationsShown" xml:space="preserve">
+    <value>{0} of {1} applications shown</value>
+  </data>
+  <data name="Installed_InstalledCount" xml:space="preserve">
+    <value>{0} installed applications</value>
+  </data>
+  <data name="Installed_Loading" xml:space="preserve">
+    <value>Loading installed applications...</value>
+  </data>
+  <data name="Installed_NoMatchingApplications" xml:space="preserve">
+    <value>No matching applications.</value>
+  </data>
+  <data name="Installed_NoneFound" xml:space="preserve">
+    <value>No installed applications found.</value>
+  </data>
+  <data name="Installed_OneInstalled" xml:space="preserve">
+    <value>1 installed application</value>
+  </data>
+  <data name="Installed_OneOfApplicationsShown" xml:space="preserve">
+    <value>1 of {0} applications shown</value>
+  </data>
+  <data name="Installed_OneSelected" xml:space="preserve">
+    <value>1 application selected</value>
+  </data>
+  <data name="Installed_SearchPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Search installed applications</value>
+  </data>
+  <data name="Installed_SelectedCount" xml:space="preserve">
+    <value>{0} applications selected</value>
+  </data>
+  <data name="Installed_Subtitle.Text" xml:space="preserve">
+    <value>Applications managed by WinGet.</value>
+  </data>
+  <data name="Installed_UninstallSelected.Content" xml:space="preserve">
+    <value>Uninstall selected</value>
+  </data>
+  <data name="Interval_12Hours" xml:space="preserve">
+    <value>Every 12 hours</value>
+  </data>
+  <data name="Interval_15Minutes" xml:space="preserve">
+    <value>Every 15 minutes</value>
+  </data>
+  <data name="Interval_1Day" xml:space="preserve">
+    <value>Every day</value>
+  </data>
+  <data name="Interval_1Hour" xml:space="preserve">
+    <value>Every hour</value>
+  </data>
+  <data name="Interval_2Hours" xml:space="preserve">
+    <value>Every 2 hours</value>
+  </data>
+  <data name="Interval_30Minutes" xml:space="preserve">
+    <value>Every 30 minutes</value>
+  </data>
+  <data name="Interval_4Hours" xml:space="preserve">
+    <value>Every 4 hours</value>
+  </data>
+  <data name="Interval_8Hours" xml:space="preserve">
+    <value>Every 8 hours</value>
+  </data>
+  <data name="Notification_OneUpdateAvailable" xml:space="preserve">
+    <value>1 update is available</value>
+  </data>
+  <data name="Notification_OpenPCGet" xml:space="preserve">
+    <value>Open PCGet to review and install available updates.</value>
+  </data>
+  <data name="Notification_SelfUpdateFailedMessage" xml:space="preserve">
+    <value>The update could not be installed. WinGet returned exit code {0}.</value>
+  </data>
+  <data name="Notification_SelfUpdateFailedTitle" xml:space="preserve">
+    <value>PCGet update failed</value>
+  </data>
+  <data name="Notification_SelfUpdateSucceededMessage" xml:space="preserve">
+    <value>The latest version of PCGet has been installed.</value>
+  </data>
+  <data name="Notification_SelfUpdateSucceededTitle" xml:space="preserve">
+    <value>PCGet updated successfully</value>
+  </data>
+  <data name="Notification_UpdatesAvailable" xml:space="preserve">
+    <value>{0} updates are available</value>
+  </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Settings_AdvancedArguments.Text" xml:space="preserve">
+    <value>Advanced WinGet arguments</value>
+  </data>
+  <data name="Settings_AdvancedArgumentsDescription.Text" xml:space="preserve">
+    <value>Additional arguments are appended to the WinGet command when PCGet performs an elevated package operation. PCGet continues to manage the package ID, exact matching, agreements, interactivity, and silent mode.</value>
+  </data>
+  <data name="Settings_AppLanguage.Text" xml:space="preserve">
+    <value>Application language</value>
+  </data>
+  <data name="Settings_AppLanguageDescription.Text" xml:space="preserve">
+    <value>Choose the language PCGet uses. A restart is required after changing it.</value>
+  </data>
+  <data name="Settings_BackgroundChecks.Text" xml:space="preserve">
+    <value>Check for updates in the background</value>
+  </data>
+  <data name="Settings_BackgroundChecksDescription.Text" xml:space="preserve">
+    <value>Periodically check for package updates while PCGet is running.</value>
+  </data>
+  <data name="Settings_CheckInterval.Text" xml:space="preserve">
+    <value>Check interval</value>
+  </data>
+  <data name="Settings_CheckIntervalDescription.Text" xml:space="preserve">
+    <value>Choose how often PCGet checks for available updates.</value>
+  </data>
+  <data name="Settings_CheckStartup.Text" xml:space="preserve">
+    <value>Check for updates on startup</value>
+  </data>
+  <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
+    <value>Automatically check for available package updates when PCGet starts.</value>
+  </data>
+  <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Additional arguments for winget install</value>
+  </data>
+  <data name="Settings_Language.Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_LanguageRestartRequired" xml:space="preserve">
+    <value>Restart PCGet to apply the new language.</value>
+  </data>
+  <data name="Settings_PackageOperations.Text" xml:space="preserve">
+    <value>Package operations</value>
+  </data>
+  <data name="Settings_PackageSources.Text" xml:space="preserve">
+    <value>Package sources</value>
+  </data>
+  <data name="Settings_PoweredBy.Text" xml:space="preserve">
+    <value>Powered by Windows Package Manager</value>
+  </data>
+  <data name="Settings_SilentOperations.Text" xml:space="preserve">
+    <value>Silent package operations</value>
+  </data>
+  <data name="Settings_SilentOperationsDescription.Text" xml:space="preserve">
+    <value>Install, update, and uninstall applications without showing their installer interface when supported.</value>
+  </data>
+  <data name="Settings_StartWithWindows.Text" xml:space="preserve">
+    <value>Start PCGet with Windows</value>
+  </data>
+  <data name="Settings_StartWithWindowsDescription.Text" xml:space="preserve">
+    <value>Automatically launch PCGet when you sign in to Windows.</value>
+  </data>
+  <data name="Settings_Subtitle.Text" xml:space="preserve">
+    <value>Configure how PCGet manages your applications.</value>
+  </data>
+  <data name="Settings_Tagline.Text" xml:space="preserve">
+    <value>Your Windows apps. One place.</value>
+  </data>
+  <data name="Settings_Title.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settings_UninstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Additional arguments for winget uninstall</value>
+  </data>
+  <data name="Settings_Version" xml:space="preserve">
+    <value>Version {0}.{1}.{2}.{3}</value>
+  </data>
+  <data name="Settings_WinGetSources.Text" xml:space="preserve">
+    <value>WinGet sources</value>
+  </data>
+  <data name="Settings_WinGetSourcesDescription.Text" xml:space="preserve">
+    <value>PCGet uses the package sources configured in Windows Package Manager.</value>
+  </data>
+  <data name="Settings_WindowsStartup.Text" xml:space="preserve">
+    <value>Windows startup</value>
+  </data>
+  <data name="Sort_NameAZ" xml:space="preserve">
+    <value>Name A–Z</value>
+  </data>
+  <data name="Sort_NameZA" xml:space="preserve">
+    <value>Name Z–A</value>
+  </data>
+  <data name="Sort_PublisherAZ" xml:space="preserve">
+    <value>Publisher A–Z</value>
+  </data>
+  <data name="Sort_Relevance" xml:space="preserve">
+    <value>Relevance</value>
+  </data>
+  <data name="Sort_SourceAZ" xml:space="preserve">
+    <value>Source A–Z</value>
+  </data>
+  <data name="Sort_VersionAZ" xml:space="preserve">
+    <value>Version A–Z</value>
+  </data>
+  <data name="Sort_VersionZA" xml:space="preserve">
+    <value>Version Z–A</value>
+  </data>
+  <data name="Startup_Disabled" xml:space="preserve">
+    <value>PCGet will not start automatically with Windows.</value>
+  </data>
+  <data name="Startup_DisabledByPolicy" xml:space="preserve">
+    <value>Startup is disabled by a Windows policy.</value>
+  </data>
+  <data name="Startup_DisabledByUser" xml:space="preserve">
+    <value>Startup has been disabled in Windows Settings. Enable PCGet there to allow this option.</value>
+  </data>
+  <data name="Startup_Enabled" xml:space="preserve">
+    <value>PCGet will start automatically when you sign in to Windows.</value>
+  </data>
+  <data name="Startup_Unavailable" xml:space="preserve">
+    <value>Windows startup status is unavailable.</value>
+  </data>
+  <data name="Status_Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Status_DownloadingPercent" xml:space="preserve">
+    <value>Downloading {0:0}%</value>
+  </data>
+  <data name="Status_Failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="Status_Finishing" xml:space="preserve">
+    <value>Finishing...</value>
+  </data>
+  <data name="Status_Installed" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+  <data name="Status_Installing" xml:space="preserve">
+    <value>Installing...</value>
+  </data>
+  <data name="Status_InstallingAsAdministrator" xml:space="preserve">
+    <value>Installing as administrator...</value>
+  </data>
+  <data name="Status_InstallingPercent" xml:space="preserve">
+    <value>Installing {0:0}%</value>
+  </data>
+  <data name="Status_NotInstalled" xml:space="preserve">
+    <value>Not installed</value>
+  </data>
+  <data name="Status_PackageStatus" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Status_Preparing" xml:space="preserve">
+    <value>Preparing...</value>
+  </data>
+  <data name="Status_PreparingToUninstall" xml:space="preserve">
+    <value>Preparing to uninstall {0}...</value>
+  </data>
+  <data name="Status_Queued" xml:space="preserve">
+    <value>Queued</value>
+  </data>
+  <data name="Status_QueuedInteractive" xml:space="preserve">
+    <value>Queued (interactive)</value>
+  </data>
+  <data name="Status_Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="Status_RunningInstaller" xml:space="preserve">
+    <value>Running installer...</value>
+  </data>
+  <data name="Status_StillInstalled" xml:space="preserve">
+    <value>Still installed</value>
+  </data>
+  <data name="Status_Uninstalled" xml:space="preserve">
+    <value>Uninstalled</value>
+  </data>
+  <data name="Status_Uninstalling" xml:space="preserve">
+    <value>Uninstalling...</value>
+  </data>
+  <data name="Status_UninstallingApplication" xml:space="preserve">
+    <value>Uninstalling application...</value>
+  </data>
+  <data name="Status_UninstallingAsAdministrator" xml:space="preserve">
+    <value>Uninstalling {0} as administrator...</value>
+  </data>
+  <data name="Status_UninstallingInteractivelyPercent" xml:space="preserve">
+    <value>Uninstalling interactively {0:0}%</value>
+  </data>
+  <data name="Status_UninstallingPercent" xml:space="preserve">
+    <value>Uninstalling {0:0}%</value>
+  </data>
+  <data name="Status_UpdateStillAvailable" xml:space="preserve">
+    <value>Update still available</value>
+  </data>
+  <data name="Status_Updating" xml:space="preserve">
+    <value>Updating...</value>
+  </data>
+  <data name="Status_VerifyingInstallation" xml:space="preserve">
+    <value>Verifying installation...</value>
+  </data>
+  <data name="Status_VerifyingUninstall" xml:space="preserve">
+    <value>Verifying uninstall of {0}...</value>
+  </data>
+  <data name="Status_VerifyingUpdate" xml:space="preserve">
+    <value>Verifying update...</value>
+  </data>
+  <data name="Tray_CheckUpdates" xml:space="preserve">
+    <value>Check for updates</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Tray_Open" xml:space="preserve">
+    <value>Open PCGet</value>
+  </data>
+  <data name="Updates_Available" xml:space="preserve">
+    <value>{0} updates available</value>
+  </data>
+  <data name="Updates_Checking" xml:space="preserve">
+    <value>Checking for updates...</value>
+  </data>
+  <data name="Updates_Installing" xml:space="preserve">
+    <value>Installing update...</value>
+  </data>
+  <data name="Updates_InstallingOneQueued" xml:space="preserve">
+    <value>Installing update · 1 queued</value>
+  </data>
+  <data name="Updates_InstallingQueued" xml:space="preserve">
+    <value>Installing update · {0} queued</value>
+  </data>
+  <data name="Updates_NoMatching" xml:space="preserve">
+    <value>No matching updates.</value>
+  </data>
+  <data name="Updates_OneAvailable" xml:space="preserve">
+    <value>1 update available</value>
+  </data>
+  <data name="Updates_OneOfShown" xml:space="preserve">
+    <value>1 of {0} updates shown</value>
+  </data>
+  <data name="Updates_SearchPlaceholder.PlaceholderText" xml:space="preserve">
+    <value>Search available updates</value>
+  </data>
+  <data name="Updates_Shown" xml:space="preserve">
+    <value>{0} of {1} updates shown</value>
+  </data>
+  <data name="Updates_Subtitle.Text" xml:space="preserve">
+    <value>Keep your installed applications up to date.</value>
+  </data>
+  <data name="Updates_UpToDate" xml:space="preserve">
+    <value>Your applications are up to date.</value>
+  </data>
+  <data name="Updates_UpdateAll.Content" xml:space="preserve">
+    <value>Update All</value>
+  </data>
+  <data name="Settings_InstallArgumentsBox.Header" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="Settings_InstallArgumentsBox.PlaceholderText" xml:space="preserve">
+    <value>Additional arguments for winget install</value>
+  </data>
+  <data name="Settings_UpdateArgumentsBox.Header" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Settings_UpdateArgumentsBox.PlaceholderText" xml:space="preserve">
+    <value>Example: --include-unknown</value>
+  </data>
+  <data name="Settings_UninstallArgumentsBox.Header" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="Settings_UninstallArgumentsBox.PlaceholderText" xml:space="preserve">
+    <value>Additional arguments for winget uninstall</value>
+  </data>
+  <data name="Error_TrayWindowCreate" xml:space="preserve">
+    <value>Unable to create the PCGet tray window.</value>
+  </data>
+  <data name="Error_TrayIconNotFound" xml:space="preserve">
+    <value>The PCGet tray icon could not be found.</value>
+  </data>
+  <data name="Error_TrayIconLoad" xml:space="preserve">
+    <value>Unable to load the PCGet tray icon.</value>
+  </data>
+  <data name="Error_TrayIconAdd" xml:space="preserve">
+    <value>Unable to add the PCGet system tray icon.</value>
+  </data>
+  <data name="Error_TrayClassRegister" xml:space="preserve">
+    <value>Unable to register the PCGet tray window class.</value>
+  </data>
+  <data name="Common_Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="Common_Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Common_Uninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="Settings_UpdateArgsPlaceholder" xml:space="preserve">
+    <value>Example: --include-unknown</value>
+  </data>
+  <data name="Status_Searching" xml:space="preserve">
+    <value>Searching...</value>
+  </data>
+  <data name="Navigation_Updates.Content" xml:space="preserve">
+    <value>Updates</value>
+  </data>
+  <data name="Navigation_Installed.Content" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+  <data name="Navigation_Discover.Content" xml:space="preserve">
+    <value>Discover</value>
+  </data>
+  <data name="Common_Updates.Text" xml:space="preserve">
+    <value>Updates</value>
+  </data>
+  <data name="Common_Installed.Text" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+  <data name="Common_Discover.Text" xml:space="preserve">
+    <value>Discover</value>
+  </data>
+  <data name="Common_LicenseText.Text" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="Common_LicenseButton.Content" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="Common_CopyrightText.Text" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="Common_CopyrightButton.Content" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="Common_ReleaseNotesText.Text" xml:space="preserve">
+    <value>Release notes</value>
+  </data>
+  <data name="Common_ReleaseNotesButton.Content" xml:space="preserve">
+    <value>Release notes</value>
+  </data>
+</root>

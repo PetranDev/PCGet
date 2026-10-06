@@ -1,8 +1,10 @@
 using PCGet.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Microsoft.Windows.Globalization;
 
 namespace PCGet.ViewModels;
 
@@ -11,18 +13,21 @@ public partial class SettingsViewModel : ObservableObject
     private readonly AppSettingsService _settingsService;
     private readonly StartupService _startupService;
     private bool _loadingStartupState;
+    private bool _loadingLanguage;
 
     public UpdateIntervalOption[] BackgroundUpdateIntervals { get; } =
     [
-        new(15, "Every 15 minutes"),
-        new(30, "Every 30 minutes"),
-        new(60, "Every hour"),
-        new(120, "Every 2 hours"),
-        new(240, "Every 4 hours"),
-        new(480, "Every 8 hours"),
-        new(720, "Every 12 hours"),
-        new(1440, "Every day")
+        new(15, LocalizationService.GetString("Interval_15Minutes")),
+        new(30, LocalizationService.GetString("Interval_30Minutes")),
+        new(60, LocalizationService.GetString("Interval_1Hour")),
+        new(120, LocalizationService.GetString("Interval_2Hours")),
+        new(240, LocalizationService.GetString("Interval_4Hours")),
+        new(480, LocalizationService.GetString("Interval_8Hours")),
+        new(720, LocalizationService.GetString("Interval_12Hours")),
+        new(1440, LocalizationService.GetString("Interval_1Day"))
     ];
+
+    public LocalizationOption[] Languages { get; }
 
     [ObservableProperty]
     public partial bool SilentPackageOperations { get; set; }
@@ -54,12 +59,18 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     public partial string UninstallAdditionalArguments { get; set; } = string.Empty;
 
+    [ObservableProperty]
+    public partial LocalizationOption SelectedLanguage { get; set; } = null!;
+
+    [ObservableProperty]
+    public partial string LanguageRestartStatus { get; set; } = string.Empty;
+
     public string VersionText
     {
         get
         {
             var version = Package.Current.Id.Version;
-            return $"Version {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+            return LocalizationService.Format("Settings_Version", version.Major, version.Minor, version.Build, version.Revision);
         }
     }
 
@@ -75,9 +86,13 @@ public partial class SettingsViewModel : ObservableObject
         UpdateAdditionalArguments = _settingsService.UpdateAdditionalArguments;
         UninstallAdditionalArguments = _settingsService.UninstallAdditionalArguments;
 
-        SelectedBackgroundUpdateInterval =
-            BackgroundUpdateIntervals.FirstOrDefault(option => option.Minutes == _settingsService.BackgroundUpdateIntervalMinutes) ??
-            BackgroundUpdateIntervals.First(option => option.Minutes == 60);
+        SelectedBackgroundUpdateInterval = BackgroundUpdateIntervals.FirstOrDefault(option => option.Minutes == _settingsService.BackgroundUpdateIntervalMinutes) ?? BackgroundUpdateIntervals.First(option => option.Minutes == 60);
+
+        Languages = LocalizationService.AvailableLanguages.ToArray();
+        _loadingLanguage = true;
+        var currentLanguage = string.IsNullOrWhiteSpace(_settingsService.Language) ? ApplicationLanguages.Languages.FirstOrDefault() : _settingsService.Language;
+        SelectedLanguage = Languages.FirstOrDefault(language => string.Equals(language.LanguageTag, currentLanguage, StringComparison.OrdinalIgnoreCase)) ?? Languages.First();
+        _loadingLanguage = false;
 
         _ = LoadStartupStateAsync();
     }
@@ -85,25 +100,15 @@ public partial class SettingsViewModel : ObservableObject
     private async Task LoadStartupStateAsync()
     {
         _loadingStartupState = true;
-
         var state = await _startupService.GetStateAsync();
-
         StartWithWindows = state == StartupTaskState.Enabled;
         CanChangeStartWithWindows = state is StartupTaskState.Enabled or StartupTaskState.Disabled;
         StartupStatus = GetStartupStatus(state);
-
         _loadingStartupState = false;
     }
 
-    partial void OnSilentPackageOperationsChanged(bool value)
-    {
-        _settingsService.SilentPackageOperations = value;
-    }
-
-    partial void OnCheckUpdatesOnStartupChanged(bool value)
-    {
-        _settingsService.CheckUpdatesOnStartup = value;
-    }
+    partial void OnSilentPackageOperationsChanged(bool value) => _settingsService.SilentPackageOperations = value;
+    partial void OnCheckUpdatesOnStartupChanged(bool value) => _settingsService.CheckUpdatesOnStartup = value;
 
     partial void OnBackgroundUpdateChecksChanged(bool value)
     {
@@ -115,39 +120,32 @@ public partial class SettingsViewModel : ObservableObject
     {
         if (value is null)
             return;
-
         _settingsService.BackgroundUpdateIntervalMinutes = value.Minutes;
         App.CurrentApp?.ApplyBackgroundUpdateSettings();
     }
 
-    partial void OnInstallAdditionalArgumentsChanged(string value)
-    {
-        _settingsService.InstallAdditionalArguments = value ?? string.Empty;
-    }
+    partial void OnInstallAdditionalArgumentsChanged(string value) => _settingsService.InstallAdditionalArguments = value ?? string.Empty;
+    partial void OnUpdateAdditionalArgumentsChanged(string value) => _settingsService.UpdateAdditionalArguments = value ?? string.Empty;
+    partial void OnUninstallAdditionalArgumentsChanged(string value) => _settingsService.UninstallAdditionalArguments = value ?? string.Empty;
 
-    partial void OnUpdateAdditionalArgumentsChanged(string value)
+    partial void OnSelectedLanguageChanged(LocalizationOption value)
     {
-        _settingsService.UpdateAdditionalArguments = value ?? string.Empty;
-    }
-
-    partial void OnUninstallAdditionalArgumentsChanged(string value)
-    {
-        _settingsService.UninstallAdditionalArguments = value ?? string.Empty;
+        if (_loadingLanguage || value is null)
+            return;
+        _settingsService.Language = value.LanguageTag;
+        LocalizationService.ApplyLanguage(value.LanguageTag);
+        LanguageRestartStatus = LocalizationService.GetString("Settings_LanguageRestartRequired");
     }
 
     async partial void OnStartWithWindowsChanged(bool value)
     {
         if (_loadingStartupState)
             return;
-
         _loadingStartupState = true;
-
         var state = await _startupService.SetEnabledAsync(value);
-
         StartWithWindows = state == StartupTaskState.Enabled;
         CanChangeStartWithWindows = state is StartupTaskState.Enabled or StartupTaskState.Disabled;
         StartupStatus = GetStartupStatus(state);
-
         _loadingStartupState = false;
     }
 
@@ -155,11 +153,11 @@ public partial class SettingsViewModel : ObservableObject
     {
         return state switch
         {
-            StartupTaskState.Enabled => "PCGet will start automatically when you sign in to Windows.",
-            StartupTaskState.Disabled => "PCGet will not start automatically with Windows.",
-            StartupTaskState.DisabledByUser => "Startup has been disabled in Windows Settings. Enable PCGet there to allow this option.",
-            StartupTaskState.DisabledByPolicy => "Startup is disabled by a Windows policy.",
-            _ => "Windows startup status is unavailable."
+            StartupTaskState.Enabled => LocalizationService.GetString("Startup_Enabled"),
+            StartupTaskState.Disabled => LocalizationService.GetString("Startup_Disabled"),
+            StartupTaskState.DisabledByUser => LocalizationService.GetString("Startup_DisabledByUser"),
+            StartupTaskState.DisabledByPolicy => LocalizationService.GetString("Startup_DisabledByPolicy"),
+            _ => LocalizationService.GetString("Startup_Unavailable")
         };
     }
 }

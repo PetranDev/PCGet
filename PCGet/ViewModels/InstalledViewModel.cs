@@ -12,7 +12,7 @@ namespace PCGet.ViewModels;
 
 public partial class InstalledViewModel : ObservableObject
 {
-    private const string AllSources = "All sources";
+    private static string AllSources => LocalizationService.GetString("Filter_AllSources");
 
     private readonly IWinGetService _winGetService;
     private readonly ElevatedOperationService _elevatedOperationService;
@@ -20,7 +20,7 @@ public partial class InstalledViewModel : ObservableObject
 
     public ObservableCollection<PackageInfo> Packages { get; } = [];
     public ObservableCollection<string> Sources { get; } = [AllSources];
-    public string[] SortOptions { get; } = ["Name A–Z", "Name Z–A", "Version A–Z", "Version Z–A", "Source A–Z"];
+    public string[] SortOptions { get; } = [LocalizationService.GetString("Sort_NameAZ"), LocalizationService.GetString("Sort_NameZA"), LocalizationService.GetString("Sort_VersionAZ"), LocalizationService.GetString("Sort_VersionZA"), LocalizationService.GetString("Sort_SourceAZ")];
 
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
@@ -44,19 +44,19 @@ public partial class InstalledViewModel : ObservableObject
     public partial string SelectedSource { get; set; } = AllSources;
 
     [ObservableProperty]
-    public partial string SelectedSort { get; set; } = "Name A–Z";
+    public partial string SelectedSort { get; set; } = LocalizationService.GetString("Sort_NameAZ");
 
     public string StatusText
     {
         get
         {
             if (IsLoading)
-                return "Loading installed applications...";
+                return LocalizationService.GetString("Installed_Loading");
 
             if (IsUninstalling)
             {
                 var package = _allPackages.FirstOrDefault(item => item.IsUninstalling);
-                return package?.UninstallStatus ?? "Uninstalling application...";
+                return package?.UninstallStatus ?? LocalizationService.GetString("Status_UninstallingApplication");
             }
 
             var isFiltered = !string.IsNullOrWhiteSpace(SearchText) ||
@@ -66,17 +66,17 @@ public partial class InstalledViewModel : ObservableObject
             {
                 return Packages.Count switch
                 {
-                    0 => "No matching applications.",
-                    1 => $"1 of {_allPackages.Count} applications shown",
-                    _ => $"{Packages.Count} of {_allPackages.Count} applications shown"
+                    0 => LocalizationService.GetString("Installed_NoMatchingApplications"),
+                    1 => LocalizationService.Format("Installed_OneOfApplicationsShown", _allPackages.Count),
+                    _ => LocalizationService.Format("Installed_ApplicationsShown", Packages.Count, _allPackages.Count)
                 };
             }
 
             return Packages.Count switch
             {
-                0 => "No installed applications found.",
-                1 => "1 installed application",
-                _ => $"{Packages.Count} installed applications"
+                0 => LocalizationService.GetString("Installed_NoneFound"),
+                1 => LocalizationService.GetString("Installed_OneInstalled"),
+                _ => LocalizationService.Format("Installed_InstalledCount", Packages.Count)
             };
         }
     }
@@ -131,7 +131,7 @@ public partial class InstalledViewModel : ObservableObject
             LastUninstallRequiresElevation = false;
 
             package.IsUninstalling = true;
-            package.UninstallStatus = $"Preparing to uninstall {package.Name}...";
+            package.UninstallStatus = LocalizationService.Format("Status_PreparingToUninstall", package.Name);
             package.UninstallProgress = 0;
             package.IsUninstallIndeterminate = false;
 
@@ -139,7 +139,7 @@ public partial class InstalledViewModel : ObservableObject
 
             var progress = new Progress<PackageUninstallProgress>(value =>
             {
-                package.UninstallStatus = $"{package.Name}: {value.Status}";
+                package.UninstallStatus = LocalizationService.Format("Status_PackageStatus", package.Name, value.Status);
                 package.UninstallProgress = value.Percent;
                 OnPropertyChanged(nameof(StatusText));
             });
@@ -180,7 +180,7 @@ public partial class InstalledViewModel : ObservableObject
             LastUninstallRequiresElevation = false;
 
             package.IsUninstalling = true;
-            package.UninstallStatus = $"Uninstalling {package.Name} as administrator...";
+            package.UninstallStatus = LocalizationService.Format("Status_UninstallingAsAdministrator", package.Name);
             package.UninstallProgress = 0;
             package.IsUninstallIndeterminate = true;
 
@@ -216,7 +216,7 @@ public partial class InstalledViewModel : ObservableObject
 
     private async Task<bool> VerifyUninstallAsync(PackageInfo package, bool showError)
     {
-        package.UninstallStatus = $"Verifying uninstall of {package.Name}...";
+        package.UninstallStatus = LocalizationService.Format("Status_VerifyingUninstall", package.Name);
         package.UninstallProgress = 0;
         package.IsUninstallIndeterminate = true;
         OnPropertyChanged(nameof(StatusText));
@@ -228,10 +228,10 @@ public partial class InstalledViewModel : ObservableObject
         if (!isStillInstalled)
             return true;
 
-        var message = $"{package.Name}: The package operation finished, but WinGet still reports the application as installed.";
+        var message = LocalizationService.Format("Error_UninstallVerification", package.Name);
 
         package.IsUninstallIndeterminate = false;
-        package.UninstallStatus = "Still installed";
+        package.UninstallStatus = LocalizationService.GetString("Status_StillInstalled");
         package.UninstallProgress = 0;
 
         LastUninstallError = message;
@@ -246,7 +246,7 @@ public partial class InstalledViewModel : ObservableObject
     private void CompleteUninstall(PackageInfo package)
     {
         package.IsUninstallIndeterminate = false;
-        package.UninstallStatus = "Uninstalled";
+        package.UninstallStatus = LocalizationService.GetString("Status_Uninstalled");
         package.UninstallProgress = 100;
 
         RemovePackage(package);
@@ -255,7 +255,7 @@ public partial class InstalledViewModel : ObservableObject
     private void FailUninstall(PackageInfo package, string errorMessage, bool showError, bool classifyElevation)
     {
         package.IsUninstallIndeterminate = false;
-        package.UninstallStatus = "Failed";
+        package.UninstallStatus = LocalizationService.GetString("Status_Failed");
         package.UninstallProgress = 0;
 
         LastUninstallError = errorMessage;
@@ -333,10 +333,10 @@ public partial class InstalledViewModel : ObservableObject
 
         packages = SelectedSort switch
         {
-            "Name Z–A" => packages.OrderByDescending(package => package.Name, StringComparer.OrdinalIgnoreCase),
-            "Version A–Z" => packages.OrderBy(package => GetVersionSortKey(package.InstalledVersion)),
-            "Version Z–A" => packages.OrderByDescending(package => GetVersionSortKey(package.InstalledVersion)),
-            "Source A–Z" => packages
+            var sort when sort == LocalizationService.GetString("Sort_NameZA") => packages.OrderByDescending(package => package.Name, StringComparer.OrdinalIgnoreCase),
+            var sort when sort == LocalizationService.GetString("Sort_VersionAZ") => packages.OrderBy(package => GetVersionSortKey(package.InstalledVersion)),
+            var sort when sort == LocalizationService.GetString("Sort_VersionZA") => packages.OrderByDescending(package => GetVersionSortKey(package.InstalledVersion)),
+            var sort when sort == LocalizationService.GetString("Sort_SourceAZ") => packages
                 .OrderBy(package => package.Source, StringComparer.OrdinalIgnoreCase)
                 .ThenBy(package => package.Name, StringComparer.OrdinalIgnoreCase),
             _ => packages.OrderBy(package => package.Name, StringComparer.OrdinalIgnoreCase)

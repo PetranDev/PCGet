@@ -72,10 +72,10 @@ public sealed partial class UpdatesPage : Page
         var dialog = new ContentDialog
         {
             XamlRoot = XamlRoot,
-            Title = "Update PCGet?",
-            Content = $"PCGet {package.AvailableVersion} is available. PCGet will close, install the update, and start again automatically.",
-            PrimaryButtonText = "Update PCGet",
-            CloseButtonText = "Cancel",
+            Title = LocalizationService.GetString("Dialog_UpdatePCGetTitle"),
+            Content = LocalizationService.Format("Dialog_UpdatePCGetMessage", package.AvailableVersion),
+            PrimaryButtonText = LocalizationService.GetString("Dialog_UpdatePCGetButton"),
+            CloseButtonText = LocalizationService.GetString("Common_Cancel"),
             DefaultButton = ContentDialogButton.Primary
         };
 
@@ -93,7 +93,7 @@ public sealed partial class UpdatesPage : Page
                 "PCGet.Updater.exe"));
 
             if (!File.Exists(packagedUpdaterPath))
-                throw new FileNotFoundException("The PCGet updater could not be found.", packagedUpdaterPath);
+                throw new FileNotFoundException(LocalizationService.GetString("Error_UpdaterNotFound"), packagedUpdaterPath);
 
             var temporaryUpdaterDirectory = Path.Combine(
                 Path.GetTempPath(),
@@ -125,7 +125,7 @@ public sealed partial class UpdatesPage : Page
         }
         catch (Exception ex)
         {
-            ViewModel.ErrorMessage = $"PCGet could not start the self-update process: {ex.Message}";
+            ViewModel.ErrorMessage = LocalizationService.Format("Error_SelfUpdateStart", ex.Message);
         }
     }
 
@@ -133,15 +133,15 @@ public sealed partial class UpdatesPage : Page
     {
         var argumentsTextBox = new TextBox
         {
-            Header = "Additional WinGet arguments",
+            Header = LocalizationService.GetString("Dialog_AdditionalArguments"),
             Text = _settingsService.UpdateAdditionalArguments,
-            PlaceholderText = "Example: --include-unknown",
+            PlaceholderText = LocalizationService.GetString("Settings_UpdateArgsPlaceholder"),
             HorizontalAlignment = HorizontalAlignment.Stretch
         };
 
         var rememberCheckBox = new CheckBox
         {
-            Content = "Remember these arguments for updates"
+            Content = LocalizationService.GetString("Dialog_RememberUpdateArguments")
         };
 
         var content = new StackPanel
@@ -151,7 +151,7 @@ public sealed partial class UpdatesPage : Page
 
         content.Children.Add(new TextBlock
         {
-            Text = $"{package.Name} could not be updated normally. PCGet can retry the update with administrator privileges.",
+            Text = LocalizationService.Format("Dialog_UpdateAdminMessage", package.Name),
             TextWrapping = TextWrapping.Wrap
         });
 
@@ -161,10 +161,10 @@ public sealed partial class UpdatesPage : Page
         var dialog = new ContentDialog
         {
             XamlRoot = XamlRoot,
-            Title = "Retry as administrator?",
+            Title = LocalizationService.GetString("Dialog_RetryAdminTitle"),
             Content = content,
-            PrimaryButtonText = "Retry as administrator",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = LocalizationService.GetString("Dialog_RetryAdminButton"),
+            CloseButtonText = LocalizationService.GetString("Common_Cancel"),
             DefaultButton = ContentDialogButton.Primary
         };
 

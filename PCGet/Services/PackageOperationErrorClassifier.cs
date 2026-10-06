@@ -25,10 +25,10 @@ public static class PackageOperationErrorClassifier
     public static string GetUserFriendlyMessage(string? errorMessage)
     {
         if (string.IsNullOrWhiteSpace(errorMessage))
-            return "The package operation failed.";
+            return LocalizationService.GetString("Error_PackageOperationFailed");
 
         if (IsHttpNotFound(errorMessage))
-            return "The installer could not be downloaded because the package URL returned 404 (Not Found). The WinGet package may contain an outdated download link.";
+            return LocalizationService.GetString("Error_Http404");
 
         return errorMessage;
     }

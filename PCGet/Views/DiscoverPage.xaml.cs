@@ -85,16 +85,16 @@ public sealed partial class DiscoverPage : Page
                     XamlRoot,
 
                 Title =
-                    "Administrator privileges required",
+                    LocalizationService.GetString("Dialog_AdminRequiredTitle"),
 
                 Content =
-                    $"{package.Name} requires administrator privileges to install. PCGet can retry the installation as administrator.",
+                    LocalizationService.Format("Dialog_InstallAdminMessage", package.Name),
 
                 PrimaryButtonText =
-                    "Retry as administrator",
+                    LocalizationService.GetString("Dialog_RetryAdminButton"),
 
                 CloseButtonText =
-                    "Cancel",
+                    LocalizationService.GetString("Common_Cancel"),
 
                 DefaultButton =
                     ContentDialogButton.Primary

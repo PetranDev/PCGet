@@ -26,7 +26,7 @@ public sealed class WinGetService : IWinGetService
         var connectResult = compositeCatalog.Connect();
 
         if (connectResult.Status != ConnectResultStatus.Ok)
-            throw new InvalidOperationException($"Unable to connect to WinGet composite catalog. Status: {connectResult.Status}");
+            throw new InvalidOperationException(LocalizationService.Format("Error_CatalogConnection", connectResult.Status));
 
         var findOptions = factory.CreateFindPackagesOptions();
         var searchResult = await connectResult.PackageCatalog.FindPackagesAsync(findOptions);
@@ -43,7 +43,7 @@ public sealed class WinGetService : IWinGetService
             result.Add(new PackageInfo
             {
                 Id = package.Id ?? string.Empty,
-                Name = installedVersion.DisplayName ?? package.Name ?? package.Id ?? "Unknown",
+                Name = installedVersion.DisplayName ?? package.Name ?? package.Id ?? LocalizationService.GetString("Common_Unknown"),
                 InstalledVersion = installedVersion.Version ?? string.Empty,
                 AvailableVersion = string.Empty,
                 Source = installedVersion.PackageCatalog?.Info?.Name ?? string.Empty
@@ -65,7 +65,7 @@ public sealed class WinGetService : IWinGetService
         var connectResult = compositeCatalog.Connect();
 
         if (connectResult.Status != ConnectResultStatus.Ok)
-            throw new InvalidOperationException($"Unable to connect to WinGet composite catalog. Status: {connectResult.Status}");
+            throw new InvalidOperationException(LocalizationService.Format("Error_CatalogConnection", connectResult.Status));
 
         var findOptions = factory.CreateFindPackagesOptions();
         var searchResult = await connectResult.PackageCatalog.FindPackagesAsync(findOptions);
@@ -87,7 +87,7 @@ public sealed class WinGetService : IWinGetService
             result.Add(new PackageInfo
             {
                 Id = package.Id ?? string.Empty,
-                Name = installedVersion.DisplayName ?? package.Name ?? package.Id ?? "Unknown",
+                Name = installedVersion.DisplayName ?? package.Name ?? package.Id ?? LocalizationService.GetString("Common_Unknown"),
                 InstalledVersion = installedVersion.Version ?? string.Empty,
                 AvailableVersion = availableVersion.Version ?? string.Empty,
                 Source = availableVersion.PackageCatalog?.Info?.Name ?? string.Empty
@@ -186,7 +186,7 @@ public sealed class WinGetService : IWinGetService
                 result.Add(new DiscoverPackageInfo
                 {
                     Id = package.Id ?? string.Empty,
-                    Name = package.Name ?? package.Id ?? "Unknown",
+                    Name = package.Name ?? package.Id ?? LocalizationService.GetString("Common_Unknown"),
                     Version = availableVersion.Version ?? string.Empty,
                     Source = availableVersion.PackageCatalog?.Info?.Name ?? string.Empty,
                     Publisher = metadata?.Publisher ?? availableVersion.Publisher ?? string.Empty,
@@ -222,17 +222,17 @@ public sealed class WinGetService : IWinGetService
 
     public async Task InstallPackageAsync(string packageId, IProgress<PackageInstallProgress>? progress = null)
     {
-        progress?.Report(new PackageInstallProgress("Preparing...", 0));
+        progress?.Report(new PackageInstallProgress(LocalizationService.GetString("Status_Preparing"), 0));
 
         var factory = CreateFactory();
         var packageManager = factory.CreatePackageManager();
         var package = await FindRemotePackageAsync(factory, packageManager, packageId);
 
         if (package is null)
-            throw new InvalidOperationException($"Package '{packageId}' could not be found.");
+            throw new InvalidOperationException(LocalizationService.Format("Error_PackageNotFound", packageId));
 
         if (package.InstalledVersion is not null)
-            throw new InvalidOperationException($"Package '{packageId}' is already installed.");
+            throw new InvalidOperationException(LocalizationService.Format("Error_AlreadyInstalled", packageId));
 
         var installOptions = factory.CreateInstallOptions();
         installOptions.PackageInstallMode = GetPackageInstallMode();
@@ -243,12 +243,12 @@ public sealed class WinGetService : IWinGetService
         {
             var status = installProgress.State switch
             {
-                PackageInstallProgressState.Queued => "Queued",
-                PackageInstallProgressState.Downloading => $"Downloading {installProgress.DownloadProgress * 100:0}%",
-                PackageInstallProgressState.Installing => $"Installing {installProgress.InstallationProgress * 100:0}%",
-                PackageInstallProgressState.PostInstall => "Finishing...",
-                PackageInstallProgressState.Finished => "Finishing...",
-                _ => "Installing..."
+                PackageInstallProgressState.Queued => LocalizationService.GetString("Status_Queued"),
+                PackageInstallProgressState.Downloading => LocalizationService.Format("Status_DownloadingPercent", installProgress.DownloadProgress * 100),
+                PackageInstallProgressState.Installing => LocalizationService.Format("Status_InstallingPercent", installProgress.InstallationProgress * 100),
+                PackageInstallProgressState.PostInstall => LocalizationService.GetString("Status_Finishing"),
+                PackageInstallProgressState.Finished => LocalizationService.GetString("Status_Finishing"),
+                _ => LocalizationService.GetString("Status_Installing")
             };
 
             var percent = installProgress.State switch
@@ -267,20 +267,20 @@ public sealed class WinGetService : IWinGetService
 
         if (result.Status != InstallResultStatus.Ok)
         {
-            var message = $"WinGet failed to install '{packageId}'. Status: {result.Status}.";
+            var message = LocalizationService.Format("Error_InstallFailed", packageId, result.Status);
 
             if (result.ExtendedErrorCode is not null)
-                message += $" Error: {result.ExtendedErrorCode.Message}";
+                message += LocalizationService.Format("Error_Extended", result.ExtendedErrorCode.Message);
 
             throw new InvalidOperationException(message);
         }
 
-        progress?.Report(new PackageInstallProgress("Completed", 100));
+        progress?.Report(new PackageInstallProgress(LocalizationService.GetString("Status_Completed"), 100));
     }
 
     public async Task UpdatePackageAsync(string packageId, IProgress<PackageUpdateProgress>? progress = null)
     {
-        progress?.Report(new PackageUpdateProgress("Preparing...", 0));
+        progress?.Report(new PackageUpdateProgress(LocalizationService.GetString("Status_Preparing"), 0));
 
         var factory = CreateFactory();
         var packageManager = factory.CreatePackageManager();
@@ -288,15 +288,15 @@ public sealed class WinGetService : IWinGetService
         var connectResult = compositeCatalog.Connect();
 
         if (connectResult.Status != ConnectResultStatus.Ok)
-            throw new InvalidOperationException($"Unable to connect to WinGet composite catalog. Status: {connectResult.Status}");
+            throw new InvalidOperationException(LocalizationService.Format("Error_CatalogConnection", connectResult.Status));
 
         var package = await FindPackageAsync(factory, connectResult, packageId);
 
         if (package is null)
-            throw new InvalidOperationException($"Package '{packageId}' could not be found.");
+            throw new InvalidOperationException(LocalizationService.Format("Error_PackageNotFound", packageId));
 
         if (!package.IsUpdateAvailable)
-            throw new InvalidOperationException($"Package '{packageId}' no longer has an update available.");
+            throw new InvalidOperationException(LocalizationService.Format("Error_NoUpdateAvailable", packageId));
 
         var installOptions = factory.CreateInstallOptions();
         installOptions.PackageInstallMode = GetPackageInstallMode();
@@ -307,12 +307,12 @@ public sealed class WinGetService : IWinGetService
         {
             var status = installProgress.State switch
             {
-                PackageInstallProgressState.Queued => "Queued",
-                PackageInstallProgressState.Downloading => $"Downloading {installProgress.DownloadProgress * 100:0}%",
-                PackageInstallProgressState.Installing => $"Installing {installProgress.InstallationProgress * 100:0}%",
-                PackageInstallProgressState.PostInstall => "Finishing...",
-                PackageInstallProgressState.Finished => "Finishing...",
-                _ => "Updating..."
+                PackageInstallProgressState.Queued => LocalizationService.GetString("Status_Queued"),
+                PackageInstallProgressState.Downloading => LocalizationService.Format("Status_DownloadingPercent", installProgress.DownloadProgress * 100),
+                PackageInstallProgressState.Installing => LocalizationService.Format("Status_InstallingPercent", installProgress.InstallationProgress * 100),
+                PackageInstallProgressState.PostInstall => LocalizationService.GetString("Status_Finishing"),
+                PackageInstallProgressState.Finished => LocalizationService.GetString("Status_Finishing"),
+                _ => LocalizationService.GetString("Status_Updating")
             };
 
             var percent = installProgress.State switch
@@ -331,20 +331,20 @@ public sealed class WinGetService : IWinGetService
 
         if (result.Status != InstallResultStatus.Ok)
         {
-            var message = $"WinGet failed to update '{packageId}'. Status: {result.Status}.";
+            var message = LocalizationService.Format("Error_UpdateFailed", packageId, result.Status);
 
             if (result.ExtendedErrorCode is not null)
-                message += $" Error: {result.ExtendedErrorCode.Message}";
+                message += LocalizationService.Format("Error_Extended", result.ExtendedErrorCode.Message);
 
             throw new InvalidOperationException(message);
         }
 
-        progress?.Report(new PackageUpdateProgress("Completed", 100));
+        progress?.Report(new PackageUpdateProgress(LocalizationService.GetString("Status_Completed"), 100));
     }
 
     public async Task UninstallPackageAsync(string packageId, IProgress<PackageUninstallProgress>? progress = null, bool interactive = false)
     {
-        progress?.Report(new PackageUninstallProgress("Preparing...", 0));
+        progress?.Report(new PackageUninstallProgress(LocalizationService.GetString("Status_Preparing"), 0));
 
         var factory = CreateFactory();
         var packageManager = factory.CreatePackageManager();
@@ -352,12 +352,12 @@ public sealed class WinGetService : IWinGetService
         var connectResult = compositeCatalog.Connect();
 
         if (connectResult.Status != ConnectResultStatus.Ok)
-            throw new InvalidOperationException($"Unable to connect to WinGet composite catalog. Status: {connectResult.Status}");
+            throw new InvalidOperationException(LocalizationService.Format("Error_CatalogConnection", connectResult.Status));
 
         var package = await FindPackageAsync(factory, connectResult, packageId);
 
         if (package is null || package.InstalledVersion is null)
-            throw new InvalidOperationException($"Installed package '{packageId}' could not be found.");
+            throw new InvalidOperationException(LocalizationService.Format("Error_InstalledPackageNotFound", packageId));
 
         var uninstallOptions = factory.CreateUninstallOptions();
 
@@ -380,11 +380,11 @@ public sealed class WinGetService : IWinGetService
 
             var status = uninstallProgress.State switch
             {
-                PackageUninstallProgressState.Queued => "Queued",
-                PackageUninstallProgressState.Uninstalling => $"Uninstalling {percent:0}%",
-                PackageUninstallProgressState.PostUninstall => "Finishing...",
-                PackageUninstallProgressState.Finished => "Finishing...",
-                _ => "Uninstalling..."
+                PackageUninstallProgressState.Queued => LocalizationService.GetString("Status_Queued"),
+                PackageUninstallProgressState.Uninstalling => LocalizationService.Format("Status_UninstallingPercent", percent),
+                PackageUninstallProgressState.PostUninstall => LocalizationService.GetString("Status_Finishing"),
+                PackageUninstallProgressState.Finished => LocalizationService.GetString("Status_Finishing"),
+                _ => LocalizationService.GetString("Status_Uninstalling")
             };
 
             progress?.Report(new PackageUninstallProgress(status, Math.Clamp(percent, 0, 100)));
@@ -394,15 +394,15 @@ public sealed class WinGetService : IWinGetService
 
         if (result.Status != UninstallResultStatus.Ok)
         {
-            var message = $"WinGet failed to uninstall '{packageId}'. Status: {result.Status}.";
+            var message = LocalizationService.Format("Error_UninstallFailed", packageId, result.Status);
 
             if (result.ExtendedErrorCode is not null)
-                message += $" Error: {result.ExtendedErrorCode.Message}";
+                message += LocalizationService.Format("Error_Extended", result.ExtendedErrorCode.Message);
 
             throw new InvalidOperationException(message);
         }
 
-        progress?.Report(new PackageUninstallProgress("Completed", 100));
+        progress?.Report(new PackageUninstallProgress(LocalizationService.GetString("Status_Completed"), 100));
     }
 
     private PackageInstallMode GetPackageInstallMode()

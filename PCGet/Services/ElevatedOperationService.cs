@@ -52,7 +52,7 @@ public sealed class ElevatedOperationService
         var helperPath = GetHelperPath();
 
         if (!File.Exists(helperPath))
-            throw new FileNotFoundException("The PCGet elevated helper could not be found.", helperPath);
+            throw new FileNotFoundException(LocalizationService.GetString("Error_ElevatedHelperNotFound"), helperPath);
 
         var startInfo = new ProcessStartInfo
         {
@@ -80,7 +80,7 @@ public sealed class ElevatedOperationService
         using var process = Process.Start(startInfo);
 
         if (process is null)
-            throw new InvalidOperationException("Unable to start the elevated PCGet helper.");
+            throw new InvalidOperationException(LocalizationService.GetString("Error_ElevatedHelperStart"));
 
         await process.WaitForExitAsync();
 
@@ -140,7 +140,7 @@ public sealed class ElevatedOperationService
         }
 
         if (inQuotes)
-            throw new ArgumentException("Additional WinGet arguments contain an unmatched quote.");
+            throw new ArgumentException(LocalizationService.GetString("Error_UnmatchedQuote"));
 
         if (current.Length > 0)
             arguments.Add(current.ToString());
@@ -168,13 +168,13 @@ public sealed class ElevatedOperationService
                 var log = File.ReadAllText(logPath);
 
                 if (!string.IsNullOrWhiteSpace(log))
-                    return $"The elevated package operation failed with exit code {exitCode}.{Environment.NewLine}{Environment.NewLine}{log}";
+                    return LocalizationService.Format("Error_ElevatedFailedWithLog", exitCode, log);
             }
             catch
             {
             }
         }
 
-        return $"The elevated package operation failed with exit code {exitCode}.";
+        return LocalizationService.Format("Error_ElevatedFailed", exitCode);
     }
 }

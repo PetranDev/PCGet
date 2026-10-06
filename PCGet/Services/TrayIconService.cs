@@ -66,19 +66,19 @@ public sealed class TrayIconService : IDisposable
             nint.Zero);
 
         if (_windowHandle == nint.Zero)
-            throw new InvalidOperationException("Unable to create the PCGet tray window.");
+            throw new InvalidOperationException(LocalizationService.GetString("Error_TrayWindowCreate"));
 
         Instances[_windowHandle] = this;
 
         var iconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "PCGetSmall.ico");
 
         if (!File.Exists(iconPath))
-            throw new FileNotFoundException("The PCGet tray icon could not be found.", iconPath);
+            throw new FileNotFoundException(LocalizationService.GetString("Error_TrayIconNotFound"), iconPath);
 
         _iconHandle = LoadImage(nint.Zero, iconPath, ImageIcon, 0, 0, LrLoadFromFile | LrDefaultSize);
 
         if (_iconHandle == nint.Zero)
-            throw new InvalidOperationException("Unable to load the PCGet tray icon.");
+            throw new InvalidOperationException(LocalizationService.GetString("Error_TrayIconLoad"));
 
         var data = CreateNotifyIconData();
         data.Flags = NifMessage | NifIcon | NifTip;
@@ -87,7 +87,7 @@ public sealed class TrayIconService : IDisposable
         data.ToolTip = "PCGet";
 
         if (!Shell_NotifyIcon(NimAdd, ref data))
-            throw new InvalidOperationException("Unable to add the PCGet system tray icon.");
+            throw new InvalidOperationException(LocalizationService.GetString("Error_TrayIconAdd"));
     }
 
     private NotifyIconData CreateNotifyIconData()
@@ -109,10 +109,10 @@ public sealed class TrayIconService : IDisposable
 
         try
         {
-            AppendMenu(menu, MfString, OpenCommandId, "Open PCGet");
-            AppendMenu(menu, MfString, CheckUpdatesCommandId, "Check for updates");
+            AppendMenu(menu, MfString, OpenCommandId, LocalizationService.GetString("Tray_Open"));
+            AppendMenu(menu, MfString, CheckUpdatesCommandId, LocalizationService.GetString("Tray_CheckUpdates"));
             AppendMenu(menu, MfSeparator, 0, string.Empty);
-            AppendMenu(menu, MfString, ExitCommandId, "Exit");
+            AppendMenu(menu, MfString, ExitCommandId, LocalizationService.GetString("Tray_Exit"));
 
             GetCursorPos(out var point);
             SetForegroundWindow(_windowHandle);
@@ -147,7 +147,7 @@ public sealed class TrayIconService : IDisposable
         _windowClassAtom = RegisterClass(ref windowClass);
 
         if (_windowClassAtom == 0)
-            throw new InvalidOperationException("Unable to register the PCGet tray window class.");
+            throw new InvalidOperationException(LocalizationService.GetString("Error_TrayClassRegister"));
     }
 
     private static nint WindowProcedure(nint windowHandle, uint message, nint wParam, nint lParam)

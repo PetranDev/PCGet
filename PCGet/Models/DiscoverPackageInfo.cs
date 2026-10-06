@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using PCGet.Services;
 
 namespace PCGet.Models;
 
@@ -50,12 +51,12 @@ public partial class DiscoverPackageInfo : ObservableObject
         get
         {
             if (IsInstalled)
-                return "Installed";
+                return LocalizationService.GetString("Status_Installed");
 
             if (IsInstalling)
-                return "Installing...";
+                return LocalizationService.GetString("Status_Installing");
 
-            return "Install";
+            return LocalizationService.GetString("Common_Install");
         }
     }
 

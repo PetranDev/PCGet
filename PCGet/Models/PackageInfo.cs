@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using PCGet.Services;
 
 namespace PCGet.Models;
 
@@ -16,7 +17,7 @@ public partial class PackageInfo : ObservableObject
     public partial PackageUpdateState UpdateState { get; set; }
 
     [ObservableProperty]
-    public partial string UpdateStatus { get; set; } = "Ready";
+    public partial string UpdateStatus { get; set; } = LocalizationService.GetString("Status_Ready");
 
     [ObservableProperty]
     public partial double UpdateProgress { get; set; }
@@ -46,14 +47,14 @@ public partial class PackageInfo : ObservableObject
 
     public string UpdateButtonText => UpdateState switch
     {
-        PackageUpdateState.Queued => "Queued",
-        PackageUpdateState.Updating => "Updating...",
-        PackageUpdateState.Failed => "Retry",
-        _ => "Update"
+        PackageUpdateState.Queued => LocalizationService.GetString("Status_Queued"),
+        PackageUpdateState.Updating => LocalizationService.GetString("Status_Updating"),
+        PackageUpdateState.Failed => LocalizationService.GetString("Common_Retry"),
+        _ => LocalizationService.GetString("Common_Update")
     };
 
     public bool IsUninstallEnabled => !IsUninstalling;
-    public string UninstallButtonText => IsUninstalling ? "Uninstalling..." : "Uninstall";
+    public string UninstallButtonText => IsUninstalling ? LocalizationService.GetString("Status_Uninstalling") : LocalizationService.GetString("Common_Uninstall");
 
     partial void OnUpdateStateChanged(PackageUpdateState value)
     {

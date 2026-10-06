@@ -26,10 +26,10 @@
 
             <StackPanel Spacing="8">
                 <TextBlock
-                    Text="Installed"
+                    x:Uid="Common_Installed"
                     Style="{StaticResource TitleTextBlockStyle}" />
                 <TextBlock
-                    Text="Applications managed by WinGet."
+                    x:Uid="Installed_Subtitle"
                     Style="{StaticResource BodyTextBlockStyle}"
                     Opacity="0.7" />
             </StackPanel>
@@ -37,13 +37,13 @@
             <Button
                 x:Name="UninstallSelectedButton"
                 Grid.Column="1"
-                Content="Uninstall selected"
+                x:Uid="Installed_UninstallSelected"
                 IsEnabled="False"
                 Click="UninstallSelectedButton_Click" />
 
             <Button
                 Grid.Column="3"
-                Content="Refresh"
+                x:Uid="Common_Refresh"
                 Command="{x:Bind ViewModel.RefreshCommand}" />
         </Grid>
 
@@ -69,7 +69,7 @@
             Grid.Row="4"
             IsOpen="False"
             Severity="Error"
-            Title="PCGet error" />
+            x:Uid="Common_PCGetError" />
 
         <Grid Grid.Row="6">
             <Grid.ColumnDefinitions>
@@ -82,7 +82,7 @@
 
             <AutoSuggestBox
                 Grid.Column="0"
-                PlaceholderText="Search installed applications"
+                x:Uid="Installed_SearchPlaceholder"
                 QueryIcon="Find"
                 Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
