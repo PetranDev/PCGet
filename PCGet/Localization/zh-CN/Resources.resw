@@ -385,6 +385,12 @@
   <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
     <value>PCGet 设置</value>
   </data>
+  <data name="Settings_IncludeUnknown.Text" xml:space="preserve">
+    <value>包括版本未知的程序包</value>
+  </data>
+  <data name="Settings_IncludeUnknownDescription.Text" xml:space="preserve">
+    <value>显示无法检测到已安装版本的应用程序的更新。更新这些应用程序可能会重新安装它们，即使它们已是最新版本。</value>
+  </data>
   <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
     <value>PCGet 设置</value>
   </data>

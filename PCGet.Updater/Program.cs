@@ -127,6 +127,19 @@ public static class Program
 
     private static void RestartPCGet(string pcGetAumid)
     {
+        // Unpackaged (Inno Setup) installs pass the full path to PCGet.exe instead of an AUMID.
+        if (pcGetAumid.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) && File.Exists(pcGetAumid))
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = pcGetAumid,
+                WorkingDirectory = Path.GetDirectoryName(pcGetAumid),
+                UseShellExecute = true
+            });
+
+            return;
+        }
+
         Process.Start(new ProcessStartInfo
         {
             FileName = "explorer.exe",

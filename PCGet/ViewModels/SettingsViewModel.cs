@@ -39,6 +39,9 @@ public partial class SettingsViewModel : ObservableObject
     public partial bool BackgroundUpdateChecks { get; set; }
 
     [ObservableProperty]
+    public partial bool IncludeUnknownVersions { get; set; }
+
+    [ObservableProperty]
     public partial UpdateIntervalOption SelectedBackgroundUpdateInterval { get; set; } = null!;
 
     [ObservableProperty]
@@ -69,7 +72,7 @@ public partial class SettingsViewModel : ObservableObject
     {
         get
         {
-            var version = Package.Current.Id.Version;
+            var version = AppIdentity.GetVersion();
             return LocalizationService.Format("Settings_Version", version.Major, version.Minor, version.Build, version.Revision);
         }
     }
@@ -81,6 +84,7 @@ public partial class SettingsViewModel : ObservableObject
 
         SilentPackageOperations = _settingsService.SilentPackageOperations;
         CheckUpdatesOnStartup = _settingsService.CheckUpdatesOnStartup;
+        IncludeUnknownVersions = _settingsService.IncludeUnknownVersions;
         BackgroundUpdateChecks = _settingsService.BackgroundUpdateChecks;
         InstallAdditionalArguments = _settingsService.InstallAdditionalArguments;
         UpdateAdditionalArguments = _settingsService.UpdateAdditionalArguments;
@@ -109,6 +113,7 @@ public partial class SettingsViewModel : ObservableObject
 
     partial void OnSilentPackageOperationsChanged(bool value) => _settingsService.SilentPackageOperations = value;
     partial void OnCheckUpdatesOnStartupChanged(bool value) => _settingsService.CheckUpdatesOnStartup = value;
+    partial void OnIncludeUnknownVersionsChanged(bool value) => _settingsService.IncludeUnknownVersions = value;
 
     partial void OnBackgroundUpdateChecksChanged(bool value)
     {

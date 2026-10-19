@@ -387,6 +387,12 @@
   <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
     <value>Αυτόματος έλεγχος για διαθέσιμες ενημερώσεις πακέτων κατά την εκκίνηση του PCGet.</value>
   </data>
+  <data name="Settings_IncludeUnknown.Text" xml:space="preserve">
+    <value>Συμπερίληψη πακέτων με άγνωστη έκδοση</value>
+  </data>
+  <data name="Settings_IncludeUnknownDescription.Text" xml:space="preserve">
+    <value>Εμφάνιση ενημερώσεων για εφαρμογές των οποίων η εγκατεστημένη έκδοση δεν μπορεί να εντοπιστεί. Η ενημέρωσή τους μπορεί να επανεγκαταστήσει την εφαρμογή ακόμη κι αν είναι ήδη ενημερωμένη.</value>
+  </data>
   <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
     <value>Πρόσθετα ορίσματα για winget install</value>
   </data>

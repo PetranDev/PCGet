@@ -19,6 +19,14 @@
     <WindowsAppSdkDeploymentManagerInitialize>false</WindowsAppSdkDeploymentManagerInitialize>
   </PropertyGroup>
 
+  <!-- Unpackaged build used by the Inno Setup installer (installer\build-installer.ps1 passes -p:PCGetUnpackaged=true).
+       Bundles the Windows App SDK runtime so end users don't need it installed. MSIX builds are unaffected. -->
+  <PropertyGroup Condition="'$(PCGetUnpackaged)' == 'true'">
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <SelfContained>true</SelfContained>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />

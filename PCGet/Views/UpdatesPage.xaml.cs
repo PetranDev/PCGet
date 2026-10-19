@@ -106,8 +106,10 @@ public sealed partial class UpdatesPage : Page
             var temporaryUpdaterPath = Path.Combine(temporaryUpdaterDirectory, "PCGet.Updater.exe");
             File.Copy(packagedUpdaterPath, temporaryUpdaterPath, true);
 
-            var packageId = Package.Current.Id;
-            var pcGetAumid = $"{packageId.FamilyName}!App";
+            // Packaged: restart through the AUMID. Unpackaged (Inno Setup): restart the exe directly.
+            var restartTarget = AppIdentity.IsPackaged
+                ? $"{Package.Current.Id.FamilyName}!App"
+                : AppIdentity.ExecutablePath;
             var processId = Environment.ProcessId;
 
             Process.Start(new ProcessStartInfo
@@ -116,7 +118,7 @@ public sealed partial class UpdatesPage : Page
                 ArgumentList =
                 {
                     processId.ToString(),
-                    pcGetAumid
+                    restartTarget
                 },
                 UseShellExecute = false
             });

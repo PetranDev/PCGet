@@ -385,6 +385,12 @@
   <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
     <value>PCGet 設定</value>
   </data>
+  <data name="Settings_IncludeUnknown.Text" xml:space="preserve">
+    <value>バージョン不明のパッケージを含める</value>
+  </data>
+  <data name="Settings_IncludeUnknownDescription.Text" xml:space="preserve">
+    <value>インストール済みのバージョンを検出できないアプリケーションの更新を表示します。これらを更新すると、すでに最新であってもアプリケーションが再インストールされる場合があります。</value>
+  </data>
   <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
     <value>PCGet 設定</value>
   </data>

@@ -7,70 +7,79 @@ public sealed class AppSettingsService
     private const string SilentPackageOperationsKey = "SilentPackageOperations";
     private const string CheckUpdatesOnStartupKey = "CheckUpdatesOnStartup";
     private const string BackgroundUpdateChecksKey = "BackgroundUpdateChecks";
+    private const string IncludeUnknownVersionsKey = "IncludeUnknownVersions";
     private const string BackgroundUpdateIntervalMinutesKey = "BackgroundUpdateIntervalMinutes";
     private const string InstallAdditionalArgumentsKey = "InstallAdditionalArguments";
     private const string UpdateAdditionalArgumentsKey = "UpdateAdditionalArguments";
     private const string UninstallAdditionalArgumentsKey = "UninstallAdditionalArguments";
     private const string LanguageKey = "Language";
 
-    private readonly ApplicationDataContainer _localSettings;
+    private readonly ApplicationDataContainer? _localSettings;
 
     public AppSettingsService()
     {
-        _localSettings = ApplicationData.Current.LocalSettings;
+        // ApplicationData requires package identity; the Inno Setup build uses a JSON file instead.
+        if (AppIdentity.IsPackaged)
+            _localSettings = ApplicationData.Current.LocalSettings;
     }
 
     public bool SilentPackageOperations
     {
         get => GetBoolean(SilentPackageOperationsKey, true);
-        set => _localSettings.Values[SilentPackageOperationsKey] = value;
+        set => SetValue(SilentPackageOperationsKey, value);
     }
 
     public bool CheckUpdatesOnStartup
     {
         get => GetBoolean(CheckUpdatesOnStartupKey, true);
-        set => _localSettings.Values[CheckUpdatesOnStartupKey] = value;
+        set => SetValue(CheckUpdatesOnStartupKey, value);
     }
 
     public bool BackgroundUpdateChecks
     {
         get => GetBoolean(BackgroundUpdateChecksKey, false);
-        set => _localSettings.Values[BackgroundUpdateChecksKey] = value;
+        set => SetValue(BackgroundUpdateChecksKey, value);
+    }
+
+    public bool IncludeUnknownVersions
+    {
+        get => GetBoolean(IncludeUnknownVersionsKey, false);
+        set => SetValue(IncludeUnknownVersionsKey, value);
     }
 
     public int BackgroundUpdateIntervalMinutes
     {
         get => GetInt32(BackgroundUpdateIntervalMinutesKey, 60);
-        set => _localSettings.Values[BackgroundUpdateIntervalMinutesKey] = value;
+        set => SetValue(BackgroundUpdateIntervalMinutesKey, value);
     }
 
     public string InstallAdditionalArguments
     {
         get => GetString(InstallAdditionalArgumentsKey);
-        set => _localSettings.Values[InstallAdditionalArgumentsKey] = value;
+        set => SetValue(InstallAdditionalArgumentsKey, value);
     }
 
     public string UpdateAdditionalArguments
     {
         get => GetString(UpdateAdditionalArgumentsKey);
-        set => _localSettings.Values[UpdateAdditionalArgumentsKey] = value;
+        set => SetValue(UpdateAdditionalArgumentsKey, value);
     }
 
     public string UninstallAdditionalArguments
     {
         get => GetString(UninstallAdditionalArgumentsKey);
-        set => _localSettings.Values[UninstallAdditionalArgumentsKey] = value;
+        set => SetValue(UninstallAdditionalArgumentsKey, value);
     }
 
     public string Language
     {
         get => GetString(LanguageKey);
-        set => _localSettings.Values[LanguageKey] = value;
+        set => SetValue(LanguageKey, value);
     }
 
     private bool GetBoolean(string key, bool defaultValue)
     {
-        if (_localSettings.Values.TryGetValue(key, out var value) && value is bool booleanValue)
+        if (TryGetValue(key, out var value) && value is bool booleanValue)
             return booleanValue;
 
         return defaultValue;
@@ -78,7 +87,7 @@ public sealed class AppSettingsService
 
     private int GetInt32(string key, int defaultValue)
     {
-        if (_localSettings.Values.TryGetValue(key, out var value) && value is int intValue)
+        if (TryGetValue(key, out var value) && value is int intValue)
             return intValue;
 
         return defaultValue;
@@ -86,9 +95,25 @@ public sealed class AppSettingsService
 
     private string GetString(string key)
     {
-        if (_localSettings.Values.TryGetValue(key, out var value) && value is string stringValue)
+        if (TryGetValue(key, out var value) && value is string stringValue)
             return stringValue;
 
         return string.Empty;
+    }
+
+    private bool TryGetValue(string key, out object? value)
+    {
+        if (_localSettings is not null)
+            return _localSettings.Values.TryGetValue(key, out value);
+
+        return JsonSettingsStore.Instance.TryGetValue(key, out value);
+    }
+
+    private void SetValue(string key, object value)
+    {
+        if (_localSettings is not null)
+            _localSettings.Values[key] = value;
+        else
+            JsonSettingsStore.Instance.SetValue(key, value);
     }
 }

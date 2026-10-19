@@ -50,6 +50,20 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Spacing="4">
+                                <TextBlock x:Uid="Settings_IncludeUnknown" FontWeight="SemiBold" />
+                                <TextBlock x:Uid="Settings_IncludeUnknownDescription" TextWrapping="Wrap" Opacity="0.7" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.IncludeUnknownVersions, Mode=TwoWay}" />
+                        </Grid>
+
+                        <Rectangle Height="1" Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                        <Grid ColumnSpacing="32">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Spacing="4">
                                 <TextBlock x:Uid="Settings_BackgroundChecks" FontWeight="SemiBold" />
                                 <TextBlock x:Uid="Settings_BackgroundChecksDescription" TextWrapping="Wrap" Opacity="0.7" />
                             </StackPanel>

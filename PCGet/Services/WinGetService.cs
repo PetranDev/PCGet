@@ -70,6 +70,7 @@ public sealed class WinGetService : IWinGetService
         var findOptions = factory.CreateFindPackagesOptions();
         var searchResult = await connectResult.PackageCatalog.FindPackagesAsync(findOptions);
         var result = new List<PackageInfo>();
+        var includeUnknownVersions = _settingsService.IncludeUnknownVersions;
 
         foreach (var match in searchResult.Matches.ToArray())
         {
@@ -82,6 +83,12 @@ public sealed class WinGetService : IWinGetService
             var availableVersion = package.DefaultInstallVersion;
 
             if (installedVersion is null || availableVersion is null)
+                continue;
+
+            // Like `winget upgrade` without --include-unknown: when the installed version can't be
+            // determined (e.g. the uninstall entry has no DisplayVersion), WinGet can't know whether
+            // the package is actually outdated, and "upgrading" just runs the full installer again.
+            if (!includeUnknownVersions && IsUnknownVersion(installedVersion.Version))
                 continue;
 
             result.Add(new PackageInfo
@@ -295,7 +302,8 @@ public sealed class WinGetService : IWinGetService
         if (package is null)
             throw new InvalidOperationException(LocalizationService.Format("Error_PackageNotFound", packageId));
 
-        if (!package.IsUpdateAvailable)
+        if (!package.IsUpdateAvailable ||
+            (!_settingsService.IncludeUnknownVersions && IsUnknownVersion(package.InstalledVersion?.Version)))
             throw new InvalidOperationException(LocalizationService.Format("Error_NoUpdateAvailable", packageId));
 
         var installOptions = factory.CreateInstallOptions();
@@ -478,6 +486,10 @@ public sealed class WinGetService : IWinGetService
             .Select(match => match.CatalogPackage)
             .FirstOrDefault(candidate => string.Equals(candidate.Id, packageId, StringComparison.OrdinalIgnoreCase));
     }
+
+    private static bool IsUnknownVersion(string? version) =>
+        string.IsNullOrWhiteSpace(version) ||
+        string.Equals(version.Trim(), "Unknown", StringComparison.OrdinalIgnoreCase);
 
     private static WindowsPackageManagerFactory CreateFactory()
     {

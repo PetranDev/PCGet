@@ -475,6 +475,10 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+# Inno Setup installer staging and output
+installer/build/
+installer/Output/
+
 # Windows shortcuts
 *.lnk
 

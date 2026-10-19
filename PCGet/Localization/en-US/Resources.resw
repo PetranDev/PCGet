@@ -387,6 +387,12 @@
   <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
     <value>Automatically check for available package updates when PCGet starts.</value>
   </data>
+  <data name="Settings_IncludeUnknown.Text" xml:space="preserve">
+    <value>Include packages with unknown versions</value>
+  </data>
+  <data name="Settings_IncludeUnknownDescription.Text" xml:space="preserve">
+    <value>Show updates for applications whose installed version can't be detected. Updating these may reinstall the application even if it is already up to date.</value>
+  </data>
   <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
     <value>Additional arguments for winget install</value>
   </data>

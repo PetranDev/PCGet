@@ -385,6 +385,12 @@
   <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
     <value>Paramètre PCGet</value>
   </data>
+  <data name="Settings_IncludeUnknown.Text" xml:space="preserve">
+    <value>Inclure les paquets de version inconnue</value>
+  </data>
+  <data name="Settings_IncludeUnknownDescription.Text" xml:space="preserve">
+    <value>Afficher les mises à jour des applications dont la version installée ne peut pas être détectée. Leur mise à jour peut réinstaller l'application même si elle est déjà à jour.</value>
+  </data>
   <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
     <value>Paramètre PCGet</value>
   </data>
