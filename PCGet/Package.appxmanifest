@@ -12,12 +12,12 @@
   <Identity
     Name="7061680f-eb3f-4ac6-80be-a19a8ed0ae70"
     Publisher="CN=Petran"
-    Version="1.0.0.0" />
+    Version="1.1.0.1" />
 
   <Properties>
     <DisplayName>PCGet</DisplayName>
     <PublisherDisplayName>PCG</PublisherDisplayName>
-    <Logo>Images\StoreLogo.png</Logo>
+    <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -38,9 +38,9 @@
         DisplayName="PCGet"
         Description="PCGet"
         BackgroundColor="transparent"
-        Square150x150Logo="Images\Square150x150Logo.png"
-        Square44x44Logo="Images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
       </uap:VisualElements>
 
       <Extensions>
