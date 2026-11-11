@@ -32,7 +32,7 @@ public sealed class WinGetService : IWinGetService
         var searchResult = await connectResult.PackageCatalog.FindPackagesAsync(findOptions);
         var result = new List<PackageInfo>();
 
-        foreach (var match in searchResult.Matches.ToArray())
+        foreach (var match in GetMatches(searchResult))
         {
             var package = match.CatalogPackage;
             var installedVersion = package.InstalledVersion;
@@ -72,7 +72,7 @@ public sealed class WinGetService : IWinGetService
         var result = new List<PackageInfo>();
         var includeUnknownVersions = _settingsService.IncludeUnknownVersions;
 
-        foreach (var match in searchResult.Matches.ToArray())
+        foreach (var match in GetMatches(searchResult))
         {
             var package = match.CatalogPackage;
 
@@ -117,6 +117,7 @@ public sealed class WinGetService : IWinGetService
         var packageManager = factory.CreatePackageManager();
         var result = new List<DiscoverPackageInfo>();
         var searchText = query.Trim();
+        var installedPackageIds = await GetInstalledPackageIdsForSearchAsync();
 
         var searches = new[]
         {
@@ -214,7 +215,7 @@ public sealed class WinGetService : IWinGetService
                     ReleaseNotesUrl = metadata?.ReleaseNotesUrl ?? string.Empty,
                     Tags = tags,
                     IconUrl = iconUrl,
-                    IsInstalled = package.InstalledVersion is not null
+                    IsInstalled = installedPackageIds.Contains(package.Id ?? string.Empty)
                 });
             }
         }
@@ -233,13 +234,23 @@ public sealed class WinGetService : IWinGetService
 
         var factory = CreateFactory();
         var packageManager = factory.CreatePackageManager();
+
+        // Packages found in a remote catalog never carry InstalledVersion; only the installed-first
+        // (LocalCatalogs) composite correlates them, so check installation state there.
+        var compositeConnectResult = CreateCompositeCatalog(factory, packageManager).Connect();
+
+        if (compositeConnectResult.Status != ConnectResultStatus.Ok)
+            throw new InvalidOperationException(LocalizationService.Format("Error_CatalogConnection", compositeConnectResult.Status));
+
+        var installedPackage = await FindPackageAsync(factory, compositeConnectResult, packageId);
+
+        if (installedPackage?.InstalledVersion is not null)
+            throw new InvalidOperationException(LocalizationService.Format("Error_AlreadyInstalled", packageId));
+
         var package = await FindRemotePackageAsync(factory, packageManager, packageId);
 
         if (package is null)
             throw new InvalidOperationException(LocalizationService.Format("Error_PackageNotFound", packageId));
-
-        if (package.InstalledVersion is not null)
-            throw new InvalidOperationException(LocalizationService.Format("Error_AlreadyInstalled", packageId));
 
         var installOptions = factory.CreateInstallOptions();
         installOptions.PackageInstallMode = GetPackageInstallMode();
@@ -481,10 +492,33 @@ public sealed class WinGetService : IWinGetService
 
         var searchResult = await connectResult.PackageCatalog.FindPackagesAsync(findOptions);
 
-        return searchResult.Matches
-            .ToArray()
+        return GetMatches(searchResult)
             .Select(match => match.CatalogPackage)
             .FirstOrDefault(candidate => string.Equals(candidate.Id, packageId, StringComparison.OrdinalIgnoreCase));
+    }
+
+    // Remote search results never report InstalledVersion, so Discover marks installed packages by Id
+    // using the same installed-first listing as the Installed page. If that listing fails, search
+    // still works and InstallPackageAsync re-checks before installing.
+    private async Task<HashSet<string>> GetInstalledPackageIdsForSearchAsync()
+    {
+        try
+        {
+            var installedPackages = await GetInstalledPackagesAsync();
+            return installedPackages.Select(package => package.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        }
+    }
+
+    private static MatchResult[] GetMatches(FindPackagesResult searchResult)
+    {
+        if (searchResult.Status != FindPackagesResultStatus.Ok)
+            throw new InvalidOperationException(LocalizationService.Format("Error_PackageSearch", searchResult.Status));
+
+        return searchResult.Matches.ToArray();
     }
 
     private static bool IsUnknownVersion(string? version) =>

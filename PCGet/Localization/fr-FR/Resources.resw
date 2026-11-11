@@ -211,6 +211,9 @@
   <data name="Error_CatalogConnection" xml:space="preserve">
     <value>Impossible de se connecter au catalogue composite WinGet. État : {0}</value>
   </data>
+  <data name="Error_PackageSearch" xml:space="preserve">
+    <value>WinGet n’a pas pu effectuer de recherche dans le catalogue de packages. État : {0}</value>
+  </data>
   <data name="Error_ElevatedFailed" xml:space="preserve">
     <value>L’opération sur le package avec élévation de privilèges a échoué avec le code de sortie {0}.</value>
   </data>

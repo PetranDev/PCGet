@@ -211,6 +211,9 @@
   <data name="Error_CatalogConnection" xml:space="preserve">
     <value>Unable to connect to WinGet composite catalog. Status: {0}</value>
   </data>
+  <data name="Error_PackageSearch" xml:space="preserve">
+    <value>WinGet could not search the package catalog. Status: {0}</value>
+  </data>
   <data name="Error_ElevatedFailed" xml:space="preserve">
     <value>The elevated package operation failed with exit code {0}.</value>
   </data>

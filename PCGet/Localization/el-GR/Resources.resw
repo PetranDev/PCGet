@@ -211,6 +211,9 @@
   <data name="Error_CatalogConnection" xml:space="preserve">
     <value>Δεν είναι δυνατή η σύνδεση στον σύνθετο κατάλογο WinGet. Κατάσταση: {0}</value>
   </data>
+  <data name="Error_PackageSearch" xml:space="preserve">
+    <value>Το WinGet δεν μπόρεσε να κάνει αναζήτηση στον κατάλογο πακέτων. Κατάσταση: {0}</value>
+  </data>
   <data name="Error_ElevatedFailed" xml:space="preserve">
     <value>Η λειτουργία πακέτου με αυξημένα δικαιώματα απέτυχε με κωδικό εξόδου {0}.</value>
   </data>

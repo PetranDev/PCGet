@@ -211,6 +211,9 @@
   <data name="Error_CatalogConnection" xml:space="preserve">
     <value>WinGet の複合カタログに接続できません。状態: {0}</value>
   </data>
+  <data name="Error_PackageSearch" xml:space="preserve">
+    <value>WinGet でパッケージ カタログを検索できませんでした。状態: {0}</value>
+  </data>
   <data name="Error_ElevatedFailed" xml:space="preserve">
     <value>管理者権限でのパッケージ操作が終了コード {0} で失敗しました。</value>
   </data>

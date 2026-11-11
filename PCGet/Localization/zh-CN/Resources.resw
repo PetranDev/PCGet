@@ -211,6 +211,9 @@
   <data name="Error_CatalogConnection" xml:space="preserve">
     <value>无法连接到 WinGet 组合目录。状态：{0}</value>
   </data>
+  <data name="Error_PackageSearch" xml:space="preserve">
+    <value>WinGet 无法搜索程序包目录。状态：{0}</value>
+  </data>
   <data name="Error_ElevatedFailed" xml:space="preserve">
     <value>提升权限的程序包操作失败，退出代码为 {0}。</value>
   </data>

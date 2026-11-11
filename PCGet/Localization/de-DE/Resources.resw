@@ -211,6 +211,9 @@
   <data name="Error_CatalogConnection" xml:space="preserve">
     <value>Verbindung mit dem zusammengesetzten WinGet-Katalog nicht möglich. Status: {0}</value>
   </data>
+  <data name="Error_PackageSearch" xml:space="preserve">
+    <value>WinGet konnte den Paketkatalog nicht durchsuchen. Status: {0}</value>
+  </data>
   <data name="Error_ElevatedFailed" xml:space="preserve">
     <value>Der Paketvorgang mit erhöhten Rechten ist mit dem Exitcode {0} fehlgeschlagen.</value>
   </data>
