@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using Windows.Storage;
 
 namespace PCGet.Services;
@@ -10,6 +12,7 @@ public sealed class AppSettingsService
     private const string StartMinimizedKey = "StartMinimized";
     private const string IncludeUnknownVersionsKey = "IncludeUnknownVersions";
     private const string BackgroundUpdateIntervalMinutesKey = "BackgroundUpdateIntervalMinutes";
+    private const string LastBackgroundUpdateCheckUtcKey = "LastBackgroundUpdateCheckUtc";
     private const string InstallAdditionalArgumentsKey = "InstallAdditionalArguments";
     private const string UpdateAdditionalArgumentsKey = "UpdateAdditionalArguments";
     private const string UninstallAdditionalArgumentsKey = "UninstallAdditionalArguments";
@@ -60,6 +63,16 @@ public sealed class AppSettingsService
     {
         get => GetInt32(BackgroundUpdateIntervalMinutesKey, 60);
         set => SetValue(BackgroundUpdateIntervalMinutesKey, value);
+    }
+
+    // When the last background (or tray) update check completed, so the next one can be scheduled
+    // relative to it instead of a full interval after every launch.
+    public DateTimeOffset? LastBackgroundUpdateCheckUtc
+    {
+        get => DateTimeOffset.TryParse(GetString(LastBackgroundUpdateCheckUtcKey), CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var value)
+            ? value
+            : null;
+        set => SetValue(LastBackgroundUpdateCheckUtcKey, value?.ToString("o", CultureInfo.InvariantCulture) ?? string.Empty);
     }
 
     public string InstallAdditionalArguments
