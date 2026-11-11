@@ -35,6 +35,7 @@ public sealed class TrayIconService : IDisposable
 
     private static readonly Dictionary<nint, TrayIconService> Instances = [];
     private static readonly WndProcDelegate WndProc = WindowProcedure;
+    private static readonly uint TaskbarCreatedMessage = RegisterWindowMessage("TaskbarCreated");
     private static ushort _windowClassAtom;
 
     private readonly nint _windowHandle;
@@ -80,14 +81,19 @@ public sealed class TrayIconService : IDisposable
         if (_iconHandle == nint.Zero)
             throw new InvalidOperationException(LocalizationService.GetString("Error_TrayIconLoad"));
 
+        if (!AddIcon())
+            throw new InvalidOperationException(LocalizationService.GetString("Error_TrayIconAdd"));
+    }
+
+    private bool AddIcon()
+    {
         var data = CreateNotifyIconData();
         data.Flags = NifMessage | NifIcon | NifTip;
         data.CallbackMessage = TrayCallbackMessage;
         data.IconHandle = _iconHandle;
         data.ToolTip = "PCGet";
 
-        if (!Shell_NotifyIcon(NimAdd, ref data))
-            throw new InvalidOperationException(LocalizationService.GetString("Error_TrayIconAdd"));
+        return Shell_NotifyIcon(NimAdd, ref data);
     }
 
     private NotifyIconData CreateNotifyIconData()
@@ -154,6 +160,13 @@ public sealed class TrayIconService : IDisposable
     {
         if (Instances.TryGetValue(windowHandle, out var instance))
         {
+            // Explorer broadcasts this after it restarts; every notification-area icon is gone by then.
+            if (message == TaskbarCreatedMessage && TaskbarCreatedMessage != 0)
+            {
+                instance.AddIcon();
+                return nint.Zero;
+            }
+
             if (message == TrayCallbackMessage)
             {
                 var mouseMessage = unchecked((uint)lParam.ToInt64());
@@ -281,6 +294,9 @@ public sealed class TrayIconService : IDisposable
 
     [DllImport("user32.dll")]
     private static extern bool DestroyWindow(nint windowHandle);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    private static extern uint RegisterWindowMessage(string message);
 
     [DllImport("user32.dll")]
     private static extern nint DefWindowProc(nint windowHandle, uint message, nint wParam, nint lParam);
