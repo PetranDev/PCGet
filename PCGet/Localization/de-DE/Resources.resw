@@ -77,70 +77,70 @@
     <value>WinGet-Vorgang fehlgeschlagen</value>
   </data>
   <data name="Dialog_AdditionalArguments" xml:space="preserve">
-    <value>PCGet-Meldung</value>
+    <value>Zusätzliche WinGet-Argumente</value>
   </data>
   <data name="Dialog_AdminRequiredTitle" xml:space="preserve">
     <value>Administratorrechte erforderlich</value>
   </data>
   <data name="Dialog_InstallAdminMessage" xml:space="preserve">
-    <value>PCGet-Meldung: {0}</value>
+    <value>Für die Installation von {0} sind Administratorrechte erforderlich. PCGet kann die Installation als Administrator erneut versuchen.</value>
   </data>
   <data name="Dialog_RememberUpdateArguments" xml:space="preserve">
-    <value>PCGet-Meldung</value>
+    <value>Diese Argumente für Updates merken</value>
   </data>
   <data name="Dialog_RetryAdminButton" xml:space="preserve">
-    <value>PCGet-Meldung</value>
+    <value>Als Administrator erneut versuchen</value>
   </data>
   <data name="Dialog_RetryAdminTitle" xml:space="preserve">
-    <value>PCGet-Meldung</value>
+    <value>Als Administrator erneut versuchen?</value>
   </data>
   <data name="Dialog_RetryInteractively" xml:space="preserve">
     <value>Interaktiv erneut versuchen</value>
   </data>
   <data name="Dialog_SilentUninstallFailedMessage" xml:space="preserve">
-    <value>PCGet-Meldung: {0}</value>
+    <value>{0} konnte nicht still deinstalliert werden. Möchten Sie es mit dem interaktiven Deinstallationsprogramm der Anwendung erneut versuchen?</value>
   </data>
   <data name="Dialog_SilentUninstallFailedTitle" xml:space="preserve">
     <value>Stille Deinstallation fehlgeschlagen</value>
   </data>
   <data name="Dialog_UninstallAdminMessage" xml:space="preserve">
-    <value>PCGet-Meldung: {0}</value>
+    <value>Für die Deinstallation von {0} sind Administratorrechte erforderlich. PCGet kann die Deinstallation als Administrator erneut versuchen.</value>
   </data>
   <data name="Dialog_UninstallManyButton" xml:space="preserve">
-    <value>PCGet-Meldung: {0}</value>
+    <value>{0} Anwendungen deinstallieren</value>
   </data>
   <data name="Dialog_UninstallManyMessage" xml:space="preserve">
-    <value>PCGet-Meldung: {0}</value>
+    <value>Möchten Sie diese {0} Anwendungen wirklich deinstallieren?</value>
   </data>
   <data name="Dialog_UninstallMessage" xml:space="preserve">
-    <value>PCGet-Meldung: {0}</value>
+    <value>Möchten Sie {0} wirklich deinstallieren?</value>
   </data>
   <data name="Dialog_UninstallSelectedManyTitle" xml:space="preserve">
-    <value>PCGet-Meldung</value>
+    <value>Ausgewählte Anwendungen deinstallieren?</value>
   </data>
   <data name="Dialog_UninstallSelectedOneTitle" xml:space="preserve">
-    <value>PCGet-Meldung</value>
+    <value>Ausgewählte Anwendung deinstallieren?</value>
   </data>
   <data name="Dialog_UninstallTitle" xml:space="preserve">
     <value>Anwendung deinstallieren?</value>
   </data>
   <data name="Dialog_UpdateAdminMessage" xml:space="preserve">
-    <value>PCGet-Meldung: {0}</value>
+    <value>{0} konnte nicht auf normalem Weg aktualisiert werden. PCGet kann das Update mit Administratorrechten erneut versuchen.</value>
   </data>
   <data name="Dialog_UpdatePCGetButton" xml:space="preserve">
-    <value>PCGet-Meldung</value>
+    <value>PCGet aktualisieren</value>
   </data>
   <data name="Dialog_UpdatePCGetMessage" xml:space="preserve">
-    <value>PCGet-Meldung: {0}</value>
+    <value>PCGet {0} ist verfügbar. PCGet wird geschlossen, installiert das Update und startet anschließend automatisch neu.</value>
   </data>
   <data name="Dialog_UpdatePCGetTitle" xml:space="preserve">
     <value>PCGet aktualisieren?</value>
   </data>
   <data name="Discover_ApplicationsFound" xml:space="preserve">
-    <value>{0} Anwendungen found</value>
+    <value>{0} Anwendungen gefunden</value>
   </data>
   <data name="Discover_ApplicationsShown" xml:space="preserve">
-    <value>{0} of {1} Anwendungen shown</value>
+    <value>{0} von {1} Anwendungen angezeigt</value>
   </data>
   <data name="Discover_Author.Text" xml:space="preserve">
     <value>Autor</value>
@@ -155,13 +155,13 @@
     <value>Gebietsschema</value>
   </data>
   <data name="Discover_NoApplicationsFound" xml:space="preserve">
-    <value>No Anwendungen found.</value>
+    <value>Keine Anwendungen gefunden.</value>
   </data>
   <data name="Discover_OneApplicationFound" xml:space="preserve">
-    <value>1 Anwendung found</value>
+    <value>1 Anwendung gefunden</value>
   </data>
   <data name="Discover_OneOfApplicationsShown" xml:space="preserve">
-    <value>1 of {0} Anwendungen shown</value>
+    <value>1 von {0} Anwendungen angezeigt</value>
   </data>
   <data name="Discover_PackageId.Text" xml:space="preserve">
     <value>Paket-ID</value>
@@ -179,7 +179,7 @@
     <value>Herausgeber-Website</value>
   </data>
   <data name="Discover_RefreshCurrentSearch.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Anwendungsinformation</value>
+    <value>Aktuelle Suche aktualisieren</value>
   </data>
   <data name="Discover_Search.Content" xml:space="preserve">
     <value>Suchen</value>
@@ -194,7 +194,7 @@
     <value>Quelle</value>
   </data>
   <data name="Discover_Subtitle.Text" xml:space="preserve">
-    <value>Anwendungsinformation</value>
+    <value>Suchen Sie nach Anwendungen und installieren Sie sie mit WinGet.</value>
   </data>
   <data name="Discover_Support.Content" xml:space="preserve">
     <value>Support</value>
@@ -206,184 +206,186 @@
     <value>Version</value>
   </data>
   <data name="Error_AlreadyInstalled" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0}</value>
+    <value>Das Paket „{0}“ ist bereits installiert.</value>
   </data>
   <data name="Error_CatalogConnection" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0}</value>
+    <value>Verbindung mit dem zusammengesetzten WinGet-Katalog nicht möglich. Status: {0}</value>
   </data>
   <data name="Error_ElevatedFailed" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0}</value>
+    <value>Der Paketvorgang mit erhöhten Rechten ist mit dem Exitcode {0} fehlgeschlagen.</value>
   </data>
   <data name="Error_ElevatedFailedWithLog" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0} {1}</value>
+    <value>Der Paketvorgang mit erhöhten Rechten ist mit dem Exitcode {0} fehlgeschlagen.
+
+{1}</value>
   </data>
   <data name="Error_ElevatedHelperNotFound" xml:space="preserve">
-    <value>Fehler beim Paketvorgang</value>
+    <value>Das PCGet-Hilfsprogramm für erhöhte Rechte wurde nicht gefunden.</value>
   </data>
   <data name="Error_ElevatedHelperStart" xml:space="preserve">
-    <value>Fehler beim Paketvorgang</value>
+    <value>Das PCGet-Hilfsprogramm für erhöhte Rechte konnte nicht gestartet werden.</value>
   </data>
   <data name="Error_Extended" xml:space="preserve">
-    <value> Error: {0}</value>
+    <value> Fehler: {0}</value>
   </data>
   <data name="Error_Http404" xml:space="preserve">
-    <value>Fehler beim Paketvorgang</value>
+    <value>Das Installationsprogramm konnte nicht heruntergeladen werden, da die Paket-URL 404 (Nicht gefunden) zurückgegeben hat. Das WinGet-Paket enthält möglicherweise einen veralteten Downloadlink.</value>
   </data>
   <data name="Error_InstallFailed" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0} {1}</value>
+    <value>WinGet konnte „{0}“ nicht installieren. Status: {1}.</value>
   </data>
   <data name="Error_InstallVerification" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0}</value>
+    <value>{0}: Der Paketvorgang wurde abgeschlossen, aber WinGet meldet die Anwendung nicht als installiert.</value>
   </data>
   <data name="Error_InstalledPackageNotFound" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0}</value>
+    <value>Das installierte Paket „{0}“ wurde nicht gefunden.</value>
   </data>
   <data name="Error_NoUpdateAvailable" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0}</value>
+    <value>Für das Paket „{0}“ ist kein Update mehr verfügbar.</value>
   </data>
   <data name="Error_PackageNotFound" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0}</value>
+    <value>Das Paket „{0}“ wurde nicht gefunden.</value>
   </data>
   <data name="Error_PackageOperationFailed" xml:space="preserve">
-    <value>Fehler beim Paketvorgang</value>
+    <value>Der Paketvorgang ist fehlgeschlagen.</value>
   </data>
   <data name="Error_SelfUpdateStart" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0}</value>
+    <value>PCGet konnte die Selbstaktualisierung nicht starten: {0}</value>
   </data>
   <data name="Error_UninstallFailed" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0} {1}</value>
+    <value>WinGet konnte „{0}“ nicht deinstallieren. Status: {1}.</value>
   </data>
   <data name="Error_UninstallVerification" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0}</value>
+    <value>{0}: Der Paketvorgang wurde abgeschlossen, aber WinGet meldet die Anwendung weiterhin als installiert.</value>
   </data>
   <data name="Error_UnmatchedQuote" xml:space="preserve">
-    <value>Fehler beim Paketvorgang</value>
+    <value>Die zusätzlichen WinGet-Argumente enthalten ein nicht geschlossenes Anführungszeichen.</value>
   </data>
   <data name="Error_UpdateFailed" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0} {1}</value>
+    <value>WinGet konnte „{0}“ nicht aktualisieren. Status: {1}.</value>
   </data>
   <data name="Error_UpdateVerification" xml:space="preserve">
-    <value>Fehler beim Paketvorgang: {0}</value>
+    <value>{0}: Der Paketvorgang wurde abgeschlossen, aber WinGet meldet weiterhin ein verfügbares Update.</value>
   </data>
   <data name="Error_UpdaterNotFound" xml:space="preserve">
-    <value>Fehler beim Paketvorgang</value>
+    <value>Das PCGet-Updateprogramm wurde nicht gefunden.</value>
   </data>
   <data name="Filter_AllSources" xml:space="preserve">
     <value>Alle Quellen</value>
   </data>
   <data name="Installed_ApplicationsShown" xml:space="preserve">
-    <value>{0} of {1} Anwendungen shown</value>
+    <value>{0} von {1} Anwendungen angezeigt</value>
   </data>
   <data name="Installed_InstalledCount" xml:space="preserve">
-    <value>Installierte Anwendungen: {0}</value>
+    <value>{0} installierte Anwendungen</value>
   </data>
   <data name="Installed_Loading" xml:space="preserve">
-    <value>Installierte Anwendungen</value>
+    <value>Installierte Anwendungen werden geladen...</value>
   </data>
   <data name="Installed_NoMatchingApplications" xml:space="preserve">
-    <value>Installierte Anwendungen</value>
+    <value>Keine passenden Anwendungen.</value>
   </data>
   <data name="Installed_NoneFound" xml:space="preserve">
-    <value>Installierte Anwendungen</value>
+    <value>Keine installierten Anwendungen gefunden.</value>
   </data>
   <data name="Installed_OneInstalled" xml:space="preserve">
-    <value>Installierte Anwendungen</value>
+    <value>1 installierte Anwendung</value>
   </data>
   <data name="Installed_OneOfApplicationsShown" xml:space="preserve">
-    <value>1 of {0} Anwendungen shown</value>
+    <value>1 von {0} Anwendungen angezeigt</value>
   </data>
   <data name="Installed_OneSelected" xml:space="preserve">
-    <value>Installierte Anwendungen</value>
+    <value>1 Anwendung ausgewählt</value>
   </data>
   <data name="Installed_SearchPlaceholder.PlaceholderText" xml:space="preserve">
     <value>Installierte Anwendungen suchen</value>
   </data>
   <data name="Installed_SelectedCount" xml:space="preserve">
-    <value>Installierte Anwendungen: {0}</value>
+    <value>{0} Anwendungen ausgewählt</value>
   </data>
   <data name="Installed_Subtitle.Text" xml:space="preserve">
-    <value>Installierte Anwendungen</value>
+    <value>Von WinGet verwaltete Anwendungen.</value>
   </data>
   <data name="Installed_UninstallSelected.Content" xml:space="preserve">
-    <value>Installierte Anwendungen</value>
+    <value>Auswahl deinstallieren</value>
   </data>
   <data name="Interval_12Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Alle 12 Stunden</value>
   </data>
   <data name="Interval_15Minutes" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Alle 15 Minuten</value>
   </data>
   <data name="Interval_1Day" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Täglich</value>
   </data>
   <data name="Interval_1Hour" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Stündlich</value>
   </data>
   <data name="Interval_2Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Alle 2 Stunden</value>
   </data>
   <data name="Interval_30Minutes" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Alle 30 Minuten</value>
   </data>
   <data name="Interval_4Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Alle 4 Stunden</value>
   </data>
   <data name="Interval_8Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Alle 8 Stunden</value>
   </data>
   <data name="Notification_OneUpdateAvailable" xml:space="preserve">
-    <value>PCGet-Benachrichtigung</value>
+    <value>1 Update ist verfügbar</value>
   </data>
   <data name="Notification_OpenPCGet" xml:space="preserve">
-    <value>PCGet-Benachrichtigung</value>
+    <value>Öffnen Sie PCGet, um verfügbare Updates zu prüfen und zu installieren.</value>
   </data>
   <data name="Notification_SelfUpdateFailedMessage" xml:space="preserve">
-    <value>PCGet-Benachrichtigung: {0}</value>
+    <value>Das Update konnte nicht installiert werden. WinGet hat den Exitcode {0} zurückgegeben.</value>
   </data>
   <data name="Notification_SelfUpdateFailedTitle" xml:space="preserve">
-    <value>PCGet-Benachrichtigung</value>
+    <value>PCGet-Update fehlgeschlagen</value>
   </data>
   <data name="Notification_SelfUpdateSucceededMessage" xml:space="preserve">
-    <value>PCGet-Benachrichtigung</value>
+    <value>Die neueste Version von PCGet wurde installiert.</value>
   </data>
   <data name="Notification_SelfUpdateSucceededTitle" xml:space="preserve">
-    <value>PCGet Updated successfully</value>
+    <value>PCGet wurde erfolgreich aktualisiert</value>
   </data>
   <data name="Notification_UpdatesAvailable" xml:space="preserve">
-    <value>PCGet-Benachrichtigung: {0}</value>
+    <value>{0} Updates sind verfügbar</value>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
     <value>Info</value>
   </data>
   <data name="Settings_AdvancedArguments.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Erweiterte WinGet-Argumente</value>
   </data>
   <data name="Settings_AdvancedArgumentsDescription.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Zusätzliche Argumente werden an den WinGet-Befehl angehängt, wenn PCGet einen Paketvorgang mit erhöhten Rechten ausführt. PCGet verwaltet weiterhin Paket-ID, exakte Übereinstimmung, Vereinbarungen, Interaktivität und den stillen Modus.</value>
   </data>
   <data name="Settings_AppLanguage.Text" xml:space="preserve">
     <value>Anwendungssprache</value>
   </data>
   <data name="Settings_AppLanguageDescription.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Wählen Sie die Sprache von PCGet aus. Nach einer Änderung ist ein Neustart erforderlich.</value>
   </data>
   <data name="Settings_BackgroundChecks.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Im Hintergrund nach Updates suchen</value>
   </data>
   <data name="Settings_BackgroundChecksDescription.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Regelmäßig nach Paketupdates suchen, während PCGet ausgeführt wird.</value>
   </data>
   <data name="Settings_CheckInterval.Text" xml:space="preserve">
     <value>Prüfintervall</value>
   </data>
   <data name="Settings_CheckIntervalDescription.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Legen Sie fest, wie oft PCGet nach verfügbaren Updates sucht.</value>
   </data>
   <data name="Settings_CheckStartup.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Beim Start nach Updates suchen</value>
   </data>
   <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Beim Start von PCGet automatisch nach verfügbaren Paketupdates suchen.</value>
   </data>
   <data name="Settings_IncludeUnknown.Text" xml:space="preserve">
     <value>Pakete mit unbekannter Version einbeziehen</value>
@@ -392,7 +394,7 @@
     <value>Updates für Anwendungen anzeigen, deren installierte Version nicht erkannt werden kann. Ein Update kann diese Anwendungen neu installieren, auch wenn sie bereits aktuell sind.</value>
   </data>
   <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Zusätzliche Argumente für winget install</value>
   </data>
   <data name="Settings_Language.Text" xml:space="preserve">
     <value>Sprache</value>
@@ -407,19 +409,19 @@
     <value>Paketquellen</value>
   </data>
   <data name="Settings_PoweredBy.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Basiert auf dem Windows Package Manager</value>
   </data>
   <data name="Settings_SilentOperations.Text" xml:space="preserve">
-    <value>Silent Paket operations</value>
+    <value>Stille Paketvorgänge</value>
   </data>
   <data name="Settings_SilentOperationsDescription.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Anwendungen ohne Anzeige ihrer Installationsoberfläche installieren, aktualisieren und deinstallieren, sofern unterstützt.</value>
   </data>
   <data name="Settings_StartWithWindows.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>PCGet mit Windows starten</value>
   </data>
   <data name="Settings_StartWithWindowsDescription.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>PCGet automatisch starten, wenn Sie sich bei Windows anmelden.</value>
   </data>
   <data name="Settings_StartMinimized.Text" xml:space="preserve">
     <value>Minimiert starten</value>
@@ -431,25 +433,25 @@
     <value>Konfigurieren Sie, wie PCGet Ihre Anwendungen verwaltet.</value>
   </data>
   <data name="Settings_Tagline.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Ihre Windows-Apps. An einem Ort.</value>
   </data>
   <data name="Settings_Title.Text" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
   <data name="Settings_UninstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Zusätzliche Argumente für winget uninstall</value>
   </data>
   <data name="Settings_Version" xml:space="preserve">
-    <value>PCGet-Einstellung: {0} {1} {2} {3}</value>
+    <value>Version {0}.{1}.{2}.{3}</value>
   </data>
   <data name="Settings_WinGetSources.Text" xml:space="preserve">
     <value>WinGet-Quellen</value>
   </data>
   <data name="Settings_WinGetSourcesDescription.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>PCGet verwendet die im Windows Package Manager konfigurierten Paketquellen.</value>
   </data>
   <data name="Settings_WindowsStartup.Text" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Windows-Start</value>
   </data>
   <data name="Sort_NameAZ" xml:space="preserve">
     <value>Name A–Z</value>
@@ -458,34 +460,34 @@
     <value>Name Z–A</value>
   </data>
   <data name="Sort_PublisherAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Herausgeber A–Z</value>
   </data>
   <data name="Sort_Relevance" xml:space="preserve">
     <value>Relevanz</value>
   </data>
   <data name="Sort_SourceAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Quelle A–Z</value>
   </data>
   <data name="Sort_VersionAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Version A–Z</value>
   </data>
   <data name="Sort_VersionZA" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Version Z–A</value>
   </data>
   <data name="Startup_Disabled" xml:space="preserve">
-    <value>Starteinstellung</value>
+    <value>PCGet wird nicht automatisch mit Windows gestartet.</value>
   </data>
   <data name="Startup_DisabledByPolicy" xml:space="preserve">
-    <value>Starteinstellung</value>
+    <value>Der Autostart ist durch eine Windows-Richtlinie deaktiviert.</value>
   </data>
   <data name="Startup_DisabledByUser" xml:space="preserve">
-    <value>Starteinstellung</value>
+    <value>Der Autostart wurde in den Windows-Einstellungen deaktiviert. Aktivieren Sie PCGet dort, um diese Option zu verwenden.</value>
   </data>
   <data name="Startup_Enabled" xml:space="preserve">
-    <value>Starteinstellung</value>
+    <value>PCGet wird automatisch gestartet, wenn Sie sich bei Windows anmelden.</value>
   </data>
   <data name="Startup_Unavailable" xml:space="preserve">
-    <value>Starteinstellung</value>
+    <value>Der Windows-Autostartstatus ist nicht verfügbar.</value>
   </data>
   <data name="Status_Completed" xml:space="preserve">
     <value>Abgeschlossen</value>
@@ -506,10 +508,10 @@
     <value>Installation...</value>
   </data>
   <data name="Status_InstallingAsAdministrator" xml:space="preserve">
-    <value>Vorgangsstatus</value>
+    <value>Installation als Administrator...</value>
   </data>
   <data name="Status_InstallingPercent" xml:space="preserve">
-    <value>Installing {0:0}%</value>
+    <value>Installation {0:0}%</value>
   </data>
   <data name="Status_NotInstalled" xml:space="preserve">
     <value>Nicht installiert</value>
@@ -521,58 +523,58 @@
     <value>Vorbereitung...</value>
   </data>
   <data name="Status_PreparingToUninstall" xml:space="preserve">
-    <value>Vorgangsstatus: {0}</value>
+    <value>Deinstallation von {0} wird vorbereitet...</value>
   </data>
   <data name="Status_Queued" xml:space="preserve">
     <value>In Warteschlange</value>
   </data>
   <data name="Status_QueuedInteractive" xml:space="preserve">
-    <value>Queued (interactive)</value>
+    <value>In Warteschlange (interaktiv)</value>
   </data>
   <data name="Status_Ready" xml:space="preserve">
     <value>Bereit</value>
   </data>
   <data name="Status_RunningInstaller" xml:space="preserve">
-    <value>Vorgangsstatus</value>
+    <value>Installationsprogramm wird ausgeführt...</value>
   </data>
   <data name="Status_StillInstalled" xml:space="preserve">
-    <value>Vorgangsstatus</value>
+    <value>Weiterhin installiert</value>
   </data>
   <data name="Status_Uninstalled" xml:space="preserve">
-    <value>Uninstalled</value>
+    <value>Deinstalliert</value>
   </data>
   <data name="Status_Uninstalling" xml:space="preserve">
     <value>Deinstallation...</value>
   </data>
   <data name="Status_UninstallingApplication" xml:space="preserve">
-    <value>Uninstalling Anwendung...</value>
+    <value>Anwendung wird deinstalliert...</value>
   </data>
   <data name="Status_UninstallingAsAdministrator" xml:space="preserve">
-    <value>Vorgangsstatus: {0}</value>
+    <value>{0} wird als Administrator deinstalliert...</value>
   </data>
   <data name="Status_UninstallingInteractivelyPercent" xml:space="preserve">
-    <value>Uninstalling interactively {0:0}%</value>
+    <value>Interaktive Deinstallation {0:0}%</value>
   </data>
   <data name="Status_UninstallingPercent" xml:space="preserve">
-    <value>Uninstalling {0:0}%</value>
+    <value>Deinstallation {0:0}%</value>
   </data>
   <data name="Status_UpdateStillAvailable" xml:space="preserve">
-    <value>Vorgangsstatus</value>
+    <value>Update weiterhin verfügbar</value>
   </data>
   <data name="Status_Updating" xml:space="preserve">
     <value>Aktualisierung...</value>
   </data>
   <data name="Status_VerifyingInstallation" xml:space="preserve">
-    <value>Überprüfung installation...</value>
+    <value>Installation wird überprüft...</value>
   </data>
   <data name="Status_VerifyingUninstall" xml:space="preserve">
-    <value>Vorgangsstatus: {0}</value>
+    <value>Deinstallation von {0} wird überprüft...</value>
   </data>
   <data name="Status_VerifyingUpdate" xml:space="preserve">
-    <value>Vorgangsstatus</value>
+    <value>Update wird überprüft...</value>
   </data>
   <data name="Tray_CheckUpdates" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Nach Updates suchen</value>
   </data>
   <data name="Tray_Exit" xml:space="preserve">
     <value>Beenden</value>
@@ -581,34 +583,34 @@
     <value>PCGet öffnen</value>
   </data>
   <data name="Updates_Available" xml:space="preserve">
-    <value>Updateinformation: {0}</value>
+    <value>{0} Updates verfügbar</value>
   </data>
   <data name="Updates_Checking" xml:space="preserve">
-    <value>Updateinformation</value>
+    <value>Suche nach Updates...</value>
   </data>
   <data name="Updates_Installing" xml:space="preserve">
-    <value>Updateinformation</value>
+    <value>Update wird installiert...</value>
   </data>
   <data name="Updates_InstallingOneQueued" xml:space="preserve">
-    <value>Updateinformation</value>
+    <value>Update wird installiert · 1 in Warteschlange</value>
   </data>
   <data name="Updates_InstallingQueued" xml:space="preserve">
-    <value>Updateinformation: {0}</value>
+    <value>Update wird installiert · {0} in Warteschlange</value>
   </data>
   <data name="Updates_NoMatching" xml:space="preserve">
-    <value>Updateinformation</value>
+    <value>Keine passenden Updates.</value>
   </data>
   <data name="Updates_OneAvailable" xml:space="preserve">
-    <value>Updateinformation</value>
+    <value>1 Update verfügbar</value>
   </data>
   <data name="Updates_OneOfShown" xml:space="preserve">
-    <value>Updateinformation: {0}</value>
+    <value>1 von {0} Updates angezeigt</value>
   </data>
   <data name="Updates_SearchPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>Updateinformation</value>
+    <value>Verfügbare Updates suchen</value>
   </data>
   <data name="Updates_Shown" xml:space="preserve">
-    <value>Updateinformation: {0} {1}</value>
+    <value>{0} von {1} Updates angezeigt</value>
   </data>
   <data name="Updates_Subtitle.Text" xml:space="preserve">
     <value>Halten Sie Ihre installierten Anwendungen auf dem neuesten Stand.</value>
@@ -623,34 +625,34 @@
     <value>Installieren</value>
   </data>
   <data name="Settings_InstallArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Zusätzliche Argumente für winget install</value>
   </data>
   <data name="Settings_UpdateArgumentsBox.Header" xml:space="preserve">
     <value>Aktualisieren</value>
   </data>
   <data name="Settings_UpdateArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>Example: --include-unknown</value>
+    <value>Beispiel: --include-unknown</value>
   </data>
   <data name="Settings_UninstallArgumentsBox.Header" xml:space="preserve">
     <value>Deinstallieren</value>
   </data>
   <data name="Settings_UninstallArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>PCGet-Einstellung</value>
+    <value>Zusätzliche Argumente für winget uninstall</value>
   </data>
   <data name="Error_TrayWindowCreate" xml:space="preserve">
-    <value>Fehler beim Paketvorgang</value>
+    <value>Das PCGet-Fenster für den Infobereich konnte nicht erstellt werden.</value>
   </data>
   <data name="Error_TrayIconNotFound" xml:space="preserve">
-    <value>Fehler beim Paketvorgang</value>
+    <value>Das PCGet-Symbol für den Infobereich wurde nicht gefunden.</value>
   </data>
   <data name="Error_TrayIconLoad" xml:space="preserve">
-    <value>Fehler beim Paketvorgang</value>
+    <value>Das PCGet-Symbol für den Infobereich konnte nicht geladen werden.</value>
   </data>
   <data name="Error_TrayIconAdd" xml:space="preserve">
-    <value>Fehler beim Paketvorgang</value>
+    <value>Das PCGet-Symbol konnte nicht zum Infobereich hinzugefügt werden.</value>
   </data>
   <data name="Error_TrayClassRegister" xml:space="preserve">
-    <value>Fehler beim Paketvorgang</value>
+    <value>Die Fensterklasse für den PCGet-Infobereich konnte nicht registriert werden.</value>
   </data>
   <data name="Common_Install" xml:space="preserve">
     <value>Installieren</value>
@@ -662,7 +664,7 @@
     <value>Deinstallieren</value>
   </data>
   <data name="Settings_UpdateArgsPlaceholder" xml:space="preserve">
-    <value>Example: --include-unknown</value>
+    <value>Beispiel: --include-unknown</value>
   </data>
   <data name="Status_Searching" xml:space="preserve">
     <value>Suche...</value>

@@ -77,16 +77,16 @@
     <value>WinGet 操作失败</value>
   </data>
   <data name="Dialog_AdditionalArguments" xml:space="preserve">
-    <value>PCGet 消息</value>
+    <value>其他 WinGet 参数</value>
   </data>
   <data name="Dialog_AdminRequiredTitle" xml:space="preserve">
     <value>需要管理员权限</value>
   </data>
   <data name="Dialog_InstallAdminMessage" xml:space="preserve">
-    <value>PCGet 消息: {0}</value>
+    <value>安装 {0} 需要管理员权限。PCGet 可以以管理员身份重试安装。</value>
   </data>
   <data name="Dialog_RememberUpdateArguments" xml:space="preserve">
-    <value>PCGet 消息</value>
+    <value>记住这些参数以用于更新</value>
   </data>
   <data name="Dialog_RetryAdminButton" xml:space="preserve">
     <value>以管理员身份重试</value>
@@ -98,49 +98,49 @@
     <value>以交互方式重试</value>
   </data>
   <data name="Dialog_SilentUninstallFailedMessage" xml:space="preserve">
-    <value>PCGet 消息: {0}</value>
+    <value>无法静默卸载 {0}。是否要使用该应用程序的交互式卸载程序重试？</value>
   </data>
   <data name="Dialog_SilentUninstallFailedTitle" xml:space="preserve">
     <value>静默卸载失败</value>
   </data>
   <data name="Dialog_UninstallAdminMessage" xml:space="preserve">
-    <value>PCGet 消息: {0}</value>
+    <value>卸载 {0} 需要管理员权限。PCGet 可以以管理员身份重试卸载。</value>
   </data>
   <data name="Dialog_UninstallManyButton" xml:space="preserve">
-    <value>PCGet 消息: {0}</value>
+    <value>卸载 {0} 个应用程序</value>
   </data>
   <data name="Dialog_UninstallManyMessage" xml:space="preserve">
-    <value>PCGet 消息: {0}</value>
+    <value>确定要卸载这 {0} 个应用程序吗？</value>
   </data>
   <data name="Dialog_UninstallMessage" xml:space="preserve">
-    <value>PCGet 消息: {0}</value>
+    <value>确定要卸载 {0} 吗？</value>
   </data>
   <data name="Dialog_UninstallSelectedManyTitle" xml:space="preserve">
-    <value>PCGet 消息</value>
+    <value>卸载所选应用程序？</value>
   </data>
   <data name="Dialog_UninstallSelectedOneTitle" xml:space="preserve">
-    <value>PCGet 消息</value>
+    <value>卸载所选应用程序？</value>
   </data>
   <data name="Dialog_UninstallTitle" xml:space="preserve">
     <value>卸载应用程序？</value>
   </data>
   <data name="Dialog_UpdateAdminMessage" xml:space="preserve">
-    <value>PCGet 消息: {0}</value>
+    <value>无法正常更新 {0}。PCGet 可以使用管理员权限重试更新。</value>
   </data>
   <data name="Dialog_UpdatePCGetButton" xml:space="preserve">
-    <value>PCGet 消息</value>
+    <value>更新 PCGet</value>
   </data>
   <data name="Dialog_UpdatePCGetMessage" xml:space="preserve">
-    <value>PCGet 消息: {0}</value>
+    <value>PCGet {0} 现已推出。PCGet 将关闭、安装更新，然后自动重新启动。</value>
   </data>
   <data name="Dialog_UpdatePCGetTitle" xml:space="preserve">
     <value>更新 PCGet？</value>
   </data>
   <data name="Discover_ApplicationsFound" xml:space="preserve">
-    <value>{0} 应用程序 found</value>
+    <value>找到 {0} 个应用程序</value>
   </data>
   <data name="Discover_ApplicationsShown" xml:space="preserve">
-    <value>{0} of {1} 应用程序 shown</value>
+    <value>显示 {1} 个应用程序中的 {0} 个</value>
   </data>
   <data name="Discover_Author.Text" xml:space="preserve">
     <value>作者</value>
@@ -155,13 +155,13 @@
     <value>区域设置</value>
   </data>
   <data name="Discover_NoApplicationsFound" xml:space="preserve">
-    <value>No 应用程序 found.</value>
+    <value>未找到应用程序。</value>
   </data>
   <data name="Discover_OneApplicationFound" xml:space="preserve">
-    <value>1 应用程序 found</value>
+    <value>找到 1 个应用程序</value>
   </data>
   <data name="Discover_OneOfApplicationsShown" xml:space="preserve">
-    <value>1 of {0} 应用程序 shown</value>
+    <value>显示 {0} 个应用程序中的 1 个</value>
   </data>
   <data name="Discover_PackageId.Text" xml:space="preserve">
     <value>程序包 ID</value>
@@ -179,7 +179,7 @@
     <value>发布者网站</value>
   </data>
   <data name="Discover_RefreshCurrentSearch.ToolTipService.ToolTip" xml:space="preserve">
-    <value>应用程序信息</value>
+    <value>刷新当前搜索</value>
   </data>
   <data name="Discover_Search.Content" xml:space="preserve">
     <value>搜索</value>
@@ -194,7 +194,7 @@
     <value>源</value>
   </data>
   <data name="Discover_Subtitle.Text" xml:space="preserve">
-    <value>应用程序信息</value>
+    <value>搜索应用程序并使用 WinGet 安装。</value>
   </data>
   <data name="Discover_Support.Content" xml:space="preserve">
     <value>支持</value>
@@ -206,184 +206,186 @@
     <value>版本</value>
   </data>
   <data name="Error_AlreadyInstalled" xml:space="preserve">
-    <value>程序包操作错误: {0}</value>
+    <value>程序包“{0}”已安装。</value>
   </data>
   <data name="Error_CatalogConnection" xml:space="preserve">
-    <value>程序包操作错误: {0}</value>
+    <value>无法连接到 WinGet 组合目录。状态：{0}</value>
   </data>
   <data name="Error_ElevatedFailed" xml:space="preserve">
-    <value>程序包操作错误: {0}</value>
+    <value>提升权限的程序包操作失败，退出代码为 {0}。</value>
   </data>
   <data name="Error_ElevatedFailedWithLog" xml:space="preserve">
-    <value>程序包操作错误: {0} {1}</value>
+    <value>提升权限的程序包操作失败，退出代码为 {0}。
+
+{1}</value>
   </data>
   <data name="Error_ElevatedHelperNotFound" xml:space="preserve">
-    <value>程序包操作错误</value>
+    <value>找不到 PCGet 提升权限帮助程序。</value>
   </data>
   <data name="Error_ElevatedHelperStart" xml:space="preserve">
-    <value>程序包操作错误</value>
+    <value>无法启动 PCGet 提升权限帮助程序。</value>
   </data>
   <data name="Error_Extended" xml:space="preserve">
-    <value> Error: {0}</value>
+    <value> 错误：{0}</value>
   </data>
   <data name="Error_Http404" xml:space="preserve">
-    <value>程序包操作错误</value>
+    <value>无法下载安装程序，因为程序包 URL 返回了 404 (未找到)。WinGet 程序包可能包含过时的下载链接。</value>
   </data>
   <data name="Error_InstallFailed" xml:space="preserve">
-    <value>程序包操作错误: {0} {1}</value>
+    <value>WinGet 无法安装“{0}”。状态：{1}。</value>
   </data>
   <data name="Error_InstallVerification" xml:space="preserve">
-    <value>程序包操作错误: {0}</value>
+    <value>{0}：程序包操作已完成，但 WinGet 未报告该应用程序已安装。</value>
   </data>
   <data name="Error_InstalledPackageNotFound" xml:space="preserve">
-    <value>程序包操作错误: {0}</value>
+    <value>找不到已安装的程序包“{0}”。</value>
   </data>
   <data name="Error_NoUpdateAvailable" xml:space="preserve">
-    <value>程序包操作错误: {0}</value>
+    <value>程序包“{0}”已没有可用更新。</value>
   </data>
   <data name="Error_PackageNotFound" xml:space="preserve">
-    <value>程序包操作错误: {0}</value>
+    <value>找不到程序包“{0}”。</value>
   </data>
   <data name="Error_PackageOperationFailed" xml:space="preserve">
-    <value>程序包操作错误</value>
+    <value>程序包操作失败。</value>
   </data>
   <data name="Error_SelfUpdateStart" xml:space="preserve">
-    <value>程序包操作错误: {0}</value>
+    <value>PCGet 无法启动自我更新进程：{0}</value>
   </data>
   <data name="Error_UninstallFailed" xml:space="preserve">
-    <value>程序包操作错误: {0} {1}</value>
+    <value>WinGet 无法卸载“{0}”。状态：{1}。</value>
   </data>
   <data name="Error_UninstallVerification" xml:space="preserve">
-    <value>程序包操作错误: {0}</value>
+    <value>{0}：程序包操作已完成，但 WinGet 仍报告该应用程序已安装。</value>
   </data>
   <data name="Error_UnmatchedQuote" xml:space="preserve">
-    <value>程序包操作错误</value>
+    <value>其他 WinGet 参数包含不匹配的引号。</value>
   </data>
   <data name="Error_UpdateFailed" xml:space="preserve">
-    <value>程序包操作错误: {0} {1}</value>
+    <value>WinGet 无法更新“{0}”。状态：{1}。</value>
   </data>
   <data name="Error_UpdateVerification" xml:space="preserve">
-    <value>程序包操作错误: {0}</value>
+    <value>{0}：程序包操作已完成，但 WinGet 仍报告有可用更新。</value>
   </data>
   <data name="Error_UpdaterNotFound" xml:space="preserve">
-    <value>程序包操作错误</value>
+    <value>找不到 PCGet 更新程序。</value>
   </data>
   <data name="Filter_AllSources" xml:space="preserve">
     <value>所有源</value>
   </data>
   <data name="Installed_ApplicationsShown" xml:space="preserve">
-    <value>{0} of {1} 应用程序 shown</value>
+    <value>显示 {1} 个应用程序中的 {0} 个</value>
   </data>
   <data name="Installed_InstalledCount" xml:space="preserve">
-    <value>已安装的应用程序: {0}</value>
+    <value>已安装 {0} 个应用程序</value>
   </data>
   <data name="Installed_Loading" xml:space="preserve">
-    <value>已安装的应用程序</value>
+    <value>正在加载已安装的应用程序...</value>
   </data>
   <data name="Installed_NoMatchingApplications" xml:space="preserve">
-    <value>已安装的应用程序</value>
+    <value>没有匹配的应用程序。</value>
   </data>
   <data name="Installed_NoneFound" xml:space="preserve">
-    <value>已安装的应用程序</value>
+    <value>未找到已安装的应用程序。</value>
   </data>
   <data name="Installed_OneInstalled" xml:space="preserve">
-    <value>已安装的应用程序</value>
+    <value>已安装 1 个应用程序</value>
   </data>
   <data name="Installed_OneOfApplicationsShown" xml:space="preserve">
-    <value>1 of {0} 应用程序 shown</value>
+    <value>显示 {0} 个应用程序中的 1 个</value>
   </data>
   <data name="Installed_OneSelected" xml:space="preserve">
-    <value>已安装的应用程序</value>
+    <value>已选择 1 个应用程序</value>
   </data>
   <data name="Installed_SearchPlaceholder.PlaceholderText" xml:space="preserve">
     <value>搜索已安装的应用程序</value>
   </data>
   <data name="Installed_SelectedCount" xml:space="preserve">
-    <value>已安装的应用程序: {0}</value>
+    <value>已选择 {0} 个应用程序</value>
   </data>
   <data name="Installed_Subtitle.Text" xml:space="preserve">
-    <value>已安装的应用程序</value>
+    <value>由 WinGet 管理的应用程序。</value>
   </data>
   <data name="Installed_UninstallSelected.Content" xml:space="preserve">
-    <value>已安装的应用程序</value>
+    <value>卸载所选项</value>
   </data>
   <data name="Interval_12Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>每 12 小时</value>
   </data>
   <data name="Interval_15Minutes" xml:space="preserve">
-    <value>PCGet</value>
+    <value>每 15 分钟</value>
   </data>
   <data name="Interval_1Day" xml:space="preserve">
-    <value>PCGet</value>
+    <value>每天</value>
   </data>
   <data name="Interval_1Hour" xml:space="preserve">
-    <value>PCGet</value>
+    <value>每小时</value>
   </data>
   <data name="Interval_2Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>每 2 小时</value>
   </data>
   <data name="Interval_30Minutes" xml:space="preserve">
-    <value>PCGet</value>
+    <value>每 30 分钟</value>
   </data>
   <data name="Interval_4Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>每 4 小时</value>
   </data>
   <data name="Interval_8Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>每 8 小时</value>
   </data>
   <data name="Notification_OneUpdateAvailable" xml:space="preserve">
-    <value>1 更新 is 可用</value>
+    <value>有 1 个可用更新</value>
   </data>
   <data name="Notification_OpenPCGet" xml:space="preserve">
-    <value>PCGet 通知</value>
+    <value>打开 PCGet 以查看并安装可用更新。</value>
   </data>
   <data name="Notification_SelfUpdateFailedMessage" xml:space="preserve">
-    <value>PCGet 通知: {0}</value>
+    <value>无法安装更新。WinGet 返回了退出代码 {0}。</value>
   </data>
   <data name="Notification_SelfUpdateFailedTitle" xml:space="preserve">
-    <value>PCGet 通知</value>
+    <value>PCGet 更新失败</value>
   </data>
   <data name="Notification_SelfUpdateSucceededMessage" xml:space="preserve">
-    <value>PCGet 通知</value>
+    <value>已安装最新版本的 PCGet。</value>
   </data>
   <data name="Notification_SelfUpdateSucceededTitle" xml:space="preserve">
-    <value>PCGet 更新d successfully</value>
+    <value>PCGet 已成功更新</value>
   </data>
   <data name="Notification_UpdatesAvailable" xml:space="preserve">
-    <value>{0} 更新 are 可用</value>
+    <value>有 {0} 个可用更新</value>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
     <value>关于</value>
   </data>
   <data name="Settings_AdvancedArguments.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>高级 WinGet 参数</value>
   </data>
   <data name="Settings_AdvancedArgumentsDescription.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>当 PCGet 以提升的权限执行程序包操作时，其他参数会追加到 WinGet 命令中。PCGet 仍会管理程序包 ID、精确匹配、协议、交互和静默模式。</value>
   </data>
   <data name="Settings_AppLanguage.Text" xml:space="preserve">
     <value>应用语言</value>
   </data>
   <data name="Settings_AppLanguageDescription.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>选择 PCGet 使用的语言。更改后需要重新启动。</value>
   </data>
   <data name="Settings_BackgroundChecks.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>在后台检查更新</value>
   </data>
   <data name="Settings_BackgroundChecksDescription.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>在 PCGet 运行时定期检查程序包更新。</value>
   </data>
   <data name="Settings_CheckInterval.Text" xml:space="preserve">
     <value>检查间隔</value>
   </data>
   <data name="Settings_CheckIntervalDescription.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>选择 PCGet 检查可用更新的频率。</value>
   </data>
   <data name="Settings_CheckStartup.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>启动时检查更新</value>
   </data>
   <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>PCGet 启动时自动检查可用的程序包更新。</value>
   </data>
   <data name="Settings_IncludeUnknown.Text" xml:space="preserve">
     <value>包括版本未知的程序包</value>
@@ -392,7 +394,7 @@
     <value>显示无法检测到已安装版本的应用程序的更新。更新这些应用程序可能会重新安装它们，即使它们已是最新版本。</value>
   </data>
   <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>winget install 的其他参数</value>
   </data>
   <data name="Settings_Language.Text" xml:space="preserve">
     <value>语言</value>
@@ -407,19 +409,19 @@
     <value>程序包源</value>
   </data>
   <data name="Settings_PoweredBy.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>由 Windows Package Manager 提供支持</value>
   </data>
   <data name="Settings_SilentOperations.Text" xml:space="preserve">
-    <value>Silent 程序包 operations</value>
+    <value>静默程序包操作</value>
   </data>
   <data name="Settings_SilentOperationsDescription.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>在支持的情况下，安装、更新和卸载应用程序时不显示其安装程序界面。</value>
   </data>
   <data name="Settings_StartWithWindows.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>随 Windows 启动 PCGet</value>
   </data>
   <data name="Settings_StartWithWindowsDescription.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>登录 Windows 时自动启动 PCGet。</value>
   </data>
   <data name="Settings_StartMinimized.Text" xml:space="preserve">
     <value>启动时最小化</value>
@@ -431,25 +433,25 @@
     <value>配置 PCGet 管理应用程序的方式。</value>
   </data>
   <data name="Settings_Tagline.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>你的 Windows 应用，尽在一处。</value>
   </data>
   <data name="Settings_Title.Text" xml:space="preserve">
     <value>设置</value>
   </data>
   <data name="Settings_UninstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>winget uninstall 的其他参数</value>
   </data>
   <data name="Settings_Version" xml:space="preserve">
-    <value>PCGet 设置: {0} {1} {2} {3}</value>
+    <value>版本 {0}.{1}.{2}.{3}</value>
   </data>
   <data name="Settings_WinGetSources.Text" xml:space="preserve">
     <value>WinGet 源</value>
   </data>
   <data name="Settings_WinGetSourcesDescription.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>PCGet 使用在 Windows Package Manager 中配置的程序包源。</value>
   </data>
   <data name="Settings_WindowsStartup.Text" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>Windows 启动</value>
   </data>
   <data name="Sort_NameAZ" xml:space="preserve">
     <value>名称 A–Z</value>
@@ -458,34 +460,34 @@
     <value>名称 Z–A</value>
   </data>
   <data name="Sort_PublisherAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>发布者 A–Z</value>
   </data>
   <data name="Sort_Relevance" xml:space="preserve">
     <value>相关性</value>
   </data>
   <data name="Sort_SourceAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>源 A–Z</value>
   </data>
   <data name="Sort_VersionAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>版本 A–Z</value>
   </data>
   <data name="Sort_VersionZA" xml:space="preserve">
-    <value>PCGet</value>
+    <value>版本 Z–A</value>
   </data>
   <data name="Startup_Disabled" xml:space="preserve">
-    <value>启动设置</value>
+    <value>PCGet 不会随 Windows 自动启动。</value>
   </data>
   <data name="Startup_DisabledByPolicy" xml:space="preserve">
-    <value>启动设置</value>
+    <value>启动已被 Windows 策略禁用。</value>
   </data>
   <data name="Startup_DisabledByUser" xml:space="preserve">
-    <value>启动设置</value>
+    <value>已在 Windows 设置中禁用启动。请在其中启用 PCGet 以允许此选项。</value>
   </data>
   <data name="Startup_Enabled" xml:space="preserve">
-    <value>启动设置</value>
+    <value>登录 Windows 时，PCGet 将自动启动。</value>
   </data>
   <data name="Startup_Unavailable" xml:space="preserve">
-    <value>启动设置</value>
+    <value>Windows 启动状态不可用。</value>
   </data>
   <data name="Status_Completed" xml:space="preserve">
     <value>已完成</value>
@@ -506,10 +508,10 @@
     <value>正在安装...</value>
   </data>
   <data name="Status_InstallingAsAdministrator" xml:space="preserve">
-    <value>操作状态</value>
+    <value>正在以管理员身份安装...</value>
   </data>
   <data name="Status_InstallingPercent" xml:space="preserve">
-    <value>Installing {0:0}%</value>
+    <value>正在安装 {0:0}%</value>
   </data>
   <data name="Status_NotInstalled" xml:space="preserve">
     <value>未安装</value>
@@ -521,55 +523,55 @@
     <value>正在准备...</value>
   </data>
   <data name="Status_PreparingToUninstall" xml:space="preserve">
-    <value>操作状态: {0}</value>
+    <value>正在准备卸载 {0}...</value>
   </data>
   <data name="Status_Queued" xml:space="preserve">
     <value>已排队</value>
   </data>
   <data name="Status_QueuedInteractive" xml:space="preserve">
-    <value>Queued (interactive)</value>
+    <value>已排队（交互式）</value>
   </data>
   <data name="Status_Ready" xml:space="preserve">
     <value>就绪</value>
   </data>
   <data name="Status_RunningInstaller" xml:space="preserve">
-    <value>操作状态</value>
+    <value>正在运行安装程序...</value>
   </data>
   <data name="Status_StillInstalled" xml:space="preserve">
-    <value>操作状态</value>
+    <value>仍已安装</value>
   </data>
   <data name="Status_Uninstalled" xml:space="preserve">
-    <value>Uninstalled</value>
+    <value>已卸载</value>
   </data>
   <data name="Status_Uninstalling" xml:space="preserve">
     <value>正在卸载...</value>
   </data>
   <data name="Status_UninstallingApplication" xml:space="preserve">
-    <value>Uninstalling 应用程序...</value>
+    <value>正在卸载应用程序...</value>
   </data>
   <data name="Status_UninstallingAsAdministrator" xml:space="preserve">
-    <value>操作状态: {0}</value>
+    <value>正在以管理员身份卸载 {0}...</value>
   </data>
   <data name="Status_UninstallingInteractivelyPercent" xml:space="preserve">
-    <value>Uninstalling interactively {0:0}%</value>
+    <value>正在以交互方式卸载 {0:0}%</value>
   </data>
   <data name="Status_UninstallingPercent" xml:space="preserve">
-    <value>Uninstalling {0:0}%</value>
+    <value>正在卸载 {0:0}%</value>
   </data>
   <data name="Status_UpdateStillAvailable" xml:space="preserve">
-    <value>操作状态</value>
+    <value>更新仍可用</value>
   </data>
   <data name="Status_Updating" xml:space="preserve">
     <value>正在更新...</value>
   </data>
   <data name="Status_VerifyingInstallation" xml:space="preserve">
-    <value>正在验证 installation...</value>
+    <value>正在验证安装...</value>
   </data>
   <data name="Status_VerifyingUninstall" xml:space="preserve">
-    <value>操作状态: {0}</value>
+    <value>正在验证 {0} 的卸载...</value>
   </data>
   <data name="Status_VerifyingUpdate" xml:space="preserve">
-    <value>正在验证 更新...</value>
+    <value>正在验证更新...</value>
   </data>
   <data name="Tray_CheckUpdates" xml:space="preserve">
     <value>检查更新</value>
@@ -581,34 +583,34 @@
     <value>打开 PCGet</value>
   </data>
   <data name="Updates_Available" xml:space="preserve">
-    <value>{0} 更新 可用</value>
+    <value>{0} 个可用更新</value>
   </data>
   <data name="Updates_Checking" xml:space="preserve">
-    <value>更新信息</value>
+    <value>正在检查更新...</value>
   </data>
   <data name="Updates_Installing" xml:space="preserve">
-    <value>Installing 更新...</value>
+    <value>正在安装更新...</value>
   </data>
   <data name="Updates_InstallingOneQueued" xml:space="preserve">
-    <value>Installing 更新 · 1 queued</value>
+    <value>正在安装更新 · 1 个已排队</value>
   </data>
   <data name="Updates_InstallingQueued" xml:space="preserve">
-    <value>Installing 更新 · {0} queued</value>
+    <value>正在安装更新 · {0} 个已排队</value>
   </data>
   <data name="Updates_NoMatching" xml:space="preserve">
-    <value>更新信息</value>
+    <value>没有匹配的更新。</value>
   </data>
   <data name="Updates_OneAvailable" xml:space="preserve">
-    <value>1 更新 可用</value>
+    <value>1 个可用更新</value>
   </data>
   <data name="Updates_OneOfShown" xml:space="preserve">
-    <value>1 of {0} 更新 shown</value>
+    <value>显示 {0} 个更新中的 1 个</value>
   </data>
   <data name="Updates_SearchPlaceholder.PlaceholderText" xml:space="preserve">
     <value>搜索可用更新</value>
   </data>
   <data name="Updates_Shown" xml:space="preserve">
-    <value>{0} of {1} 更新 shown</value>
+    <value>显示 {1} 个更新中的 {0} 个</value>
   </data>
   <data name="Updates_Subtitle.Text" xml:space="preserve">
     <value>使已安装的应用程序保持最新。</value>
@@ -623,34 +625,34 @@
     <value>安装</value>
   </data>
   <data name="Settings_InstallArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>winget install 的其他参数</value>
   </data>
   <data name="Settings_UpdateArgumentsBox.Header" xml:space="preserve">
     <value>更新</value>
   </data>
   <data name="Settings_UpdateArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>Example: --include-unknown</value>
+    <value>示例：--include-unknown</value>
   </data>
   <data name="Settings_UninstallArgumentsBox.Header" xml:space="preserve">
     <value>卸载</value>
   </data>
   <data name="Settings_UninstallArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>PCGet 设置</value>
+    <value>winget uninstall 的其他参数</value>
   </data>
   <data name="Error_TrayWindowCreate" xml:space="preserve">
-    <value>程序包操作错误</value>
+    <value>无法创建 PCGet 通知区域窗口。</value>
   </data>
   <data name="Error_TrayIconNotFound" xml:space="preserve">
-    <value>程序包操作错误</value>
+    <value>找不到 PCGet 通知区域图标。</value>
   </data>
   <data name="Error_TrayIconLoad" xml:space="preserve">
-    <value>程序包操作错误</value>
+    <value>无法加载 PCGet 通知区域图标。</value>
   </data>
   <data name="Error_TrayIconAdd" xml:space="preserve">
-    <value>程序包操作错误</value>
+    <value>无法将 PCGet 图标添加到通知区域。</value>
   </data>
   <data name="Error_TrayClassRegister" xml:space="preserve">
-    <value>程序包操作错误</value>
+    <value>无法注册 PCGet 通知区域窗口类。</value>
   </data>
   <data name="Common_Install" xml:space="preserve">
     <value>安装</value>
@@ -662,7 +664,7 @@
     <value>卸载</value>
   </data>
   <data name="Settings_UpdateArgsPlaceholder" xml:space="preserve">
-    <value>Example: --include-unknown</value>
+    <value>示例：--include-unknown</value>
   </data>
   <data name="Status_Searching" xml:space="preserve">
     <value>正在搜索...</value>

@@ -65,7 +65,7 @@
     <value>PCGet エラー</value>
   </data>
   <data name="Common_Refresh.Content" xml:space="preserve">
-    <value>更新</value>
+    <value>最新の情報に更新</value>
   </data>
   <data name="Common_Retry" xml:space="preserve">
     <value>再試行</value>
@@ -77,16 +77,16 @@
     <value>WinGet 操作に失敗しました</value>
   </data>
   <data name="Dialog_AdditionalArguments" xml:space="preserve">
-    <value>PCGet メッセージ</value>
+    <value>追加の WinGet 引数</value>
   </data>
   <data name="Dialog_AdminRequiredTitle" xml:space="preserve">
     <value>管理者権限が必要です</value>
   </data>
   <data name="Dialog_InstallAdminMessage" xml:space="preserve">
-    <value>PCGet メッセージ: {0}</value>
+    <value>{0} のインストールには管理者権限が必要です。PCGet は管理者としてインストールを再試行できます。</value>
   </data>
   <data name="Dialog_RememberUpdateArguments" xml:space="preserve">
-    <value>PCGet メッセージ</value>
+    <value>更新時にこれらの引数を記憶する</value>
   </data>
   <data name="Dialog_RetryAdminButton" xml:space="preserve">
     <value>管理者として再試行</value>
@@ -98,49 +98,49 @@
     <value>対話形式で再試行</value>
   </data>
   <data name="Dialog_SilentUninstallFailedMessage" xml:space="preserve">
-    <value>PCGet メッセージ: {0}</value>
+    <value>{0} をサイレント アンインストールできませんでした。アプリの対話型アンインストーラーを使用して再試行しますか？</value>
   </data>
   <data name="Dialog_SilentUninstallFailedTitle" xml:space="preserve">
     <value>サイレント アンインストールに失敗しました</value>
   </data>
   <data name="Dialog_UninstallAdminMessage" xml:space="preserve">
-    <value>PCGet メッセージ: {0}</value>
+    <value>{0} のアンインストールには管理者権限が必要です。PCGet は管理者としてアンインストールを再試行できます。</value>
   </data>
   <data name="Dialog_UninstallManyButton" xml:space="preserve">
-    <value>PCGet メッセージ: {0}</value>
+    <value>{0} 個のアプリをアンインストール</value>
   </data>
   <data name="Dialog_UninstallManyMessage" xml:space="preserve">
-    <value>PCGet メッセージ: {0}</value>
+    <value>これらの {0} 個のアプリをアンインストールしてもよろしいですか？</value>
   </data>
   <data name="Dialog_UninstallMessage" xml:space="preserve">
-    <value>PCGet メッセージ: {0}</value>
+    <value>{0} をアンインストールしてもよろしいですか？</value>
   </data>
   <data name="Dialog_UninstallSelectedManyTitle" xml:space="preserve">
-    <value>PCGet メッセージ</value>
+    <value>選択したアプリをアンインストールしますか？</value>
   </data>
   <data name="Dialog_UninstallSelectedOneTitle" xml:space="preserve">
-    <value>PCGet メッセージ</value>
+    <value>選択したアプリをアンインストールしますか？</value>
   </data>
   <data name="Dialog_UninstallTitle" xml:space="preserve">
     <value>アプリをアンインストールしますか？</value>
   </data>
   <data name="Dialog_UpdateAdminMessage" xml:space="preserve">
-    <value>PCGet メッセージ: {0}</value>
+    <value>{0} を通常の方法で更新できませんでした。PCGet は管理者権限で更新を再試行できます。</value>
   </data>
   <data name="Dialog_UpdatePCGetButton" xml:space="preserve">
-    <value>PCGet メッセージ</value>
+    <value>PCGet を更新</value>
   </data>
   <data name="Dialog_UpdatePCGetMessage" xml:space="preserve">
-    <value>PCGet メッセージ: {0}</value>
+    <value>PCGet {0} を利用できます。PCGet は終了して更新プログラムをインストールした後、自動的に再起動します。</value>
   </data>
   <data name="Dialog_UpdatePCGetTitle" xml:space="preserve">
     <value>PCGet を更新しますか？</value>
   </data>
   <data name="Discover_ApplicationsFound" xml:space="preserve">
-    <value>{0} アプリ found</value>
+    <value>{0} 個のアプリが見つかりました</value>
   </data>
   <data name="Discover_ApplicationsShown" xml:space="preserve">
-    <value>{0} of {1} アプリ shown</value>
+    <value>{1} 個中 {0} 個のアプリを表示</value>
   </data>
   <data name="Discover_Author.Text" xml:space="preserve">
     <value>作成者</value>
@@ -155,13 +155,13 @@
     <value>ロケール</value>
   </data>
   <data name="Discover_NoApplicationsFound" xml:space="preserve">
-    <value>No アプリ found.</value>
+    <value>アプリが見つかりませんでした。</value>
   </data>
   <data name="Discover_OneApplicationFound" xml:space="preserve">
-    <value>1 アプリ found</value>
+    <value>1 個のアプリが見つかりました</value>
   </data>
   <data name="Discover_OneOfApplicationsShown" xml:space="preserve">
-    <value>1 of {0} アプリ shown</value>
+    <value>{0} 個中 1 個のアプリを表示</value>
   </data>
   <data name="Discover_PackageId.Text" xml:space="preserve">
     <value>パッケージ ID</value>
@@ -179,7 +179,7 @@
     <value>発行元 Web サイト</value>
   </data>
   <data name="Discover_RefreshCurrentSearch.ToolTipService.ToolTip" xml:space="preserve">
-    <value>アプリ情報</value>
+    <value>現在の検索結果を更新</value>
   </data>
   <data name="Discover_Search.Content" xml:space="preserve">
     <value>検索</value>
@@ -194,7 +194,7 @@
     <value>ソース</value>
   </data>
   <data name="Discover_Subtitle.Text" xml:space="preserve">
-    <value>アプリ情報</value>
+    <value>アプリを検索して WinGet でインストールします。</value>
   </data>
   <data name="Discover_Support.Content" xml:space="preserve">
     <value>サポート</value>
@@ -206,184 +206,186 @@
     <value>バージョン</value>
   </data>
   <data name="Error_AlreadyInstalled" xml:space="preserve">
-    <value>パッケージ操作エラー: {0}</value>
+    <value>パッケージ「{0}」は既にインストールされています。</value>
   </data>
   <data name="Error_CatalogConnection" xml:space="preserve">
-    <value>パッケージ操作エラー: {0}</value>
+    <value>WinGet の複合カタログに接続できません。状態: {0}</value>
   </data>
   <data name="Error_ElevatedFailed" xml:space="preserve">
-    <value>パッケージ操作エラー: {0}</value>
+    <value>管理者権限でのパッケージ操作が終了コード {0} で失敗しました。</value>
   </data>
   <data name="Error_ElevatedFailedWithLog" xml:space="preserve">
-    <value>パッケージ操作エラー: {0} {1}</value>
+    <value>管理者権限でのパッケージ操作が終了コード {0} で失敗しました。
+
+{1}</value>
   </data>
   <data name="Error_ElevatedHelperNotFound" xml:space="preserve">
-    <value>パッケージ操作エラー</value>
+    <value>PCGet の管理者権限ヘルパーが見つかりませんでした。</value>
   </data>
   <data name="Error_ElevatedHelperStart" xml:space="preserve">
-    <value>パッケージ操作エラー</value>
+    <value>PCGet の管理者権限ヘルパーを起動できません。</value>
   </data>
   <data name="Error_Extended" xml:space="preserve">
-    <value> Error: {0}</value>
+    <value> エラー: {0}</value>
   </data>
   <data name="Error_Http404" xml:space="preserve">
-    <value>パッケージ操作エラー</value>
+    <value>パッケージの URL が 404 (Not Found) を返したため、インストーラーをダウンロードできませんでした。WinGet パッケージのダウンロード リンクが古い可能性があります。</value>
   </data>
   <data name="Error_InstallFailed" xml:space="preserve">
-    <value>パッケージ操作エラー: {0} {1}</value>
+    <value>WinGet で「{0}」をインストールできませんでした。状態: {1}。</value>
   </data>
   <data name="Error_InstallVerification" xml:space="preserve">
-    <value>パッケージ操作エラー: {0}</value>
+    <value>{0}: パッケージ操作は完了しましたが、WinGet ではアプリがインストール済みとして報告されていません。</value>
   </data>
   <data name="Error_InstalledPackageNotFound" xml:space="preserve">
-    <value>パッケージ操作エラー: {0}</value>
+    <value>インストール済みパッケージ「{0}」が見つかりませんでした。</value>
   </data>
   <data name="Error_NoUpdateAvailable" xml:space="preserve">
-    <value>パッケージ操作エラー: {0}</value>
+    <value>パッケージ「{0}」に利用可能な更新はなくなりました。</value>
   </data>
   <data name="Error_PackageNotFound" xml:space="preserve">
-    <value>パッケージ操作エラー: {0}</value>
+    <value>パッケージ「{0}」が見つかりませんでした。</value>
   </data>
   <data name="Error_PackageOperationFailed" xml:space="preserve">
-    <value>パッケージ操作エラー</value>
+    <value>パッケージ操作に失敗しました。</value>
   </data>
   <data name="Error_SelfUpdateStart" xml:space="preserve">
-    <value>パッケージ操作エラー: {0}</value>
+    <value>PCGet の自己更新プロセスを開始できませんでした: {0}</value>
   </data>
   <data name="Error_UninstallFailed" xml:space="preserve">
-    <value>パッケージ操作エラー: {0} {1}</value>
+    <value>WinGet で「{0}」をアンインストールできませんでした。状態: {1}。</value>
   </data>
   <data name="Error_UninstallVerification" xml:space="preserve">
-    <value>パッケージ操作エラー: {0}</value>
+    <value>{0}: パッケージ操作は完了しましたが、WinGet ではアプリがまだインストール済みとして報告されています。</value>
   </data>
   <data name="Error_UnmatchedQuote" xml:space="preserve">
-    <value>パッケージ操作エラー</value>
+    <value>追加の WinGet 引数に対応する引用符がありません。</value>
   </data>
   <data name="Error_UpdateFailed" xml:space="preserve">
-    <value>パッケージ操作エラー: {0} {1}</value>
+    <value>WinGet で「{0}」を更新できませんでした。状態: {1}。</value>
   </data>
   <data name="Error_UpdateVerification" xml:space="preserve">
-    <value>パッケージ操作エラー: {0}</value>
+    <value>{0}: パッケージ操作は完了しましたが、WinGet ではまだ利用可能な更新が報告されています。</value>
   </data>
   <data name="Error_UpdaterNotFound" xml:space="preserve">
-    <value>パッケージ操作エラー</value>
+    <value>PCGet の更新プログラムが見つかりませんでした。</value>
   </data>
   <data name="Filter_AllSources" xml:space="preserve">
     <value>すべてのソース</value>
   </data>
   <data name="Installed_ApplicationsShown" xml:space="preserve">
-    <value>{0} of {1} アプリ shown</value>
+    <value>{1} 個中 {0} 個のアプリを表示</value>
   </data>
   <data name="Installed_InstalledCount" xml:space="preserve">
-    <value>インストール済みアプリ: {0}</value>
+    <value>{0} 個のアプリがインストールされています</value>
   </data>
   <data name="Installed_Loading" xml:space="preserve">
-    <value>インストール済みアプリ</value>
+    <value>インストール済みアプリを読み込んでいます...</value>
   </data>
   <data name="Installed_NoMatchingApplications" xml:space="preserve">
-    <value>インストール済みアプリ</value>
+    <value>一致するアプリはありません。</value>
   </data>
   <data name="Installed_NoneFound" xml:space="preserve">
-    <value>インストール済みアプリ</value>
+    <value>インストール済みのアプリが見つかりませんでした。</value>
   </data>
   <data name="Installed_OneInstalled" xml:space="preserve">
-    <value>インストール済みアプリ</value>
+    <value>1 個のアプリがインストールされています</value>
   </data>
   <data name="Installed_OneOfApplicationsShown" xml:space="preserve">
-    <value>1 of {0} アプリ shown</value>
+    <value>{0} 個中 1 個のアプリを表示</value>
   </data>
   <data name="Installed_OneSelected" xml:space="preserve">
-    <value>インストール済みアプリ</value>
+    <value>1 個のアプリを選択済み</value>
   </data>
   <data name="Installed_SearchPlaceholder.PlaceholderText" xml:space="preserve">
     <value>インストール済みアプリを検索</value>
   </data>
   <data name="Installed_SelectedCount" xml:space="preserve">
-    <value>インストール済みアプリ: {0}</value>
+    <value>{0} 個のアプリを選択済み</value>
   </data>
   <data name="Installed_Subtitle.Text" xml:space="preserve">
-    <value>インストール済みアプリ</value>
+    <value>WinGet で管理されているアプリ。</value>
   </data>
   <data name="Installed_UninstallSelected.Content" xml:space="preserve">
-    <value>インストール済みアプリ</value>
+    <value>選択項目をアンインストール</value>
   </data>
   <data name="Interval_12Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>12 時間ごと</value>
   </data>
   <data name="Interval_15Minutes" xml:space="preserve">
-    <value>PCGet</value>
+    <value>15 分ごと</value>
   </data>
   <data name="Interval_1Day" xml:space="preserve">
-    <value>PCGet</value>
+    <value>毎日</value>
   </data>
   <data name="Interval_1Hour" xml:space="preserve">
-    <value>PCGet</value>
+    <value>1 時間ごと</value>
   </data>
   <data name="Interval_2Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>2 時間ごと</value>
   </data>
   <data name="Interval_30Minutes" xml:space="preserve">
-    <value>PCGet</value>
+    <value>30 分ごと</value>
   </data>
   <data name="Interval_4Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>4 時間ごと</value>
   </data>
   <data name="Interval_8Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>8 時間ごと</value>
   </data>
   <data name="Notification_OneUpdateAvailable" xml:space="preserve">
-    <value>1 更新 is 利用可能</value>
+    <value>1 件の更新を利用できます</value>
   </data>
   <data name="Notification_OpenPCGet" xml:space="preserve">
-    <value>PCGet 通知</value>
+    <value>PCGet を開いて、利用可能な更新を確認してインストールしてください。</value>
   </data>
   <data name="Notification_SelfUpdateFailedMessage" xml:space="preserve">
-    <value>PCGet 通知: {0}</value>
+    <value>更新プログラムをインストールできませんでした。WinGet から終了コード {0} が返されました。</value>
   </data>
   <data name="Notification_SelfUpdateFailedTitle" xml:space="preserve">
-    <value>PCGet 通知</value>
+    <value>PCGet の更新に失敗しました</value>
   </data>
   <data name="Notification_SelfUpdateSucceededMessage" xml:space="preserve">
-    <value>PCGet 通知</value>
+    <value>PCGet の最新バージョンがインストールされました。</value>
   </data>
   <data name="Notification_SelfUpdateSucceededTitle" xml:space="preserve">
-    <value>PCGet 更新d successfully</value>
+    <value>PCGet が正常に更新されました</value>
   </data>
   <data name="Notification_UpdatesAvailable" xml:space="preserve">
-    <value>{0} 更新 are 利用可能</value>
+    <value>{0} 件の更新を利用できます</value>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
     <value>バージョン情報</value>
   </data>
   <data name="Settings_AdvancedArguments.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>WinGet の詳細な引数</value>
   </data>
   <data name="Settings_AdvancedArgumentsDescription.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>PCGet が管理者権限でパッケージ操作を実行するときに、追加の引数が WinGet コマンドに付加されます。パッケージ ID、完全一致、契約への同意、対話モード、サイレント モードは引き続き PCGet が管理します。</value>
   </data>
   <data name="Settings_AppLanguage.Text" xml:space="preserve">
     <value>アプリの言語</value>
   </data>
   <data name="Settings_AppLanguageDescription.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>PCGet で使用する言語を選択します。変更後は再起動が必要です。</value>
   </data>
   <data name="Settings_BackgroundChecks.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>バックグラウンドで更新を確認する</value>
   </data>
   <data name="Settings_BackgroundChecksDescription.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>PCGet の実行中に、パッケージの更新を定期的に確認します。</value>
   </data>
   <data name="Settings_CheckInterval.Text" xml:space="preserve">
     <value>確認間隔</value>
   </data>
   <data name="Settings_CheckIntervalDescription.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>PCGet が利用可能な更新を確認する頻度を選択します。</value>
   </data>
   <data name="Settings_CheckStartup.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>起動時に更新を確認する</value>
   </data>
   <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>PCGet の起動時に、利用可能なパッケージの更新を自動的に確認します。</value>
   </data>
   <data name="Settings_IncludeUnknown.Text" xml:space="preserve">
     <value>バージョン不明のパッケージを含める</value>
@@ -392,7 +394,7 @@
     <value>インストール済みのバージョンを検出できないアプリケーションの更新を表示します。これらを更新すると、すでに最新であってもアプリケーションが再インストールされる場合があります。</value>
   </data>
   <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>winget install の追加引数</value>
   </data>
   <data name="Settings_Language.Text" xml:space="preserve">
     <value>言語</value>
@@ -407,19 +409,19 @@
     <value>パッケージ ソース</value>
   </data>
   <data name="Settings_PoweredBy.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>Windows Package Manager を使用</value>
   </data>
   <data name="Settings_SilentOperations.Text" xml:space="preserve">
-    <value>Silent パッケージ operations</value>
+    <value>サイレント パッケージ操作</value>
   </data>
   <data name="Settings_SilentOperationsDescription.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>サポートされている場合は、インストーラーの画面を表示せずにアプリのインストール、更新、アンインストールを行います。</value>
   </data>
   <data name="Settings_StartWithWindows.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>Windows の起動時に PCGet を起動する</value>
   </data>
   <data name="Settings_StartWithWindowsDescription.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>Windows にサインインしたときに PCGet を自動的に起動します。</value>
   </data>
   <data name="Settings_StartMinimized.Text" xml:space="preserve">
     <value>最小化して起動</value>
@@ -431,25 +433,25 @@
     <value>PCGet がアプリを管理する方法を設定します。</value>
   </data>
   <data name="Settings_Tagline.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>Windows アプリを 1 か所で。</value>
   </data>
   <data name="Settings_Title.Text" xml:space="preserve">
     <value>設定</value>
   </data>
   <data name="Settings_UninstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>winget uninstall の追加引数</value>
   </data>
   <data name="Settings_Version" xml:space="preserve">
-    <value>PCGet 設定: {0} {1} {2} {3}</value>
+    <value>バージョン {0}.{1}.{2}.{3}</value>
   </data>
   <data name="Settings_WinGetSources.Text" xml:space="preserve">
     <value>WinGet ソース</value>
   </data>
   <data name="Settings_WinGetSourcesDescription.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>PCGet は Windows Package Manager で構成されているパッケージ ソースを使用します。</value>
   </data>
   <data name="Settings_WindowsStartup.Text" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>Windows のスタートアップ</value>
   </data>
   <data name="Sort_NameAZ" xml:space="preserve">
     <value>名前 A–Z</value>
@@ -458,34 +460,34 @@
     <value>名前 Z–A</value>
   </data>
   <data name="Sort_PublisherAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>発行元 A–Z</value>
   </data>
   <data name="Sort_Relevance" xml:space="preserve">
     <value>関連性</value>
   </data>
   <data name="Sort_SourceAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>ソース A–Z</value>
   </data>
   <data name="Sort_VersionAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>バージョン A–Z</value>
   </data>
   <data name="Sort_VersionZA" xml:space="preserve">
-    <value>PCGet</value>
+    <value>バージョン Z–A</value>
   </data>
   <data name="Startup_Disabled" xml:space="preserve">
-    <value>スタートアップ設定</value>
+    <value>PCGet は Windows と同時に自動起動しません。</value>
   </data>
   <data name="Startup_DisabledByPolicy" xml:space="preserve">
-    <value>スタートアップ設定</value>
+    <value>スタートアップは Windows のポリシーによって無効になっています。</value>
   </data>
   <data name="Startup_DisabledByUser" xml:space="preserve">
-    <value>スタートアップ設定</value>
+    <value>スタートアップは Windows の設定で無効になっています。このオプションを使用するには、そこで PCGet を有効にしてください。</value>
   </data>
   <data name="Startup_Enabled" xml:space="preserve">
-    <value>スタートアップ設定</value>
+    <value>Windows にサインインすると PCGet が自動的に起動します。</value>
   </data>
   <data name="Startup_Unavailable" xml:space="preserve">
-    <value>スタートアップ設定</value>
+    <value>Windows のスタートアップの状態を取得できません。</value>
   </data>
   <data name="Status_Completed" xml:space="preserve">
     <value>完了</value>
@@ -506,10 +508,10 @@
     <value>インストール中...</value>
   </data>
   <data name="Status_InstallingAsAdministrator" xml:space="preserve">
-    <value>操作状態</value>
+    <value>管理者としてインストールしています...</value>
   </data>
   <data name="Status_InstallingPercent" xml:space="preserve">
-    <value>Installing {0:0}%</value>
+    <value>インストール中 {0:0}%</value>
   </data>
   <data name="Status_NotInstalled" xml:space="preserve">
     <value>未インストール</value>
@@ -521,55 +523,55 @@
     <value>準備中...</value>
   </data>
   <data name="Status_PreparingToUninstall" xml:space="preserve">
-    <value>操作状態: {0}</value>
+    <value>{0} のアンインストールを準備しています...</value>
   </data>
   <data name="Status_Queued" xml:space="preserve">
     <value>待機中</value>
   </data>
   <data name="Status_QueuedInteractive" xml:space="preserve">
-    <value>Queued (interactive)</value>
+    <value>待機中 (対話形式)</value>
   </data>
   <data name="Status_Ready" xml:space="preserve">
     <value>準備完了</value>
   </data>
   <data name="Status_RunningInstaller" xml:space="preserve">
-    <value>操作状態</value>
+    <value>インストーラーを実行しています...</value>
   </data>
   <data name="Status_StillInstalled" xml:space="preserve">
-    <value>操作状態</value>
+    <value>まだインストールされています</value>
   </data>
   <data name="Status_Uninstalled" xml:space="preserve">
-    <value>Uninstalled</value>
+    <value>アンインストール済み</value>
   </data>
   <data name="Status_Uninstalling" xml:space="preserve">
     <value>アンインストール中...</value>
   </data>
   <data name="Status_UninstallingApplication" xml:space="preserve">
-    <value>Uninstalling アプリ...</value>
+    <value>アプリをアンインストールしています...</value>
   </data>
   <data name="Status_UninstallingAsAdministrator" xml:space="preserve">
-    <value>操作状態: {0}</value>
+    <value>{0} を管理者としてアンインストールしています...</value>
   </data>
   <data name="Status_UninstallingInteractivelyPercent" xml:space="preserve">
-    <value>Uninstalling interactively {0:0}%</value>
+    <value>対話形式でアンインストール中 {0:0}%</value>
   </data>
   <data name="Status_UninstallingPercent" xml:space="preserve">
-    <value>Uninstalling {0:0}%</value>
+    <value>アンインストール中 {0:0}%</value>
   </data>
   <data name="Status_UpdateStillAvailable" xml:space="preserve">
-    <value>操作状態</value>
+    <value>更新はまだ利用可能です</value>
   </data>
   <data name="Status_Updating" xml:space="preserve">
     <value>更新中...</value>
   </data>
   <data name="Status_VerifyingInstallation" xml:space="preserve">
-    <value>確認中 installation...</value>
+    <value>インストールを検証しています...</value>
   </data>
   <data name="Status_VerifyingUninstall" xml:space="preserve">
-    <value>操作状態: {0}</value>
+    <value>{0} のアンインストールを検証しています...</value>
   </data>
   <data name="Status_VerifyingUpdate" xml:space="preserve">
-    <value>確認中 更新...</value>
+    <value>更新を検証しています...</value>
   </data>
   <data name="Tray_CheckUpdates" xml:space="preserve">
     <value>更新プログラムを確認</value>
@@ -581,34 +583,34 @@
     <value>PCGet を開く</value>
   </data>
   <data name="Updates_Available" xml:space="preserve">
-    <value>{0} 更新 利用可能</value>
+    <value>{0} 件の更新を利用できます</value>
   </data>
   <data name="Updates_Checking" xml:space="preserve">
-    <value>更新情報</value>
+    <value>更新を確認しています...</value>
   </data>
   <data name="Updates_Installing" xml:space="preserve">
-    <value>Installing 更新...</value>
+    <value>更新をインストールしています...</value>
   </data>
   <data name="Updates_InstallingOneQueued" xml:space="preserve">
-    <value>Installing 更新 · 1 queued</value>
+    <value>更新をインストールしています · 1 件待機中</value>
   </data>
   <data name="Updates_InstallingQueued" xml:space="preserve">
-    <value>Installing 更新 · {0} queued</value>
+    <value>更新をインストールしています · {0} 件待機中</value>
   </data>
   <data name="Updates_NoMatching" xml:space="preserve">
-    <value>更新情報</value>
+    <value>一致する更新はありません。</value>
   </data>
   <data name="Updates_OneAvailable" xml:space="preserve">
-    <value>1 更新 利用可能</value>
+    <value>1 件の更新を利用できます</value>
   </data>
   <data name="Updates_OneOfShown" xml:space="preserve">
-    <value>1 of {0} 更新 shown</value>
+    <value>{0} 件中 1 件の更新を表示</value>
   </data>
   <data name="Updates_SearchPlaceholder.PlaceholderText" xml:space="preserve">
     <value>利用可能な更新を検索</value>
   </data>
   <data name="Updates_Shown" xml:space="preserve">
-    <value>{0} of {1} 更新 shown</value>
+    <value>{1} 件中 {0} 件の更新を表示</value>
   </data>
   <data name="Updates_Subtitle.Text" xml:space="preserve">
     <value>インストール済みアプリを最新の状態に保ちます。</value>
@@ -623,34 +625,34 @@
     <value>インストール</value>
   </data>
   <data name="Settings_InstallArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>winget install の追加引数</value>
   </data>
   <data name="Settings_UpdateArgumentsBox.Header" xml:space="preserve">
     <value>更新</value>
   </data>
   <data name="Settings_UpdateArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>Example: --include-unknown</value>
+    <value>例: --include-unknown</value>
   </data>
   <data name="Settings_UninstallArgumentsBox.Header" xml:space="preserve">
     <value>アンインストール</value>
   </data>
   <data name="Settings_UninstallArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>PCGet 設定</value>
+    <value>winget uninstall の追加引数</value>
   </data>
   <data name="Error_TrayWindowCreate" xml:space="preserve">
-    <value>パッケージ操作エラー</value>
+    <value>PCGet の通知領域ウィンドウを作成できません。</value>
   </data>
   <data name="Error_TrayIconNotFound" xml:space="preserve">
-    <value>パッケージ操作エラー</value>
+    <value>PCGet の通知領域アイコンが見つかりませんでした。</value>
   </data>
   <data name="Error_TrayIconLoad" xml:space="preserve">
-    <value>パッケージ操作エラー</value>
+    <value>PCGet の通知領域アイコンを読み込めません。</value>
   </data>
   <data name="Error_TrayIconAdd" xml:space="preserve">
-    <value>パッケージ操作エラー</value>
+    <value>PCGet のアイコンを通知領域に追加できません。</value>
   </data>
   <data name="Error_TrayClassRegister" xml:space="preserve">
-    <value>パッケージ操作エラー</value>
+    <value>PCGet の通知領域ウィンドウ クラスを登録できません。</value>
   </data>
   <data name="Common_Install" xml:space="preserve">
     <value>インストール</value>
@@ -662,7 +664,7 @@
     <value>アンインストール</value>
   </data>
   <data name="Settings_UpdateArgsPlaceholder" xml:space="preserve">
-    <value>Example: --include-unknown</value>
+    <value>例: --include-unknown</value>
   </data>
   <data name="Status_Searching" xml:space="preserve">
     <value>検索中...</value>
@@ -674,7 +676,7 @@
     <value>インストール済み</value>
   </data>
   <data name="Navigation_Discover.Content" xml:space="preserve">
-    <value>検索</value>
+    <value>探す</value>
   </data>
   <data name="Common_Updates.Text" xml:space="preserve">
     <value>更新</value>
@@ -683,7 +685,7 @@
     <value>インストール済み</value>
   </data>
   <data name="Common_Discover.Text" xml:space="preserve">
-    <value>検索</value>
+    <value>探す</value>
   </data>
   <data name="Common_LicenseText.Text" xml:space="preserve">
     <value>ライセンス</value>

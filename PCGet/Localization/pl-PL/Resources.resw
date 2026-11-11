@@ -77,70 +77,70 @@
     <value>Operacja WinGet nie powiodła się</value>
   </data>
   <data name="Dialog_AdditionalArguments" xml:space="preserve">
-    <value>Komunikat PCGet</value>
+    <value>Dodatkowe argumenty WinGet</value>
   </data>
   <data name="Dialog_AdminRequiredTitle" xml:space="preserve">
     <value>Wymagane uprawnienia administratora</value>
   </data>
   <data name="Dialog_InstallAdminMessage" xml:space="preserve">
-    <value>Komunikat PCGet: {0}</value>
+    <value>Instalacja {0} wymaga uprawnień administratora. PCGet może ponowić instalację jako administrator.</value>
   </data>
   <data name="Dialog_RememberUpdateArguments" xml:space="preserve">
-    <value>Komunikat PCGet</value>
+    <value>Zapamiętaj te argumenty dla aktualizacji</value>
   </data>
   <data name="Dialog_RetryAdminButton" xml:space="preserve">
-    <value>Komunikat PCGet</value>
+    <value>Ponów jako administrator</value>
   </data>
   <data name="Dialog_RetryAdminTitle" xml:space="preserve">
-    <value>Komunikat PCGet</value>
+    <value>Ponowić jako administrator?</value>
   </data>
   <data name="Dialog_RetryInteractively" xml:space="preserve">
     <value>Ponów interaktywnie</value>
   </data>
   <data name="Dialog_SilentUninstallFailedMessage" xml:space="preserve">
-    <value>Komunikat PCGet: {0}</value>
+    <value>Nie można odinstalować {0} w trybie cichym. Czy chcesz ponowić próbę, używając interaktywnego deinstalatora aplikacji?</value>
   </data>
   <data name="Dialog_SilentUninstallFailedTitle" xml:space="preserve">
     <value>Cicha dezinstalacja nie powiodła się</value>
   </data>
   <data name="Dialog_UninstallAdminMessage" xml:space="preserve">
-    <value>Komunikat PCGet: {0}</value>
+    <value>Odinstalowanie {0} wymaga uprawnień administratora. PCGet może ponowić odinstalowywanie jako administrator.</value>
   </data>
   <data name="Dialog_UninstallManyButton" xml:space="preserve">
-    <value>Komunikat PCGet: {0}</value>
+    <value>Odinstaluj aplikacje ({0})</value>
   </data>
   <data name="Dialog_UninstallManyMessage" xml:space="preserve">
-    <value>Komunikat PCGet: {0}</value>
+    <value>Czy na pewno chcesz odinstalować wybrane aplikacje ({0})?</value>
   </data>
   <data name="Dialog_UninstallMessage" xml:space="preserve">
-    <value>Komunikat PCGet: {0}</value>
+    <value>Czy na pewno chcesz odinstalować {0}?</value>
   </data>
   <data name="Dialog_UninstallSelectedManyTitle" xml:space="preserve">
-    <value>Komunikat PCGet</value>
+    <value>Odinstalować wybrane aplikacje?</value>
   </data>
   <data name="Dialog_UninstallSelectedOneTitle" xml:space="preserve">
-    <value>Komunikat PCGet</value>
+    <value>Odinstalować wybraną aplikację?</value>
   </data>
   <data name="Dialog_UninstallTitle" xml:space="preserve">
     <value>Odinstalować aplikację?</value>
   </data>
   <data name="Dialog_UpdateAdminMessage" xml:space="preserve">
-    <value>Komunikat PCGet: {0}</value>
+    <value>Nie można zaktualizować {0} w zwykły sposób. PCGet może ponowić aktualizację z uprawnieniami administratora.</value>
   </data>
   <data name="Dialog_UpdatePCGetButton" xml:space="preserve">
-    <value>Komunikat PCGet</value>
+    <value>Zaktualizuj PCGet</value>
   </data>
   <data name="Dialog_UpdatePCGetMessage" xml:space="preserve">
-    <value>Komunikat PCGet: {0}</value>
+    <value>Dostępna jest wersja PCGet {0}. PCGet zostanie zamknięty, zainstaluje aktualizację i automatycznie uruchomi się ponownie.</value>
   </data>
   <data name="Dialog_UpdatePCGetTitle" xml:space="preserve">
     <value>Zaktualizować PCGet?</value>
   </data>
   <data name="Discover_ApplicationsFound" xml:space="preserve">
-    <value>{0} aplikacje found</value>
+    <value>Znalezione aplikacje: {0}</value>
   </data>
   <data name="Discover_ApplicationsShown" xml:space="preserve">
-    <value>{0} of {1} aplikacje shown</value>
+    <value>Wyświetlono {0} z {1} aplikacji</value>
   </data>
   <data name="Discover_Author.Text" xml:space="preserve">
     <value>Autor</value>
@@ -155,13 +155,13 @@
     <value>Ustawienia regionalne</value>
   </data>
   <data name="Discover_NoApplicationsFound" xml:space="preserve">
-    <value>No aplikacje found.</value>
+    <value>Nie znaleziono aplikacji.</value>
   </data>
   <data name="Discover_OneApplicationFound" xml:space="preserve">
-    <value>1 aplikacja found</value>
+    <value>Znaleziono 1 aplikację</value>
   </data>
   <data name="Discover_OneOfApplicationsShown" xml:space="preserve">
-    <value>1 of {0} aplikacje shown</value>
+    <value>Wyświetlono 1 z {0} aplikacji</value>
   </data>
   <data name="Discover_PackageId.Text" xml:space="preserve">
     <value>Identyfikator pakietu</value>
@@ -179,7 +179,7 @@
     <value>Witryna wydawcy</value>
   </data>
   <data name="Discover_RefreshCurrentSearch.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Informacje o aplikacji</value>
+    <value>Odśwież bieżące wyszukiwanie</value>
   </data>
   <data name="Discover_Search.Content" xml:space="preserve">
     <value>Szukaj</value>
@@ -194,7 +194,7 @@
     <value>Źródło</value>
   </data>
   <data name="Discover_Subtitle.Text" xml:space="preserve">
-    <value>Informacje o aplikacji</value>
+    <value>Wyszukuj aplikacje i instaluj je za pomocą WinGet.</value>
   </data>
   <data name="Discover_Support.Content" xml:space="preserve">
     <value>Pomoc techniczna</value>
@@ -206,184 +206,186 @@
     <value>Wersja</value>
   </data>
   <data name="Error_AlreadyInstalled" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0}</value>
+    <value>Pakiet „{0}” jest już zainstalowany.</value>
   </data>
   <data name="Error_CatalogConnection" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0}</value>
+    <value>Nie można połączyć się ze złożonym katalogiem WinGet. Stan: {0}</value>
   </data>
   <data name="Error_ElevatedFailed" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0}</value>
+    <value>Operacja na pakiecie z podwyższonymi uprawnieniami nie powiodła się (kod zakończenia {0}).</value>
   </data>
   <data name="Error_ElevatedFailedWithLog" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0} {1}</value>
+    <value>Operacja na pakiecie z podwyższonymi uprawnieniami nie powiodła się (kod zakończenia {0}).
+
+{1}</value>
   </data>
   <data name="Error_ElevatedHelperNotFound" xml:space="preserve">
-    <value>Błąd operacji pakietu</value>
+    <value>Nie znaleziono pomocnika PCGet z podwyższonymi uprawnieniami.</value>
   </data>
   <data name="Error_ElevatedHelperStart" xml:space="preserve">
-    <value>Błąd operacji pakietu</value>
+    <value>Nie można uruchomić pomocnika PCGet z podwyższonymi uprawnieniami.</value>
   </data>
   <data name="Error_Extended" xml:space="preserve">
-    <value> Error: {0}</value>
+    <value> Błąd: {0}</value>
   </data>
   <data name="Error_Http404" xml:space="preserve">
-    <value>Błąd operacji pakietu</value>
+    <value>Nie można pobrać instalatora, ponieważ adres URL pakietu zwrócił błąd 404 (Nie znaleziono). Pakiet WinGet może zawierać nieaktualny link do pobrania.</value>
   </data>
   <data name="Error_InstallFailed" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0} {1}</value>
+    <value>WinGet nie zdołał zainstalować „{0}”. Stan: {1}.</value>
   </data>
   <data name="Error_InstallVerification" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0}</value>
+    <value>{0}: operacja na pakiecie została zakończona, ale WinGet nie zgłasza aplikacji jako zainstalowanej.</value>
   </data>
   <data name="Error_InstalledPackageNotFound" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0}</value>
+    <value>Nie znaleziono zainstalowanego pakietu „{0}”.</value>
   </data>
   <data name="Error_NoUpdateAvailable" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0}</value>
+    <value>Dla pakietu „{0}” nie jest już dostępna aktualizacja.</value>
   </data>
   <data name="Error_PackageNotFound" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0}</value>
+    <value>Nie znaleziono pakietu „{0}”.</value>
   </data>
   <data name="Error_PackageOperationFailed" xml:space="preserve">
-    <value>Błąd operacji pakietu</value>
+    <value>Operacja na pakiecie nie powiodła się.</value>
   </data>
   <data name="Error_SelfUpdateStart" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0}</value>
+    <value>PCGet nie może uruchomić procesu samoaktualizacji: {0}</value>
   </data>
   <data name="Error_UninstallFailed" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0} {1}</value>
+    <value>WinGet nie zdołał odinstalować „{0}”. Stan: {1}.</value>
   </data>
   <data name="Error_UninstallVerification" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0}</value>
+    <value>{0}: operacja na pakiecie została zakończona, ale WinGet nadal zgłasza aplikację jako zainstalowaną.</value>
   </data>
   <data name="Error_UnmatchedQuote" xml:space="preserve">
-    <value>Błąd operacji pakietu</value>
+    <value>Dodatkowe argumenty WinGet zawierają niezamknięty cudzysłów.</value>
   </data>
   <data name="Error_UpdateFailed" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0} {1}</value>
+    <value>WinGet nie zdołał zaktualizować „{0}”. Stan: {1}.</value>
   </data>
   <data name="Error_UpdateVerification" xml:space="preserve">
-    <value>Błąd operacji pakietu: {0}</value>
+    <value>{0}: operacja na pakiecie została zakończona, ale WinGet nadal zgłasza dostępną aktualizację.</value>
   </data>
   <data name="Error_UpdaterNotFound" xml:space="preserve">
-    <value>Błąd operacji pakietu</value>
+    <value>Nie znaleziono programu aktualizującego PCGet.</value>
   </data>
   <data name="Filter_AllSources" xml:space="preserve">
     <value>Wszystkie źródła</value>
   </data>
   <data name="Installed_ApplicationsShown" xml:space="preserve">
-    <value>{0} of {1} aplikacje shown</value>
+    <value>Wyświetlono {0} z {1} aplikacji</value>
   </data>
   <data name="Installed_InstalledCount" xml:space="preserve">
     <value>Zainstalowane aplikacje: {0}</value>
   </data>
   <data name="Installed_Loading" xml:space="preserve">
-    <value>Zainstalowane aplikacje</value>
+    <value>Ładowanie zainstalowanych aplikacji...</value>
   </data>
   <data name="Installed_NoMatchingApplications" xml:space="preserve">
-    <value>Zainstalowane aplikacje</value>
+    <value>Brak pasujących aplikacji.</value>
   </data>
   <data name="Installed_NoneFound" xml:space="preserve">
-    <value>Zainstalowane aplikacje</value>
+    <value>Nie znaleziono zainstalowanych aplikacji.</value>
   </data>
   <data name="Installed_OneInstalled" xml:space="preserve">
-    <value>Zainstalowane aplikacje</value>
+    <value>1 zainstalowana aplikacja</value>
   </data>
   <data name="Installed_OneOfApplicationsShown" xml:space="preserve">
-    <value>1 of {0} aplikacje shown</value>
+    <value>Wyświetlono 1 z {0} aplikacji</value>
   </data>
   <data name="Installed_OneSelected" xml:space="preserve">
-    <value>Zainstalowane aplikacje</value>
+    <value>Wybrano 1 aplikację</value>
   </data>
   <data name="Installed_SearchPlaceholder.PlaceholderText" xml:space="preserve">
     <value>Szukaj zainstalowanych aplikacji</value>
   </data>
   <data name="Installed_SelectedCount" xml:space="preserve">
-    <value>Zainstalowane aplikacje: {0}</value>
+    <value>Wybrane aplikacje: {0}</value>
   </data>
   <data name="Installed_Subtitle.Text" xml:space="preserve">
-    <value>Zainstalowane aplikacje</value>
+    <value>Aplikacje zarządzane przez WinGet.</value>
   </data>
   <data name="Installed_UninstallSelected.Content" xml:space="preserve">
-    <value>Zainstalowane aplikacje</value>
+    <value>Odinstaluj wybrane</value>
   </data>
   <data name="Interval_12Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Co 12 godzin</value>
   </data>
   <data name="Interval_15Minutes" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Co 15 minut</value>
   </data>
   <data name="Interval_1Day" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Codziennie</value>
   </data>
   <data name="Interval_1Hour" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Co godzinę</value>
   </data>
   <data name="Interval_2Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Co 2 godziny</value>
   </data>
   <data name="Interval_30Minutes" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Co 30 minut</value>
   </data>
   <data name="Interval_4Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Co 4 godziny</value>
   </data>
   <data name="Interval_8Hours" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Co 8 godzin</value>
   </data>
   <data name="Notification_OneUpdateAvailable" xml:space="preserve">
-    <value>1 aktualizacja is dostępne</value>
+    <value>Dostępna jest 1 aktualizacja</value>
   </data>
   <data name="Notification_OpenPCGet" xml:space="preserve">
-    <value>Powiadomienie PCGet</value>
+    <value>Otwórz PCGet, aby przejrzeć i zainstalować dostępne aktualizacje.</value>
   </data>
   <data name="Notification_SelfUpdateFailedMessage" xml:space="preserve">
-    <value>Powiadomienie PCGet: {0}</value>
+    <value>Nie można zainstalować aktualizacji. WinGet zwrócił kod zakończenia {0}.</value>
   </data>
   <data name="Notification_SelfUpdateFailedTitle" xml:space="preserve">
-    <value>Powiadomienie PCGet</value>
+    <value>Aktualizacja PCGet nie powiodła się</value>
   </data>
   <data name="Notification_SelfUpdateSucceededMessage" xml:space="preserve">
-    <value>Powiadomienie PCGet</value>
+    <value>Zainstalowano najnowszą wersję PCGet.</value>
   </data>
   <data name="Notification_SelfUpdateSucceededTitle" xml:space="preserve">
-    <value>PCGet aktualizacjad successfully</value>
+    <value>PCGet został zaktualizowany</value>
   </data>
   <data name="Notification_UpdatesAvailable" xml:space="preserve">
-    <value>{0} aktualizacje are dostępne</value>
+    <value>Dostępne aktualizacje: {0}</value>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
     <value>Informacje</value>
   </data>
   <data name="Settings_AdvancedArguments.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Zaawansowane argumenty WinGet</value>
   </data>
   <data name="Settings_AdvancedArgumentsDescription.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Dodatkowe argumenty są dołączane do polecenia WinGet, gdy PCGet wykonuje operację na pakiecie z podwyższonymi uprawnieniami. PCGet nadal zarządza identyfikatorem pakietu, dokładnym dopasowaniem, umowami, interaktywnością i trybem cichym.</value>
   </data>
   <data name="Settings_AppLanguage.Text" xml:space="preserve">
     <value>Język aplikacji</value>
   </data>
   <data name="Settings_AppLanguageDescription.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Wybierz język używany przez PCGet. Po zmianie wymagane jest ponowne uruchomienie.</value>
   </data>
   <data name="Settings_BackgroundChecks.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Sprawdzaj aktualizacje w tle</value>
   </data>
   <data name="Settings_BackgroundChecksDescription.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Okresowo sprawdzaj aktualizacje pakietów, gdy PCGet jest uruchomiony.</value>
   </data>
   <data name="Settings_CheckInterval.Text" xml:space="preserve">
     <value>Częstotliwość sprawdzania</value>
   </data>
   <data name="Settings_CheckIntervalDescription.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Wybierz, jak często PCGet ma sprawdzać dostępne aktualizacje.</value>
   </data>
   <data name="Settings_CheckStartup.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Sprawdzaj aktualizacje przy uruchamianiu</value>
   </data>
   <data name="Settings_CheckStartupDescription.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Automatycznie sprawdzaj dostępne aktualizacje pakietów po uruchomieniu PCGet.</value>
   </data>
   <data name="Settings_IncludeUnknown.Text" xml:space="preserve">
     <value>Uwzględniaj pakiety o nieznanej wersji</value>
@@ -392,7 +394,7 @@
     <value>Pokazuj aktualizacje aplikacji, których zainstalowanej wersji nie można wykryć. Aktualizacja może ponownie zainstalować aplikację, nawet jeśli jest już aktualna.</value>
   </data>
   <data name="Settings_InstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Dodatkowe argumenty dla winget install</value>
   </data>
   <data name="Settings_Language.Text" xml:space="preserve">
     <value>Język</value>
@@ -407,19 +409,19 @@
     <value>Źródła pakietów</value>
   </data>
   <data name="Settings_PoweredBy.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Oparte na Windows Package Manager</value>
   </data>
   <data name="Settings_SilentOperations.Text" xml:space="preserve">
-    <value>Silent pakiet operations</value>
+    <value>Ciche operacje na pakietach</value>
   </data>
   <data name="Settings_SilentOperationsDescription.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Instaluj, aktualizuj i odinstalowuj aplikacje bez wyświetlania interfejsu instalatora, jeśli jest to obsługiwane.</value>
   </data>
   <data name="Settings_StartWithWindows.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Uruchamiaj PCGet razem z systemem Windows</value>
   </data>
   <data name="Settings_StartWithWindowsDescription.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Automatycznie uruchamiaj PCGet po zalogowaniu się do systemu Windows.</value>
   </data>
   <data name="Settings_StartMinimized.Text" xml:space="preserve">
     <value>Uruchamiaj zminimalizowany</value>
@@ -431,25 +433,25 @@
     <value>Skonfiguruj sposób zarządzania aplikacjami przez PCGet.</value>
   </data>
   <data name="Settings_Tagline.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Twoje aplikacje Windows. W jednym miejscu.</value>
   </data>
   <data name="Settings_Title.Text" xml:space="preserve">
     <value>Ustawienia</value>
   </data>
   <data name="Settings_UninstallArgsPlaceholder.PlaceholderText" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Dodatkowe argumenty dla winget uninstall</value>
   </data>
   <data name="Settings_Version" xml:space="preserve">
-    <value>Ustawienie PCGet: {0} {1} {2} {3}</value>
+    <value>Wersja {0}.{1}.{2}.{3}</value>
   </data>
   <data name="Settings_WinGetSources.Text" xml:space="preserve">
     <value>Źródła WinGet</value>
   </data>
   <data name="Settings_WinGetSourcesDescription.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>PCGet korzysta ze źródeł pakietów skonfigurowanych w Windows Package Manager.</value>
   </data>
   <data name="Settings_WindowsStartup.Text" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Uruchamianie systemu Windows</value>
   </data>
   <data name="Sort_NameAZ" xml:space="preserve">
     <value>Nazwa A–Z</value>
@@ -458,34 +460,34 @@
     <value>Nazwa Z–A</value>
   </data>
   <data name="Sort_PublisherAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Wydawca A–Z</value>
   </data>
   <data name="Sort_Relevance" xml:space="preserve">
     <value>Trafność</value>
   </data>
   <data name="Sort_SourceAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Źródło A–Z</value>
   </data>
   <data name="Sort_VersionAZ" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Wersja A–Z</value>
   </data>
   <data name="Sort_VersionZA" xml:space="preserve">
-    <value>PCGet</value>
+    <value>Wersja Z–A</value>
   </data>
   <data name="Startup_Disabled" xml:space="preserve">
-    <value>Ustawienie uruchamiania</value>
+    <value>PCGet nie będzie uruchamiany automatycznie razem z systemem Windows.</value>
   </data>
   <data name="Startup_DisabledByPolicy" xml:space="preserve">
-    <value>Ustawienie uruchamiania</value>
+    <value>Uruchamianie automatyczne jest wyłączone przez zasady systemu Windows.</value>
   </data>
   <data name="Startup_DisabledByUser" xml:space="preserve">
-    <value>Ustawienie uruchamiania</value>
+    <value>Uruchamianie automatyczne zostało wyłączone w Ustawieniach systemu Windows. Włącz tam PCGet, aby umożliwić tę opcję.</value>
   </data>
   <data name="Startup_Enabled" xml:space="preserve">
-    <value>Ustawienie uruchamiania</value>
+    <value>PCGet będzie uruchamiany automatycznie po zalogowaniu się do systemu Windows.</value>
   </data>
   <data name="Startup_Unavailable" xml:space="preserve">
-    <value>Ustawienie uruchamiania</value>
+    <value>Stan uruchamiania z systemem Windows jest niedostępny.</value>
   </data>
   <data name="Status_Completed" xml:space="preserve">
     <value>Ukończono</value>
@@ -506,10 +508,10 @@
     <value>Instalowanie...</value>
   </data>
   <data name="Status_InstallingAsAdministrator" xml:space="preserve">
-    <value>Stan operacji</value>
+    <value>Instalowanie jako administrator...</value>
   </data>
   <data name="Status_InstallingPercent" xml:space="preserve">
-    <value>Installing {0:0}%</value>
+    <value>Instalowanie {0:0}%</value>
   </data>
   <data name="Status_NotInstalled" xml:space="preserve">
     <value>Niezainstalowane</value>
@@ -521,55 +523,55 @@
     <value>Przygotowywanie...</value>
   </data>
   <data name="Status_PreparingToUninstall" xml:space="preserve">
-    <value>Stan operacji: {0}</value>
+    <value>Przygotowywanie do odinstalowania {0}...</value>
   </data>
   <data name="Status_Queued" xml:space="preserve">
     <value>W kolejce</value>
   </data>
   <data name="Status_QueuedInteractive" xml:space="preserve">
-    <value>Queued (interactive)</value>
+    <value>W kolejce (interaktywnie)</value>
   </data>
   <data name="Status_Ready" xml:space="preserve">
     <value>Gotowe</value>
   </data>
   <data name="Status_RunningInstaller" xml:space="preserve">
-    <value>Stan operacji</value>
+    <value>Uruchamianie instalatora...</value>
   </data>
   <data name="Status_StillInstalled" xml:space="preserve">
-    <value>Stan operacji</value>
+    <value>Nadal zainstalowane</value>
   </data>
   <data name="Status_Uninstalled" xml:space="preserve">
-    <value>Uninstalled</value>
+    <value>Odinstalowano</value>
   </data>
   <data name="Status_Uninstalling" xml:space="preserve">
     <value>Odinstalowywanie...</value>
   </data>
   <data name="Status_UninstallingApplication" xml:space="preserve">
-    <value>Uninstalling aplikacja...</value>
+    <value>Odinstalowywanie aplikacji...</value>
   </data>
   <data name="Status_UninstallingAsAdministrator" xml:space="preserve">
-    <value>Stan operacji: {0}</value>
+    <value>Odinstalowywanie {0} jako administrator...</value>
   </data>
   <data name="Status_UninstallingInteractivelyPercent" xml:space="preserve">
-    <value>Uninstalling interactively {0:0}%</value>
+    <value>Odinstalowywanie interaktywne {0:0}%</value>
   </data>
   <data name="Status_UninstallingPercent" xml:space="preserve">
-    <value>Uninstalling {0:0}%</value>
+    <value>Odinstalowywanie {0:0}%</value>
   </data>
   <data name="Status_UpdateStillAvailable" xml:space="preserve">
-    <value>Stan operacji</value>
+    <value>Aktualizacja nadal dostępna</value>
   </data>
   <data name="Status_Updating" xml:space="preserve">
     <value>Aktualizowanie...</value>
   </data>
   <data name="Status_VerifyingInstallation" xml:space="preserve">
-    <value>Weryfikowanie installation...</value>
+    <value>Weryfikowanie instalacji...</value>
   </data>
   <data name="Status_VerifyingUninstall" xml:space="preserve">
-    <value>Stan operacji: {0}</value>
+    <value>Weryfikowanie odinstalowania {0}...</value>
   </data>
   <data name="Status_VerifyingUpdate" xml:space="preserve">
-    <value>Weryfikowanie aktualizacja...</value>
+    <value>Weryfikowanie aktualizacji...</value>
   </data>
   <data name="Tray_CheckUpdates" xml:space="preserve">
     <value>Sprawdź aktualizacje</value>
@@ -581,34 +583,34 @@
     <value>Otwórz PCGet</value>
   </data>
   <data name="Updates_Available" xml:space="preserve">
-    <value>{0} aktualizacje dostępne</value>
+    <value>Dostępne aktualizacje: {0}</value>
   </data>
   <data name="Updates_Checking" xml:space="preserve">
-    <value>Informacje o aktualizacjach</value>
+    <value>Sprawdzanie aktualizacji...</value>
   </data>
   <data name="Updates_Installing" xml:space="preserve">
-    <value>Installing aktualizacja...</value>
+    <value>Instalowanie aktualizacji...</value>
   </data>
   <data name="Updates_InstallingOneQueued" xml:space="preserve">
-    <value>Installing aktualizacja · 1 queued</value>
+    <value>Instalowanie aktualizacji · 1 w kolejce</value>
   </data>
   <data name="Updates_InstallingQueued" xml:space="preserve">
-    <value>Installing aktualizacja · {0} queued</value>
+    <value>Instalowanie aktualizacji · w kolejce: {0}</value>
   </data>
   <data name="Updates_NoMatching" xml:space="preserve">
-    <value>Informacje o aktualizacjach</value>
+    <value>Brak pasujących aktualizacji.</value>
   </data>
   <data name="Updates_OneAvailable" xml:space="preserve">
-    <value>1 aktualizacja dostępne</value>
+    <value>Dostępna 1 aktualizacja</value>
   </data>
   <data name="Updates_OneOfShown" xml:space="preserve">
-    <value>1 of {0} aktualizacje shown</value>
+    <value>Wyświetlono 1 z {0} aktualizacji</value>
   </data>
   <data name="Updates_SearchPlaceholder.PlaceholderText" xml:space="preserve">
     <value>Szukaj dostępnych aktualizacji</value>
   </data>
   <data name="Updates_Shown" xml:space="preserve">
-    <value>{0} of {1} aktualizacje shown</value>
+    <value>Wyświetlono {0} z {1} aktualizacji</value>
   </data>
   <data name="Updates_Subtitle.Text" xml:space="preserve">
     <value>Dbaj o aktualność zainstalowanych aplikacji.</value>
@@ -623,34 +625,34 @@
     <value>Zainstaluj</value>
   </data>
   <data name="Settings_InstallArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Dodatkowe argumenty dla winget install</value>
   </data>
   <data name="Settings_UpdateArgumentsBox.Header" xml:space="preserve">
     <value>Aktualizuj</value>
   </data>
   <data name="Settings_UpdateArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>Example: --include-unknown</value>
+    <value>Przykład: --include-unknown</value>
   </data>
   <data name="Settings_UninstallArgumentsBox.Header" xml:space="preserve">
     <value>Odinstaluj</value>
   </data>
   <data name="Settings_UninstallArgumentsBox.PlaceholderText" xml:space="preserve">
-    <value>Ustawienie PCGet</value>
+    <value>Dodatkowe argumenty dla winget uninstall</value>
   </data>
   <data name="Error_TrayWindowCreate" xml:space="preserve">
-    <value>Błąd operacji pakietu</value>
+    <value>Nie można utworzyć okna obszaru powiadomień PCGet.</value>
   </data>
   <data name="Error_TrayIconNotFound" xml:space="preserve">
-    <value>Błąd operacji pakietu</value>
+    <value>Nie znaleziono ikony PCGet dla obszaru powiadomień.</value>
   </data>
   <data name="Error_TrayIconLoad" xml:space="preserve">
-    <value>Błąd operacji pakietu</value>
+    <value>Nie można załadować ikony PCGet dla obszaru powiadomień.</value>
   </data>
   <data name="Error_TrayIconAdd" xml:space="preserve">
-    <value>Błąd operacji pakietu</value>
+    <value>Nie można dodać ikony PCGet do obszaru powiadomień.</value>
   </data>
   <data name="Error_TrayClassRegister" xml:space="preserve">
-    <value>Błąd operacji pakietu</value>
+    <value>Nie można zarejestrować klasy okna obszaru powiadomień PCGet.</value>
   </data>
   <data name="Common_Install" xml:space="preserve">
     <value>Zainstaluj</value>
@@ -662,7 +664,7 @@
     <value>Odinstaluj</value>
   </data>
   <data name="Settings_UpdateArgsPlaceholder" xml:space="preserve">
-    <value>Example: --include-unknown</value>
+    <value>Przykład: --include-unknown</value>
   </data>
   <data name="Status_Searching" xml:space="preserve">
     <value>Wyszukiwanie...</value>
