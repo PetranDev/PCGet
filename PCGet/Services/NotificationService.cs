@@ -39,6 +39,18 @@ public sealed class NotificationService : IDisposable
             LocalizationService.GetString("Notification_OpenPCGet"));
     }
 
+    public void ShowUpToDate()
+    {
+        ShowNotification(LocalizationService.GetString("Updates_UpToDate"), message: null);
+    }
+
+    public void ShowUpdateCheckFailed(string errorMessage)
+    {
+        ShowNotification(
+            LocalizationService.GetString("Notification_UpdateCheckFailedTitle"),
+            errorMessage);
+    }
+
     public void ShowSelfUpdateSucceeded()
     {
         ShowNotification(
@@ -53,15 +65,17 @@ public sealed class NotificationService : IDisposable
             LocalizationService.Format("Notification_SelfUpdateFailedMessage", exitCode));
     }
 
-    private void ShowNotification(string title, string message)
+    private void ShowNotification(string title, string? message)
     {
         if (!_registered)
             return;
 
-        var notification = new AppNotificationBuilder()
-            .AddText(title)
-            .AddText(message)
-            .BuildNotification();
+        var builder = new AppNotificationBuilder().AddText(title);
+
+        if (!string.IsNullOrWhiteSpace(message))
+            builder.AddText(message);
+
+        var notification = builder.BuildNotification();
 
         _notificationManager.Show(notification);
     }

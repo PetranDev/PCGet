@@ -348,6 +348,9 @@
   <data name="Notification_SelfUpdateFailedTitle" xml:space="preserve">
     <value>Η ενημέρωση του PCGet απέτυχε</value>
   </data>
+  <data name="Notification_UpdateCheckFailedTitle" xml:space="preserve">
+    <value>Ο έλεγχος για ενημερώσεις απέτυχε</value>
+  </data>
   <data name="Notification_SelfUpdateSucceededMessage" xml:space="preserve">
     <value>Εγκαταστάθηκε η πιο πρόσφατη έκδοση του PCGet.</value>
   </data>

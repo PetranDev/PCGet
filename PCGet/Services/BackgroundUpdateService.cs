@@ -76,9 +76,13 @@ public sealed class BackgroundUpdateService : IDisposable
         return delay > interval ? interval : delay;
     }
 
-    public async Task<IReadOnlyList<PackageInfo>> CheckNowAsync()
+    // Timer checks are skipped while another check runs; a check the user asked for waits for it,
+    // so it always produces a result the user can see.
+    public async Task<IReadOnlyList<PackageInfo>> CheckNowAsync(bool userInitiated = false)
     {
-        if (!await _checkLock.WaitAsync(0))
+        if (userInitiated)
+            await _checkLock.WaitAsync();
+        else if (!await _checkLock.WaitAsync(0))
             return [];
 
         try
@@ -93,7 +97,7 @@ public sealed class BackgroundUpdateService : IDisposable
 
             CheckCompleted?.Invoke(
                 this,
-                new BackgroundUpdateCheckCompletedEventArgs(updates, hasChanged));
+                new BackgroundUpdateCheckCompletedEventArgs(updates, hasChanged, userInitiated));
 
             return updates;
         }
@@ -143,10 +147,12 @@ public sealed class BackgroundUpdateCheckCompletedEventArgs : EventArgs
 {
     public IReadOnlyList<PackageInfo> Updates { get; }
     public bool HasChanged { get; }
+    public bool UserInitiated { get; }
 
-    public BackgroundUpdateCheckCompletedEventArgs(IReadOnlyList<PackageInfo> updates, bool hasChanged)
+    public BackgroundUpdateCheckCompletedEventArgs(IReadOnlyList<PackageInfo> updates, bool hasChanged, bool userInitiated)
     {
         Updates = updates;
         HasChanged = hasChanged;
+        UserInitiated = userInitiated;
     }
 }

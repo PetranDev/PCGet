@@ -136,6 +136,18 @@ public partial class App : Application
 
     private void BackgroundUpdateService_CheckCompleted(object? sender, BackgroundUpdateCheckCompletedEventArgs e)
     {
+        // A check the user started from the tray always answers, even when nothing changed.
+        if (e.UserInitiated)
+        {
+            if (e.Updates.Count == 0)
+                _notificationService.ShowUpToDate();
+            else
+                _notificationService.ShowUpdatesAvailable(e.Updates.Count);
+
+            return;
+        }
+
+        // Background checks only speak up about new updates, so the same list isn't repeated every interval.
         if (!e.HasChanged || e.Updates.Count == 0)
             return;
 
@@ -165,11 +177,13 @@ public partial class App : Application
     {
         try
         {
-            await _backgroundUpdateService.CheckNowAsync();
+            await _backgroundUpdateService.CheckNowAsync(userInitiated: true);
         }
-        catch
+        catch (Exception ex)
         {
-            // A manual tray check failure must not terminate PCGet.
+            // A manual tray check failure must not terminate PCGet, but the user should hear about it.
+            if (!_isExiting)
+                _notificationService.ShowUpdateCheckFailed(ex.Message);
         }
     }
 

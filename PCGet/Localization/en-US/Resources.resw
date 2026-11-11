@@ -348,6 +348,9 @@
   <data name="Notification_SelfUpdateFailedTitle" xml:space="preserve">
     <value>PCGet update failed</value>
   </data>
+  <data name="Notification_UpdateCheckFailedTitle" xml:space="preserve">
+    <value>Update check failed</value>
+  </data>
   <data name="Notification_SelfUpdateSucceededMessage" xml:space="preserve">
     <value>The latest version of PCGet has been installed.</value>
   </data>
