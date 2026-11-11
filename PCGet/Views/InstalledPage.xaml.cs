@@ -3,6 +3,7 @@ using PCGet.Services;
 using PCGet.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,13 +25,14 @@ public sealed partial class InstalledPage : Page
 
         InitializeComponent();
 
-        Loaded += InstalledPage_Loaded;
         ViewModel.PropertyChanged += ViewModel_PropertyChanged;
     }
 
-    private async void InstalledPage_Loaded(object sender, RoutedEventArgs e)
+    // The page is cached (NavigationCacheMode=Required) so in-flight uninstalls survive tab switches.
+    // Reload on every visit to pick up changes made elsewhere; RefreshAsync is a no-op while uninstalling.
+    protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
-        Loaded -= InstalledPage_Loaded;
+        base.OnNavigatedTo(e);
         await ViewModel.RefreshCommand.ExecuteAsync(null);
     }
 
