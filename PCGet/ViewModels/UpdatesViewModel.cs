@@ -223,7 +223,7 @@ public partial class UpdatesViewModel : ObservableObject
                 package.UpdateProgress = value.Percent;
             });
 
-            await _winGetService.UpdatePackageAsync(package.Id, progress);
+            await Task.Run(async () => await _winGetService.UpdatePackageAsync(package.Id, progress));
 
             if (!await VerifyUpdateAsync(package))
                 return;
@@ -247,7 +247,7 @@ public partial class UpdatesViewModel : ObservableObject
         package.UpdateProgress = 0;
         package.IsUpdateIndeterminate = true;
 
-        var availableUpdates = await _winGetService.GetAvailableUpdatesAsync();
+        var availableUpdates = await Task.Run(async () => await _winGetService.GetAvailableUpdatesAsync());
 
         var remainingUpdate = availableUpdates.FirstOrDefault(
             candidate => string.Equals(candidate.Id, package.Id, StringComparison.OrdinalIgnoreCase));
@@ -299,7 +299,7 @@ public partial class UpdatesViewModel : ObservableObject
 
             NotifyQueueStateChanged();
 
-            var packages = await _winGetService.GetAvailableUpdatesAsync();
+            var packages = await Task.Run(async () => await _winGetService.GetAvailableUpdatesAsync());
 
             _allUpdates.Clear();
             _allUpdates.AddRange(packages);
