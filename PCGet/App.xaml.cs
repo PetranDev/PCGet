@@ -18,6 +18,7 @@ public partial class App : Application
     private MainWindow? _window;
     private TrayIconService? _trayIconService;
     private bool _isExiting;
+    private bool _startedInTray;
 
     public static App? CurrentApp => Current as App;
     public DispatcherQueue DispatcherQueue { get; private set; } = null!;
@@ -52,7 +53,10 @@ public partial class App : Application
     {
         // The tray icon is always created, so the user can open the window from there later.
         if (_startedByWindows && _settingsService.StartMinimized)
+        {
+            _startedInTray = true;
             return;
+        }
 
         ShowMainWindow();
         ShowPendingSelfUpdateResult();
@@ -174,9 +178,13 @@ public partial class App : Application
         DispatcherQueue.TryEnqueue(ExitApplication);
     }
 
+    // PCGet lives in the tray when it checks for updates in the background, or when it started there
+    // at sign-in: closing the window then returns it to the tray, the way it started, instead of quitting.
+    private bool KeepRunningInTray => _settingsService.BackgroundUpdateChecks || _startedInTray;
+
     private void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
-        if (_isExiting || !_settingsService.BackgroundUpdateChecks)
+        if (_isExiting || !KeepRunningInTray)
             return;
 
         args.Cancel = true;
