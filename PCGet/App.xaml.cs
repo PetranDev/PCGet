@@ -143,7 +143,7 @@ public partial class App : Application
         DispatcherQueue.TryEnqueue(() =>
         {
             ShowMainWindow();
-            _window?.NavigateToUpdates();
+            _window?.NavigateToUpdatesAndRefresh();
         });
     }
 

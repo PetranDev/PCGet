@@ -44,6 +44,14 @@ public sealed partial class UpdatesPage : Page
         await ViewModel.RefreshCommand.ExecuteAsync(null);
     }
 
+    // Called when the user opens PCGet from an "updates available" notification: the cached page may
+    // be showing a list from long before the background check that raised it. No-op while loading
+    // or while updates are installing.
+    public void RefreshUpdates()
+    {
+        _ = ViewModel.RefreshCommand.ExecuteAsync(null);
+    }
+
     private async void UpdateButton_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not Button button)

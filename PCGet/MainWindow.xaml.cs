@@ -38,7 +38,7 @@ public sealed partial class MainWindow : Window
             _appWindow.SetIcon(iconPath);
     }
 
-    public void NavigateToUpdates()
+    public void NavigateToUpdatesAndRefresh()
     {
         foreach (var menuItem in NavigationView.MenuItems)
         {
@@ -51,6 +51,8 @@ public sealed partial class MainWindow : Window
 
         if (ContentFrame.CurrentSourcePageType != typeof(UpdatesPage))
             ContentFrame.Navigate(typeof(UpdatesPage));
+
+        (ContentFrame.Content as UpdatesPage)?.RefreshUpdates();
     }
 
     private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
