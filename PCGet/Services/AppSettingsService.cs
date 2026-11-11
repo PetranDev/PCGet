@@ -7,6 +7,7 @@ public sealed class AppSettingsService
     private const string SilentPackageOperationsKey = "SilentPackageOperations";
     private const string CheckUpdatesOnStartupKey = "CheckUpdatesOnStartup";
     private const string BackgroundUpdateChecksKey = "BackgroundUpdateChecks";
+    private const string StartMinimizedKey = "StartMinimized";
     private const string IncludeUnknownVersionsKey = "IncludeUnknownVersions";
     private const string BackgroundUpdateIntervalMinutesKey = "BackgroundUpdateIntervalMinutes";
     private const string InstallAdditionalArgumentsKey = "InstallAdditionalArguments";
@@ -39,6 +40,14 @@ public sealed class AppSettingsService
     {
         get => GetBoolean(BackgroundUpdateChecksKey, false);
         set => SetValue(BackgroundUpdateChecksKey, value);
+    }
+
+    // When launched at Windows sign-in, stay in the notification area instead of opening the window.
+    // Until the user sets it, mirror the old behaviour: PCGet started hidden only when background checks were on.
+    public bool StartMinimized
+    {
+        get => GetBoolean(StartMinimizedKey, BackgroundUpdateChecks);
+        set => SetValue(StartMinimizedKey, value);
     }
 
     public bool IncludeUnknownVersions

@@ -421,6 +421,12 @@
   <data name="Settings_StartWithWindowsDescription.Text" xml:space="preserve">
     <value>PCGet 设置</value>
   </data>
+  <data name="Settings_StartMinimized.Text" xml:space="preserve">
+    <value>启动时最小化</value>
+  </data>
+  <data name="Settings_StartMinimizedDescription.Text" xml:space="preserve">
+    <value>PCGet 随 Windows 启动时，保留在通知区域中，而不打开窗口。</value>
+  </data>
   <data name="Settings_Subtitle.Text" xml:space="preserve">
     <value>配置 PCGet 管理应用程序的方式。</value>
   </data>

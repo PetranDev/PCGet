@@ -50,7 +50,8 @@ public partial class App : Application
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        if (_startedByWindows && _settingsService.BackgroundUpdateChecks)
+        // The tray icon is always created, so the user can open the window from there later.
+        if (_startedByWindows && _settingsService.StartMinimized)
             return;
 
         ShowMainWindow();

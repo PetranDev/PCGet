@@ -421,6 +421,12 @@
   <data name="Settings_StartWithWindowsDescription.Text" xml:space="preserve">
     <value>Ustawienie PCGet</value>
   </data>
+  <data name="Settings_StartMinimized.Text" xml:space="preserve">
+    <value>Uruchamiaj zminimalizowany</value>
+  </data>
+  <data name="Settings_StartMinimizedDescription.Text" xml:space="preserve">
+    <value>Gdy PCGet uruchamia się razem z systemem Windows, pozostaje w obszarze powiadomień zamiast otwierać okno.</value>
+  </data>
   <data name="Settings_Subtitle.Text" xml:space="preserve">
     <value>Skonfiguruj sposób zarządzania aplikacjami przez PCGet.</value>
   </data>

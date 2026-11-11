@@ -423,6 +423,12 @@
   <data name="Settings_StartWithWindowsDescription.Text" xml:space="preserve">
     <value>Αυτόματη εκκίνηση του PCGet όταν συνδέεστε στα Windows.</value>
   </data>
+  <data name="Settings_StartMinimized.Text" xml:space="preserve">
+    <value>Ελαχιστοποιημένη εκκίνηση</value>
+  </data>
+  <data name="Settings_StartMinimizedDescription.Text" xml:space="preserve">
+    <value>Όταν το PCGet ξεκινά με τα Windows, παραμένει στην περιοχή ειδοποιήσεων αντί να ανοίγει το παράθυρο.</value>
+  </data>
   <data name="Settings_Subtitle.Text" xml:space="preserve">
     <value>Ρυθμίστε τον τρόπο με τον οποίο το PCGet διαχειρίζεται τις εφαρμογές σας.</value>
   </data>

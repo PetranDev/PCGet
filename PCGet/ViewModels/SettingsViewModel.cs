@@ -48,6 +48,9 @@ public partial class SettingsViewModel : ObservableObject
     public partial bool StartWithWindows { get; set; }
 
     [ObservableProperty]
+    public partial bool StartMinimized { get; set; }
+
+    [ObservableProperty]
     public partial bool CanChangeStartWithWindows { get; set; }
 
     [ObservableProperty]
@@ -86,6 +89,7 @@ public partial class SettingsViewModel : ObservableObject
         CheckUpdatesOnStartup = _settingsService.CheckUpdatesOnStartup;
         IncludeUnknownVersions = _settingsService.IncludeUnknownVersions;
         BackgroundUpdateChecks = _settingsService.BackgroundUpdateChecks;
+        StartMinimized = _settingsService.StartMinimized;
         InstallAdditionalArguments = _settingsService.InstallAdditionalArguments;
         UpdateAdditionalArguments = _settingsService.UpdateAdditionalArguments;
         UninstallAdditionalArguments = _settingsService.UninstallAdditionalArguments;
@@ -114,6 +118,7 @@ public partial class SettingsViewModel : ObservableObject
     partial void OnSilentPackageOperationsChanged(bool value) => _settingsService.SilentPackageOperations = value;
     partial void OnCheckUpdatesOnStartupChanged(bool value) => _settingsService.CheckUpdatesOnStartup = value;
     partial void OnIncludeUnknownVersionsChanged(bool value) => _settingsService.IncludeUnknownVersions = value;
+    partial void OnStartMinimizedChanged(bool value) => _settingsService.StartMinimized = value;
 
     partial void OnBackgroundUpdateChecksChanged(bool value)
     {

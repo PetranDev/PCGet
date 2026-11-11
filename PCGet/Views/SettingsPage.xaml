@@ -106,18 +106,36 @@
             <StackPanel Spacing="12">
                 <TextBlock x:Uid="Settings_WindowsStartup" Style="{StaticResource SubtitleTextBlockStyle}" />
                 <Border Padding="20" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                    <Grid ColumnSpacing="32">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" Spacing="4">
-                            <TextBlock x:Uid="Settings_StartWithWindows" FontWeight="SemiBold" />
-                            <TextBlock x:Uid="Settings_StartWithWindowsDescription" TextWrapping="Wrap" Opacity="0.7" />
-                            <TextBlock Text="{x:Bind ViewModel.StartupStatus, Mode=OneWay}" TextWrapping="Wrap" FontSize="12" Opacity="0.6" />
+                    <StackPanel Spacing="20">
+                        <Grid ColumnSpacing="32">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Spacing="4">
+                                <TextBlock x:Uid="Settings_StartWithWindows" FontWeight="SemiBold" />
+                                <TextBlock x:Uid="Settings_StartWithWindowsDescription" TextWrapping="Wrap" Opacity="0.7" />
+                                <TextBlock Text="{x:Bind ViewModel.StartupStatus, Mode=OneWay}" TextWrapping="Wrap" FontSize="12" Opacity="0.6" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsEnabled="{x:Bind ViewModel.CanChangeStartWithWindows, Mode=OneWay}" IsOn="{x:Bind ViewModel.StartWithWindows, Mode=TwoWay}" />
+                        </Grid>
+
+                        <StackPanel Spacing="20" Visibility="{x:Bind ViewModel.StartWithWindows, Mode=OneWay}">
+                            <Rectangle Height="1" Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                            <Grid ColumnSpacing="32">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Spacing="4">
+                                    <TextBlock x:Uid="Settings_StartMinimized" FontWeight="SemiBold" />
+                                    <TextBlock x:Uid="Settings_StartMinimizedDescription" TextWrapping="Wrap" Opacity="0.7" />
+                                </StackPanel>
+                                <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsOn="{x:Bind ViewModel.StartMinimized, Mode=TwoWay}" />
+                            </Grid>
                         </StackPanel>
-                        <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsEnabled="{x:Bind ViewModel.CanChangeStartWithWindows, Mode=OneWay}" IsOn="{x:Bind ViewModel.StartWithWindows, Mode=TwoWay}" />
-                    </Grid>
+                    </StackPanel>
                 </Border>
             </StackPanel>
 

@@ -423,6 +423,12 @@
   <data name="Settings_StartWithWindowsDescription.Text" xml:space="preserve">
     <value>Automatically launch PCGet when you sign in to Windows.</value>
   </data>
+  <data name="Settings_StartMinimized.Text" xml:space="preserve">
+    <value>Start minimized</value>
+  </data>
+  <data name="Settings_StartMinimizedDescription.Text" xml:space="preserve">
+    <value>When PCGet starts with Windows, keep it in the notification area instead of opening the window.</value>
+  </data>
   <data name="Settings_Subtitle.Text" xml:space="preserve">
     <value>Configure how PCGet manages your applications.</value>
   </data>
