@@ -12,6 +12,7 @@ public partial class SettingsViewModel : ObservableObject
 {
     private readonly AppSettingsService _settingsService;
     private readonly StartupService _startupService;
+    private bool _loadingSettings;
     private bool _loadingStartupState;
     private bool _loadingLanguage;
 
@@ -85,6 +86,10 @@ public partial class SettingsViewModel : ObservableObject
         _settingsService = settingsService;
         _startupService = startupService;
 
+        // Loading the stored values must not save them back or re-apply them: that rewrote every
+        // setting and restarted the background-check timer each time the Settings page opened.
+        _loadingSettings = true;
+
         SilentPackageOperations = _settingsService.SilentPackageOperations;
         CheckUpdatesOnStartup = _settingsService.CheckUpdatesOnStartup;
         IncludeUnknownVersions = _settingsService.IncludeUnknownVersions;
@@ -95,6 +100,8 @@ public partial class SettingsViewModel : ObservableObject
         UninstallAdditionalArguments = _settingsService.UninstallAdditionalArguments;
 
         SelectedBackgroundUpdateInterval = BackgroundUpdateIntervals.FirstOrDefault(option => option.Minutes == _settingsService.BackgroundUpdateIntervalMinutes) ?? BackgroundUpdateIntervals.First(option => option.Minutes == 60);
+
+        _loadingSettings = false;
 
         Languages = LocalizationService.AvailableLanguages.ToArray();
         _loadingLanguage = true;
@@ -115,28 +122,36 @@ public partial class SettingsViewModel : ObservableObject
         _loadingStartupState = false;
     }
 
-    partial void OnSilentPackageOperationsChanged(bool value) => _settingsService.SilentPackageOperations = value;
-    partial void OnCheckUpdatesOnStartupChanged(bool value) => _settingsService.CheckUpdatesOnStartup = value;
-    partial void OnIncludeUnknownVersionsChanged(bool value) => _settingsService.IncludeUnknownVersions = value;
-    partial void OnStartMinimizedChanged(bool value) => _settingsService.StartMinimized = value;
+    partial void OnSilentPackageOperationsChanged(bool value) => SaveSetting(() => _settingsService.SilentPackageOperations = value);
+    partial void OnCheckUpdatesOnStartupChanged(bool value) => SaveSetting(() => _settingsService.CheckUpdatesOnStartup = value);
+    partial void OnIncludeUnknownVersionsChanged(bool value) => SaveSetting(() => _settingsService.IncludeUnknownVersions = value);
+    partial void OnStartMinimizedChanged(bool value) => SaveSetting(() => _settingsService.StartMinimized = value);
 
     partial void OnBackgroundUpdateChecksChanged(bool value)
     {
+        if (_loadingSettings)
+            return;
         _settingsService.BackgroundUpdateChecks = value;
         App.CurrentApp?.ApplyBackgroundUpdateSettings();
     }
 
     partial void OnSelectedBackgroundUpdateIntervalChanged(UpdateIntervalOption value)
     {
-        if (value is null)
+        if (_loadingSettings || value is null)
             return;
         _settingsService.BackgroundUpdateIntervalMinutes = value.Minutes;
         App.CurrentApp?.ApplyBackgroundUpdateSettings();
     }
 
-    partial void OnInstallAdditionalArgumentsChanged(string value) => _settingsService.InstallAdditionalArguments = value ?? string.Empty;
-    partial void OnUpdateAdditionalArgumentsChanged(string value) => _settingsService.UpdateAdditionalArguments = value ?? string.Empty;
-    partial void OnUninstallAdditionalArgumentsChanged(string value) => _settingsService.UninstallAdditionalArguments = value ?? string.Empty;
+    partial void OnInstallAdditionalArgumentsChanged(string value) => SaveSetting(() => _settingsService.InstallAdditionalArguments = value ?? string.Empty);
+    partial void OnUpdateAdditionalArgumentsChanged(string value) => SaveSetting(() => _settingsService.UpdateAdditionalArguments = value ?? string.Empty);
+    partial void OnUninstallAdditionalArgumentsChanged(string value) => SaveSetting(() => _settingsService.UninstallAdditionalArguments = value ?? string.Empty);
+
+    private void SaveSetting(Action save)
+    {
+        if (!_loadingSettings)
+            save();
+    }
 
     partial void OnSelectedLanguageChanged(LocalizationOption value)
     {
