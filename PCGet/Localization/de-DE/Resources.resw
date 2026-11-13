@@ -234,6 +234,9 @@
   <data name="Error_Http404" xml:space="preserve">
     <value>Das Installationsprogramm konnte nicht heruntergeladen werden, da die Paket-URL 404 (Nicht gefunden) zurückgegeben hat. Das WinGet-Paket enthält möglicherweise einen veralteten Downloadlink.</value>
   </data>
+  <data name="Error_InstallerHashMismatch" xml:space="preserve">
+    <value>Das heruntergeladene Installationsprogramm stimmt nicht mit der Prüfsumme im WinGet-Manifest des Pakets überein, daher führt WinGet es nicht aus. Das ist ein Problem des WinGet-Eintrags des Pakets, nicht Ihres PCs, und lässt sich auch mit Administratorrechten nicht umgehen. Versuchen Sie es erneut, nachdem das Paket in WinGet aktualisiert wurde.</value>
+  </data>
   <data name="Error_InstallFailed" xml:space="preserve">
     <value>WinGet konnte „{0}“ nicht installieren. Status: {1}.</value>
   </data>

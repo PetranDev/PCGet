@@ -234,6 +234,9 @@
   <data name="Error_Http404" xml:space="preserve">
     <value>パッケージの URL が 404 (Not Found) を返したため、インストーラーをダウンロードできませんでした。WinGet パッケージのダウンロード リンクが古い可能性があります。</value>
   </data>
+  <data name="Error_InstallerHashMismatch" xml:space="preserve">
+    <value>ダウンロードしたインストーラーがパッケージの WinGet マニフェストのチェックサムと一致しないため、WinGet は実行しません。これはお使いの PC ではなくパッケージの WinGet エントリの問題であり、管理者として実行しても回避できません。WinGet でパッケージが更新された後に再試行してください。</value>
+  </data>
   <data name="Error_InstallFailed" xml:space="preserve">
     <value>WinGet で「{0}」をインストールできませんでした。状態: {1}。</value>
   </data>

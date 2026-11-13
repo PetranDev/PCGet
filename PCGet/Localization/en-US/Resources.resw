@@ -234,6 +234,9 @@
   <data name="Error_Http404" xml:space="preserve">
     <value>The installer could not be downloaded because the package URL returned 404 (Not Found). The WinGet package may contain an outdated download link.</value>
   </data>
+  <data name="Error_InstallerHashMismatch" xml:space="preserve">
+    <value>The downloaded installer doesn't match the checksum in the package's WinGet manifest, so WinGet won't run it. This is a problem with the package's WinGet entry, not with your PC, and running as administrator can't override it. Try again after the package is updated in WinGet.</value>
+  </data>
   <data name="Error_InstallFailed" xml:space="preserve">
     <value>WinGet failed to install '{0}'. Status: {1}.</value>
   </data>

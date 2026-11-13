@@ -13,6 +13,10 @@ public partial class PackageInfo : ObservableObject
 
     public bool IsPCGet => PCGetIdentity.IsPCGetPackage(Id);
 
+    // After a failed update: whether retrying as administrator could help. False for failures such as an
+    // installer hash mismatch, which WinGet refuses no matter who runs it.
+    public bool CanRetryAsAdministrator { get; set; } = true;
+
     [ObservableProperty]
     public partial PackageUpdateState UpdateState { get; set; }
 

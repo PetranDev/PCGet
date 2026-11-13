@@ -149,7 +149,7 @@ public partial class UpdatesViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            FailUpdate(package, GetPackageErrorMessage(package, ex.Message));
+            FailUpdate(package, ex.Message);
         }
         finally
         {
@@ -232,7 +232,7 @@ public partial class UpdatesViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            FailUpdate(package, GetPackageErrorMessage(package, ex.Message));
+            FailUpdate(package, ex.Message);
         }
         finally
         {
@@ -259,6 +259,7 @@ public partial class UpdatesViewModel : ObservableObject
         package.UpdateState = PackageUpdateState.Failed;
         package.UpdateStatus = LocalizationService.GetString("Status_UpdateStillAvailable");
         package.UpdateProgress = 0;
+        package.CanRetryAsAdministrator = true;
 
         ErrorMessage = LocalizationService.Format("Error_UpdateVerification", package.Name);
 
@@ -274,14 +275,17 @@ public partial class UpdatesViewModel : ObservableObject
         RemoveUpdate(package);
     }
 
-    private void FailUpdate(PackageInfo package, string errorMessage)
+    private void FailUpdate(PackageInfo package, string rawErrorMessage)
     {
         package.IsUpdateIndeterminate = false;
         package.UpdateState = PackageUpdateState.Failed;
         package.UpdateStatus = LocalizationService.GetString("Status_Failed");
         package.UpdateProgress = 0;
 
-        ErrorMessage = errorMessage;
+        // Retry offers the administrator path only when elevation could plausibly fix the failure.
+        package.CanRetryAsAdministrator = !PackageOperationErrorClassifier.ElevationCannotHelp(rawErrorMessage);
+
+        ErrorMessage = GetPackageErrorMessage(package, rawErrorMessage);
     }
 
     private static string GetPackageErrorMessage(PackageInfo package, string errorMessage)

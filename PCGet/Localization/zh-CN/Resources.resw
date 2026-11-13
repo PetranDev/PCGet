@@ -234,6 +234,9 @@
   <data name="Error_Http404" xml:space="preserve">
     <value>无法下载安装程序，因为程序包 URL 返回了 404 (未找到)。WinGet 程序包可能包含过时的下载链接。</value>
   </data>
+  <data name="Error_InstallerHashMismatch" xml:space="preserve">
+    <value>下载的安装程序与该程序包 WinGet 清单中的校验和不匹配，因此 WinGet 不会运行它。这是该程序包在 WinGet 中的条目有问题，而不是你的电脑有问题，即使以管理员身份运行也无法绕过。请在 WinGet 中更新该程序包后重试。</value>
+  </data>
   <data name="Error_InstallFailed" xml:space="preserve">
     <value>WinGet 无法安装“{0}”。状态：{1}。</value>
   </data>

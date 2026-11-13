@@ -234,6 +234,9 @@
   <data name="Error_Http404" xml:space="preserve">
     <value>Nie można pobrać instalatora, ponieważ adres URL pakietu zwrócił błąd 404 (Nie znaleziono). Pakiet WinGet może zawierać nieaktualny link do pobrania.</value>
   </data>
+  <data name="Error_InstallerHashMismatch" xml:space="preserve">
+    <value>Pobrany instalator nie zgadza się z sumą kontrolną w manifeście WinGet pakietu, więc WinGet go nie uruchomi. To problem z wpisem pakietu w WinGet, a nie z Twoim komputerem, i nie da się go obejść nawet jako administrator. Spróbuj ponownie po zaktualizowaniu pakietu w WinGet.</value>
+  </data>
   <data name="Error_InstallFailed" xml:space="preserve">
     <value>WinGet nie zdołał zainstalować „{0}”. Stan: {1}.</value>
   </data>

@@ -187,7 +187,7 @@ public partial class DiscoverViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            FailInstall(package, $"{package.Name}: {ex.Message}", showError, true);
+            FailInstall(package, ex.Message, showError, true);
             return false;
         }
         finally
@@ -223,7 +223,7 @@ public partial class DiscoverViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            FailInstall(package, $"{package.Name}: {ex.Message}", true, false);
+            FailInstall(package, ex.Message, true, false);
             return false;
         }
         finally
@@ -269,14 +269,18 @@ public partial class DiscoverViewModel : ObservableObject
         package.IsInstalled = true;
     }
 
-    private void FailInstall(DiscoverPackageInfo package, string errorMessage, bool showError, bool classifyElevation)
+    private void FailInstall(DiscoverPackageInfo package, string rawErrorMessage, bool showError, bool classifyElevation)
     {
         package.IsInstallIndeterminate = false;
         package.InstallStatus = LocalizationService.GetString("Status_Failed");
         package.InstallProgress = 0;
 
+        var errorMessage = $"{package.Name}: {PackageOperationErrorClassifier.GetUserFriendlyMessage(rawErrorMessage)}";
+
         LastInstallError = errorMessage;
-        LastInstallRequiresElevation = classifyElevation && PackageOperationErrorClassifier.RequiresElevation(errorMessage);
+        LastInstallRequiresElevation = classifyElevation &&
+                                       PackageOperationErrorClassifier.RequiresElevation(rawErrorMessage) &&
+                                       !PackageOperationErrorClassifier.ElevationCannotHelp(rawErrorMessage);
 
         if (showError)
             ErrorMessage = errorMessage;

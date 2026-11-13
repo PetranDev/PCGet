@@ -154,7 +154,7 @@ public partial class InstalledViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            FailUninstall(package, $"{package.Name}: {ex.Message}", showError, true);
+            FailUninstall(package, ex.Message, showError, true);
             return false;
         }
         finally
@@ -196,7 +196,7 @@ public partial class InstalledViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            FailUninstall(package, $"{package.Name}: {ex.Message}", true, false);
+            FailUninstall(package, ex.Message, true, false);
             return false;
         }
         finally
@@ -252,14 +252,18 @@ public partial class InstalledViewModel : ObservableObject
         RemovePackage(package);
     }
 
-    private void FailUninstall(PackageInfo package, string errorMessage, bool showError, bool classifyElevation)
+    private void FailUninstall(PackageInfo package, string rawErrorMessage, bool showError, bool classifyElevation)
     {
         package.IsUninstallIndeterminate = false;
         package.UninstallStatus = LocalizationService.GetString("Status_Failed");
         package.UninstallProgress = 0;
 
+        var errorMessage = $"{package.Name}: {PackageOperationErrorClassifier.GetUserFriendlyMessage(rawErrorMessage)}";
+
         LastUninstallError = errorMessage;
-        LastUninstallRequiresElevation = classifyElevation && PackageOperationErrorClassifier.RequiresElevation(errorMessage);
+        LastUninstallRequiresElevation = classifyElevation &&
+                                         PackageOperationErrorClassifier.RequiresElevation(rawErrorMessage) &&
+                                         !PackageOperationErrorClassifier.ElevationCannotHelp(rawErrorMessage);
 
         if (showError)
             ErrorMessage = errorMessage;

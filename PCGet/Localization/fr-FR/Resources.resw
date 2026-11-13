@@ -234,6 +234,9 @@
   <data name="Error_Http404" xml:space="preserve">
     <value>Impossible de télécharger le programme d’installation, car l’URL du package a renvoyé l’erreur 404 (introuvable). Le package WinGet contient peut-être un lien de téléchargement obsolète.</value>
   </data>
+  <data name="Error_InstallerHashMismatch" xml:space="preserve">
+    <value>Le programme d’installation téléchargé ne correspond pas à la somme de contrôle du manifeste WinGet du package : WinGet refuse donc de l’exécuter. Le problème vient de l’entrée WinGet du package, pas de votre PC, et les privilèges administrateur ne permettent pas de le contourner. Réessayez une fois le package mis à jour dans WinGet.</value>
+  </data>
   <data name="Error_InstallFailed" xml:space="preserve">
     <value>WinGet n’a pas pu installer « {0} ». État : {1}.</value>
   </data>

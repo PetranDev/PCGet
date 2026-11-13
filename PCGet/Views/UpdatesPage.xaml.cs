@@ -66,7 +66,7 @@ public sealed partial class UpdatesPage : Page
             return;
         }
 
-        if (package.UpdateState == PackageUpdateState.Failed)
+        if (package.UpdateState == PackageUpdateState.Failed && package.CanRetryAsAdministrator)
         {
             await RetryAsAdministratorAsync(package);
             return;
